@@ -9,23 +9,31 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+    public function up()
     {
         Schema::create('questions', function (Blueprint $table) {
             $table->id();
-            $table->integer('question_bank_id')->nullable();
-            $table->text('question_text');
-            $table->integer('marks');
-            // $table->integer('negative_marks');
-            $table->integer('question_bank_type_id')->nullable();
+            $table->unsignedBigInteger('question_bank_id');
+            $table->longText('question');
+            $table->string('question_type');
+            $table->string('difficulty')->nullable();
+            $table->string('topic')->nullable();
+            $table->decimal('Points', 11, 1)->default(0.0);
+            $table->longText('hint')->nullable();
+            $table->longText('answer')->nullable();
             $table->timestamps();
+            
+            // Foreign key constraint (if question_bank_id is related to another table)
+            $table->foreign('question_bank_id')->references('id')->on('question_banks')->onDelete('cascade');
         });
     }
 
     /**
      * Reverse the migrations.
+     *
+     * @return void
      */
-    public function down(): void
+    public function down()
     {
         Schema::dropIfExists('questions');
     }

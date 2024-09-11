@@ -25,15 +25,17 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Collection;
 use Jeffgreco13\FilamentBreezy\Traits\TwoFactorAuthenticatable;
 use Rappasoft\LaravelAuthenticationLog\Traits\AuthenticationLoggable;
+// use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements 
 // HasTenants ,
 FilamentUser, HasAvatar
 {
-    use HasApiTokens, HasFactory, Notifiable,
+    use HasApiTokens, HasFactory, Notifiable,HasRoles,HasPanelShield,
         AuthenticationLoggable, TwoFactorAuthenticatable, SoftDeletes;
 
     protected $guarded = ['id'];
+   
 
     /**
      * The attributes that are mass assignable.
@@ -64,7 +66,7 @@ FilamentUser, HasAvatar
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
-        'qualification' => 'array'
+       
     ];
 
 
@@ -147,7 +149,7 @@ FilamentUser, HasAvatar
 
     public function canAccessPanel(Panel $panel): bool
     {
-        return $this->is_active == 1 ? true : false;
+        return  true ;
     }
 
     // public function batches()

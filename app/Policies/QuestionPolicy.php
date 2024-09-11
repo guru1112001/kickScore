@@ -3,10 +3,10 @@
 namespace App\Policies;
 
 use App\Models\User;
-use App\Models\Branch;
+use App\Models\Question;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class BranchPolicy
+class QuestionPolicy
 {
     use HandlesAuthorization;
 
@@ -15,15 +15,15 @@ class BranchPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->can('view_any_branch');
+        return $user->can('view_any_question');
     }
 
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Branch $branch): bool
+    public function view(User $user, Question $question): bool
     {
-        return $user->can('view_branch');
+        return $user->can('view_question');
     }
 
     /**
@@ -31,23 +31,23 @@ class BranchPolicy
      */
     public function create(User $user): bool
     {
-        return $user->can('create_branch');
+        return $user->can('create_question');
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Branch $branch): bool
+    public function update(User $user, Question $question): bool
     {
-        return $user->can('update_branch');
+        return $user->can('update_question');
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Branch $branch): bool
+    public function delete(User $user, Question $question): bool
     {
-        return $user->can('delete_branch');
+        return $user->can('delete_question');
     }
 
     /**
@@ -61,7 +61,7 @@ class BranchPolicy
     /**
      * Determine whether the user can permanently delete.
      */
-    public function forceDelete(User $user, Branch $branch): bool
+    public function forceDelete(User $user, Question $question): bool
     {
         return $user->can('{{ ForceDelete }}');
     }
@@ -77,7 +77,7 @@ class BranchPolicy
     /**
      * Determine whether the user can restore.
      */
-    public function restore(User $user, Branch $branch): bool
+    public function restore(User $user, Question $question): bool
     {
         return $user->can('{{ Restore }}');
     }
@@ -93,7 +93,7 @@ class BranchPolicy
     /**
      * Determine whether the user can replicate.
      */
-    public function replicate(User $user, Branch $branch): bool
+    public function replicate(User $user, Question $question): bool
     {
         return $user->can('{{ Replicate }}');
     }

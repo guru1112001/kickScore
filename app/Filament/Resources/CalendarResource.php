@@ -180,8 +180,8 @@ class CalendarResource extends Resource
             ->columns([
                 TextColumn::make('batch.name')->label('Batch'),
                 TextColumn::make('curriculum.name')->label('Subject'),
-                TextColumn::make('team.name')->label('Branch')
-                ->hidden(auth()->user()->is_student),
+                // TextColumn::make('team.name')->label('Branch')
+                // ->hidden(auth()->user()->is_student),
                 TextColumn::make('tutor.name')->label('Tutor'),
                 TextColumn::make('classroom.name')->label('Classroom'),
                 TextColumn::make('start_time')->label('Start Time')->sortable()->dateTime('d-m-Y h:i'),

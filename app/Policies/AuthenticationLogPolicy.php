@@ -3,25 +3,19 @@
 namespace App\Policies;
 
 use App\Models\User;
-use Rappasoft\LaravelAuthenticationLog\Models\AuthenticationLog;
-use Illuminate\Auth\Access\Response;
+use App\Models\AuthenticationLog;
+use Illuminate\Auth\Access\HandlesAuthorization;
 
 class AuthenticationLogPolicy
 {
-
-//    public function before(User $user, $ability, $leave){
-//        if($user->is_admin) {
-//            dd($ability, $user, $leave);
-//            return true;
-//        }
-//    }
+    use HandlesAuthorization;
 
     /**
      * Determine whether the user can view any models.
      */
     public function viewAny(User $user): bool
     {
-        return $user->is_admin;
+        return $user->can('view_any_authentication::log');
     }
 
     /**
@@ -29,7 +23,7 @@ class AuthenticationLogPolicy
      */
     public function view(User $user, AuthenticationLog $authenticationLog): bool
     {
-        return $user->is_admin;
+        return $user->can('view_authentication::log');
     }
 
     /**
@@ -37,7 +31,7 @@ class AuthenticationLogPolicy
      */
     public function create(User $user): bool
     {
-        //
+        return $user->can('create_authentication::log');
     }
 
     /**
@@ -45,7 +39,7 @@ class AuthenticationLogPolicy
      */
     public function update(User $user, AuthenticationLog $authenticationLog): bool
     {
-        //
+        return $user->can('update_authentication::log');
     }
 
     /**
@@ -53,22 +47,62 @@ class AuthenticationLogPolicy
      */
     public function delete(User $user, AuthenticationLog $authenticationLog): bool
     {
-        return $user->is_admin;
+        return $user->can('delete_authentication::log');
     }
 
     /**
-     * Determine whether the user can restore the model.
+     * Determine whether the user can bulk delete.
      */
-    public function restore(User $user, AuthenticationLog $authenticationLog): bool
+    public function deleteAny(User $user): bool
     {
-        return $user->is_admin;
+        return $user->can('{{ DeleteAny }}');
     }
 
     /**
-     * Determine whether the user can permanently delete the model.
+     * Determine whether the user can permanently delete.
      */
     public function forceDelete(User $user, AuthenticationLog $authenticationLog): bool
     {
-        return $user->is_admin;
+        return $user->can('{{ ForceDelete }}');
+    }
+
+    /**
+     * Determine whether the user can permanently bulk delete.
+     */
+    public function forceDeleteAny(User $user): bool
+    {
+        return $user->can('{{ ForceDeleteAny }}');
+    }
+
+    /**
+     * Determine whether the user can restore.
+     */
+    public function restore(User $user, AuthenticationLog $authenticationLog): bool
+    {
+        return $user->can('{{ Restore }}');
+    }
+
+    /**
+     * Determine whether the user can bulk restore.
+     */
+    public function restoreAny(User $user): bool
+    {
+        return $user->can('{{ RestoreAny }}');
+    }
+
+    /**
+     * Determine whether the user can replicate.
+     */
+    public function replicate(User $user, AuthenticationLog $authenticationLog): bool
+    {
+        return $user->can('{{ Replicate }}');
+    }
+
+    /**
+     * Determine whether the user can reorder.
+     */
+    public function reorder(User $user): bool
+    {
+        return $user->can('{{ Reorder }}');
     }
 }

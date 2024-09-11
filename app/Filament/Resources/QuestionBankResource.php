@@ -1,19 +1,20 @@
 <?php
+namespace App\Filament\Resources;
 
-namespace App\Filament\Clusters\CourseMaster\Resources;
-
-use App\Filament\Clusters\CourseMaster;
-use App\Filament\Clusters\CourseMaster\Resources\QuestionBankResource\Pages;
-use App\Filament\Clusters\CourseMaster\Resources\QuestionBankResource\RelationManagers;
-use App\Models\QuestionBank;
-use Filament\Facades\Filament;
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Forms\Form;
 use Filament\Tables\Table;
+use App\Models\QuestionBank;
+// use QuestionBankResource\Pages\ListQuestionBank;
+use Filament\Facades\Filament;
+use Filament\Resources\Resource;
+// use App\Filament\Clusters\CourseMaster;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\QuestionBankResource\Pages\ListQuestionBanks;
+// use App\Filament\Clusters\CourseMaster\Resources\QuestionBankResource\Pages;
+// use App\Filament\Clusters\CourseMaster\Resources\QuestionBankResource\RelationManagers;
 
 class QuestionBankResource extends Resource
 {
@@ -21,9 +22,9 @@ class QuestionBankResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    protected static ?string $cluster = CourseMaster::class;
-    protected static ?int $navigationSort = 0;
-    protected static bool $isScopedToTenant = false;
+    // protected static ?string $cluster = CourseMaster::class;
+    // protected static ?int $navigationSort = 0;
+    // protected static bool $isScopedToTenant = false;
 
     public static function form(Form $form): Form
     {
@@ -32,11 +33,11 @@ class QuestionBankResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\Select::make('question_bank_subject_id')
-                    ->label('Subject')
-                    ->relationship('curriculum', 'name')
-                    ->searchable()
-                    ->preload(),
+                // Forms\Components\Select::make('question_bank_subject_id')
+                //     ->label('Subject')
+                //     ->relationship('curriculum', 'name')
+                //     ->searchable()
+                //     ->preload(),
 //                    ->createOptionForm([
 //                        Forms\Components\TextInput::make('name')
 //                            ->required(),
@@ -97,9 +98,9 @@ class QuestionBankResource extends Resource
                     ->label('QB Name')
                     ->description(fn(QuestionBank $record) => "QB ID:" . $record->id)
                     ->searchable(),
-                Tables\Columns\TextColumn::make('curriculum.name')
-                    ->label('Subject')
-                    ->numeric(),
+                // Tables\Columns\TextColumn::make('curriculum.name')
+                //     ->label('Subject')
+                //     ->numeric(),
                 Tables\Columns\TextColumn::make('question_bank_chapter')
                     ->label('Question Topic'),
                 Tables\Columns\TextColumn::make('question_bank_difficulty.name')
@@ -144,7 +145,7 @@ class QuestionBankResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListQuestionBanks::route('/'),
+            'index' => ListQuestionBanks::route('/'),
             //'questions' => Pages\ManageQuestions::route('/'),
             //'create' => Pages\CreateQuestionBank::route('/create'),
             //'edit' => Pages\EditQuestionBank::route('/{record}/edit'),

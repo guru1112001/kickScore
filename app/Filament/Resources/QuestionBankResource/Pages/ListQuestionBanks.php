@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Filament\Clusters\CourseMaster\Resources\QuestionBankResource\Pages;
+namespace App\Filament\Resources\QuestionBankResource\Pages;
 
-use App\Filament\Clusters\CourseMaster\Resources\QuestionBankResource;
+use App\Filament\Resources\QuestionBankResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 

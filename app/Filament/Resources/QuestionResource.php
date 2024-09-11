@@ -38,14 +38,14 @@ class QuestionResource extends Resource
                 Forms\Components\Hidden::make('question_bank_id')
                     ->default(request('question_bank_id'))
                     ->required(),
-                Forms\Components\Section::make('Add Paragraph')
-                    ->schema([
-                        Forms\Components\FileUpload::make('audio_file'),
-                        Forms\Components\RichEditor::make('paragraph')
-                            ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'Paragraph can be added for comprehension type questions where the question(s) have to be answered based on the information provided in the paragraph.')
-                    ])->columns(2)
-                    ->collapsible(true)
-                    ->collapsed(),
+                // Forms\Components\Section::make('Add Paragraph')
+                //     ->schema([
+                //         Forms\Components\FileUpload::make('audio_file'),
+                //         Forms\Components\RichEditor::make('paragraph')
+                //             ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'Paragraph can be added for comprehension type questions where the question(s) have to be answered based on the information provided in the paragraph.')
+                //     ])->columns(2)
+                //     ->collapsible(true)
+                //     ->collapsed(),
                 Forms\Components\Section::make()
                     ->schema([
                         Forms\Components\RichEditor::make('question')
@@ -100,30 +100,30 @@ class QuestionResource extends Resource
                             ]),
                         Forms\Components\Group::make()
                             ->schema([
-                                Forms\Components\TextInput::make('marks')
+                                Forms\Components\TextInput::make('Points')
                                     ->required()
                                     ->numeric(),
-                                Forms\Components\TextInput::make('negative_marks')
-                                    ->required()
-                                    ->numeric()
-                                    ->hidden(fn(Forms\Get $get): bool => $get('question_type') == 4)
-                                    ->default(0),
+                                // Forms\Components\TextInput::make('negative_marks')
+                                //     ->required()
+                                //     ->numeric()
+                                //     ->hidden(fn(Forms\Get $get): bool => $get('question_type') == 4)
+                                //     ->default(0),
                             ])->columns(2),
                         Forms\Components\TextInput::make('answer')
                             ->columnSpanFull()
                             ->hidden(fn(Forms\Get $get): bool => $get('question_type') != 3)
                             ->helperText(new HtmlString("Separate all the possible answers by '|'. For eg., if both 'Tamil Nadu' and 'TN' are correct, then write it as 'Tamil Nadu | TN'")),
 
-                        Forms\Components\Group::make()
-                            ->schema([
-                                Forms\Components\Checkbox::make('check_capitalization'),
-                                Forms\Components\Checkbox::make('check_punctuation')
-                            ])
-                            ->columns(4)
-                            ->columnSpanFull()
-                            ->hidden(fn(Forms\Get $get): bool => $get('question_type') != 6),
+                        // Forms\Components\Group::make()
+                        //     ->schema([
+                        //         Forms\Components\Checkbox::make('check_capitalization'),
+                        //         Forms\Components\Checkbox::make('check_punctuation')
+                        //     ])
+                        //     ->columns(4)
+                        //     ->columnSpanFull()
+                        //     ->hidden(fn(Forms\Get $get): bool => $get('question_type') != 6),
 
-                        TableRepeater::make('questions_options')
+                        TableRepeater::make('options')
                             ->addActionLabel('Add New Option')
                             ->relationship()
                             ->headers([
@@ -142,7 +142,7 @@ class QuestionResource extends Resource
                             ->defaultItems(2)
                             ->hidden(fn(Forms\Get $get): bool => !in_array($get('question_type'), [1,2])),
 
-                        TableRepeater::make('questions_options')
+                        TableRepeater::make('options')
                             //->addActionLabel('Add New Option')
                             ->relationship()
                             ->headers([
@@ -164,14 +164,14 @@ class QuestionResource extends Resource
                             ->hidden(fn(Forms\Get $get): bool => $get('question_type') != 5),
 
 
-                        Forms\Components\Section::make('Hint and Explanation')
-                            ->schema([
-                                Forms\Components\RichEditor::make('hint')
-                                    ->columnSpanFull(),
-                                Forms\Components\RichEditor::make('explanation')
-                                    ->columnSpanFull(),
-                            ])->collapsible(true)
-                            ->collapsed(),
+                        // Forms\Components\Section::make('Hint and Explanation')
+                        //     ->schema([
+                        //         Forms\Components\RichEditor::make('hint')
+                        //             ->columnSpanFull(),
+                        //         Forms\Components\RichEditor::make('explanation')
+                        //             ->columnSpanFull(),
+                        //     ])->collapsible(true)
+                        //     ->collapsed(),
                     ])
                     ->columns(2)
             ]);
@@ -207,11 +207,11 @@ class QuestionResource extends Resource
                 ])->columnSpanFull(),
                 Tables\Columns\Layout\Panel::make([
                     Tables\Columns\Layout\Split::make([
-                        Tables\Columns\TextColumn::make('questions_options.option')
+                        Tables\Columns\TextColumn::make('options.option')
                             ->html()
                             ->listWithLineBreaks()
                             ->bulleted(),
-                        Tables\Columns\TextColumn::make('questions_options.is_correct')
+                        Tables\Columns\TextColumn::make('options.is_correct')
                             ->formatStateUsing(fn(string $state) => $state ? 'true' : 'false')
                             //->html()
                             ->listWithLineBreaks()

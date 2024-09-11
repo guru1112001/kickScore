@@ -2,17 +2,20 @@
 
 namespace App\Policies;
 
-use App\Models\Calendar;
 use App\Models\User;
+use App\Models\Calendar;
+use Illuminate\Auth\Access\HandlesAuthorization;
 
 class CalendarPolicy
 {
+    use HandlesAuthorization;
+
     /**
      * Determine whether the user can view any models.
      */
     public function viewAny(User $user): bool
     {
-        return true;
+        return $user->can('view_any_calendar');
     }
 
     /**
@@ -20,7 +23,7 @@ class CalendarPolicy
      */
     public function view(User $user, Calendar $calendar): bool
     {
-        return false;
+        return $user->can('view_calendar');
     }
 
     /**
@@ -28,7 +31,7 @@ class CalendarPolicy
      */
     public function create(User $user): bool
     {
-        return $user->is_admin;
+        return $user->can('create_calendar');
     }
 
     /**
@@ -36,7 +39,7 @@ class CalendarPolicy
      */
     public function update(User $user, Calendar $calendar): bool
     {
-        return $user->is_admin;
+        return $user->can('update_calendar');
     }
 
     /**
@@ -44,22 +47,62 @@ class CalendarPolicy
      */
     public function delete(User $user, Calendar $calendar): bool
     {
-        return $user->is_admin;
+        return $user->can('delete_calendar');
     }
 
     /**
-     * Determine whether the user can restore the model.
+     * Determine whether the user can bulk delete.
      */
-    public function restore(User $user, Calendar $calendar): bool
+    public function deleteAny(User $user): bool
     {
-        return $user->is_admin;
+        return $user->can('{{ DeleteAny }}');
     }
 
     /**
-     * Determine whether the user can permanently delete the model.
+     * Determine whether the user can permanently delete.
      */
     public function forceDelete(User $user, Calendar $calendar): bool
     {
-        return $user->is_admin;
+        return $user->can('{{ ForceDelete }}');
+    }
+
+    /**
+     * Determine whether the user can permanently bulk delete.
+     */
+    public function forceDeleteAny(User $user): bool
+    {
+        return $user->can('{{ ForceDeleteAny }}');
+    }
+
+    /**
+     * Determine whether the user can restore.
+     */
+    public function restore(User $user, Calendar $calendar): bool
+    {
+        return $user->can('{{ Restore }}');
+    }
+
+    /**
+     * Determine whether the user can bulk restore.
+     */
+    public function restoreAny(User $user): bool
+    {
+        return $user->can('{{ RestoreAny }}');
+    }
+
+    /**
+     * Determine whether the user can replicate.
+     */
+    public function replicate(User $user, Calendar $calendar): bool
+    {
+        return $user->can('{{ Replicate }}');
+    }
+
+    /**
+     * Determine whether the user can reorder.
+     */
+    public function reorder(User $user): bool
+    {
+        return $user->can('{{ Reorder }}');
     }
 }

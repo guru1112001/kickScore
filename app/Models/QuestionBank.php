@@ -40,8 +40,8 @@ class QuestionBank extends Model
         return $this->hasMany(Question::class);
     }
 
-    public function curriculum()
-    {
-        return $this->belongsTo(Curriculum::class,'question_bank_subject_id');
-    }
+    // public function curriculum()
+    // {
+    //     return $this->belongsTo(Curriculum::class,'question_bank_subject_id');
+    // }
 }

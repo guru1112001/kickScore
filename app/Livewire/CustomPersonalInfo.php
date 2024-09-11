@@ -31,8 +31,8 @@ class CustomPersonalInfo extends LivewirePersonalInfo
     public function getProfileFormSchema(): array
     {
         $groupFields = Forms\Components\Group::make([
-            $this->getNameComponent()->disabled(),
-            $this->getEmailComponent()->disabled(),
+            $this->getNameComponent(),
+            $this->getEmailComponent()
         ])->columnSpan(2);
 
         return [filament('filament-breezy')->getAvatarUploadComponent(), $groupFields];

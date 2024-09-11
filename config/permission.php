@@ -94,7 +94,7 @@ return [
          * foreign key is other than `team_id`.
          */
 
-        'team_foreign_key' => 'team_id',
+        // 'team_foreign_key' => 'team_id',
     ],
 
     /*
@@ -121,7 +121,7 @@ return [
      * (view the latest version of this package's migration file)
      */
 
-    'teams' => true,
+    'teams' => false,
 
     /*
      * Passport Client Credentials Grant

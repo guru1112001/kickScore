@@ -2,17 +2,20 @@
 
 namespace App\Policies;
 
-use App\Models\Post;
 use App\Models\User;
+use App\Models\Post;
+use Illuminate\Auth\Access\HandlesAuthorization;
 
 class PostPolicy
 {
+    use HandlesAuthorization;
+
     /**
      * Determine whether the user can view any models.
      */
     public function viewAny(User $user): bool
     {
-        return $user->is_admin || $user->is_tutor;
+        return $user->can('view_any_post');
     }
 
     /**
@@ -20,7 +23,7 @@ class PostPolicy
      */
     public function view(User $user, Post $post): bool
     {
-        return $user->is_admin || $user->is_tutor;
+        return $user->can('view_post');
     }
 
     /**
@@ -28,7 +31,7 @@ class PostPolicy
      */
     public function create(User $user): bool
     {
-        return $user->is_admin || $user->is_tutor;
+        return $user->can('create_post');
     }
 
     /**
@@ -36,7 +39,7 @@ class PostPolicy
      */
     public function update(User $user, Post $post): bool
     {
-        return $user->is_admin;
+        return $user->can('update_post');
     }
 
     /**
@@ -44,26 +47,62 @@ class PostPolicy
      */
     public function delete(User $user, Post $post): bool
     {
-        return $user->is_admin;
+        return $user->can('delete_post');
     }
 
     /**
-     * Determine whether the user can restore the model.
+     * Determine whether the user can bulk delete.
      */
-    public function restore(User $user, Post $post): bool
+    public function deleteAny(User $user): bool
     {
-        return $user->is_admin;
+        return $user->can('{{ DeleteAny }}');
     }
 
     /**
-     * Determine whether the user can permanently delete the model.
+     * Determine whether the user can permanently delete.
      */
     public function forceDelete(User $user, Post $post): bool
     {
-        return $user->is_admin;
+        return $user->can('{{ ForceDelete }}');
     }
-    public function curriculums(User $user, Post $post): bool
+
+    /**
+     * Determine whether the user can permanently bulk delete.
+     */
+    public function forceDeleteAny(User $user): bool
     {
-        return $user->is_admin;
+        return $user->can('{{ ForceDeleteAny }}');
+    }
+
+    /**
+     * Determine whether the user can restore.
+     */
+    public function restore(User $user, Post $post): bool
+    {
+        return $user->can('{{ Restore }}');
+    }
+
+    /**
+     * Determine whether the user can bulk restore.
+     */
+    public function restoreAny(User $user): bool
+    {
+        return $user->can('{{ RestoreAny }}');
+    }
+
+    /**
+     * Determine whether the user can replicate.
+     */
+    public function replicate(User $user, Post $post): bool
+    {
+        return $user->can('{{ Replicate }}');
+    }
+
+    /**
+     * Determine whether the user can reorder.
+     */
+    public function reorder(User $user): bool
+    {
+        return $user->can('{{ Reorder }}');
     }
 }

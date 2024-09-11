@@ -2,34 +2,35 @@
 
 namespace App\Providers\Filament;
 
-use App\Filament\Pages\Dashboard;
-use App\Http\Middleware\ApplyTenantScopes;
-use App\Livewire\MyCustomPersonalInfo;
-use Filament\Http\Middleware\Authenticate;
-use Filament\Http\Middleware\DisableBladeIconComponents;
-use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Pages;
 use Filament\Panel;
-use Filament\PanelProvider;
-use Filament\Support\Colors\Color;
+use App\Models\Team;
 use Filament\Widgets;
-use Hydrat\TableLayoutToggle\TableLayoutTogglePlugin;
-use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
+use Filament\PanelProvider;
+use App\Filament\Pages\Dashboard;
+use Filament\Navigation\MenuItem;
+use App\Filament\Pages\Auth\Login;
+use Filament\Support\Colors\Color;
+use App\Livewire\CustomPersonalInfo;
+use Filament\Support\Enums\MaxWidth;
+use App\Livewire\MyCustomPersonalInfo;
+use App\Http\Middleware\ApplyTenantScopes;
+use Filament\Http\Middleware\Authenticate;
+use Jeffgreco13\FilamentBreezy\BreezyCore;
+use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Cookie\Middleware\EncryptCookies;
-use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
+use Hydrat\TableLayoutToggle\TableLayoutTogglePlugin;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
-use Illuminate\Session\Middleware\StartSession;
-use Illuminate\View\Middleware\ShareErrorsFromSession;
-use Filament\Support\Enums\MaxWidth;
 //use App\Filament\Pages\Auth\EditProfile;
 // use App\Filament\Pages\Auth\Tenancy\EditTeamProfile;
-use App\Livewire\CustomPersonalInfo;
+use Illuminate\View\Middleware\ShareErrorsFromSession;
 // use App\Filament\Pages\Tenancy\RegisterTeam;
-use App\Models\Team;
-use Filament\Navigation\MenuItem;
-use Jeffgreco13\FilamentBreezy\BreezyCore;
+use Filament\Http\Middleware\DisableBladeIconComponents;
+use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Saade\FilamentFullCalendar\FilamentFullCalendarPlugin;
+use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 //use Tapp\FilamentAuthenticationLog\FilamentAuthenticationLogPlugin;
 
 class AdministratorPanelProvider extends PanelProvider
@@ -41,7 +42,7 @@ class AdministratorPanelProvider extends PanelProvider
             // ->viteTheme('resources/css/filament/administrator/theme.css')
             ->id('administrator')
             ->path('administrator')
-            ->login()
+            ->login(Login::class)
             ->registration()
             ->passwordReset()
             ->sidebarCollapsibleOnDesktop()
@@ -50,6 +51,7 @@ class AdministratorPanelProvider extends PanelProvider
             //->profile(EditTeamProfile::class)
             //->profile(isSimple: false)
             ->plugins([
+                
                 FilamentFullCalendarPlugin::make(),
                 TableLayoutTogglePlugin::make()
                     ->setDefaultLayout('grid')

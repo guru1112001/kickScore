@@ -43,31 +43,31 @@ class Calendar extends Model
         'end_time'=>'datetime',
     ];
 
-    public function holidays()
-    {
-        return $this->hasMany(Holiday::class);
-    }
-    public function team()
-    {
-        return $this->belongsTo(Team::class);
-    }
+    // public function holidays()
+    // {
+    //     return $this->hasMany(Holiday::class);
+    // }
+    // public function team()
+    // {
+    //     return $this->belongsTo(Team::class);
+    // }
 
-    public function batch()
-    {
-        return $this->belongsTo(Batch::class);
-    }
-    public function curriculum()
-    {
-        return $this->belongsTo(Curriculum::class);
-    }
+    // public function batch()
+    // {
+    //     return $this->belongsTo(Batch::class);
+    // }
+    // public function curriculum()
+    // {
+    //     return $this->belongsTo(Curriculum::class);
+    // }
 
-    public function tutor()
-    {
-        return $this->belongsTo(User::class, 'tutor_id');
-    }
+    // public function tutor()
+    // {
+    //     return $this->belongsTo(User::class, 'tutor_id');
+    // }
 
-    public function classroom()
-    {
-        return $this->belongsTo(Classroom::class);
-    }
+    // public function classroom()
+    // {
+    //     return $this->belongsTo(Classroom::class);
+    // }
 }
