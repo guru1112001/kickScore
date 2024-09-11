@@ -23,7 +23,7 @@
             />
             <div class="ml-3">               
 				<p class="text-gray-600 text-sm	font-semibold"><a
-                        href="{{ route("filament.administrator.resources.users.view",['tenant'=>\Filament\Facades\Filament::getTenant()->id, 'record'=>$comment->user_id]) }}">{{ $comment->user->name }}</a>
+                        href="{{ route("filament.administrator.resources.users.view",[ 'record'=>$comment->user_id]) }}">{{ $comment->user->name }}</a>
                 </p>
                 <p class="text-gray-600 text-sm	">{{ $comment->content }}</p>
                 <p class="text-gray-400 text-xs	">{{ $comment->formatted_published_time }}</p>

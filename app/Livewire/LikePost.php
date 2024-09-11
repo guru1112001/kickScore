@@ -18,7 +18,7 @@ class LikePost extends Component
     public $comments;
     public $showAllComments = false;
     public $newComment = '';
-    public $tenantId = '';
+    // public $tenantId = '';
 
     public function mount($postId, $showCount = true)
     {
@@ -29,7 +29,7 @@ class LikePost extends Component
         $this->liked = $post->likes()->where('user_id', Auth::id())->exists();
         $this->showCount = $showCount;
         $this->comments = $post->comments()->latest()->take(2)->get();
-        $this->tenantId = Filament::getTenant()->id;
+        // $this->tenantId = Filament::getTenant()->id;
     }
 
     public function toggleLike()
