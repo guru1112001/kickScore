@@ -48,44 +48,46 @@ class AnnouncementResource extends Resource
                             ->columnSpanFull(),
                         Forms\Components\FileUpload::make('image')
                             ->image()
+                            ->visibility('public')
+                            ->disk('public')
                             ->columnSpanFull(),
                         //                        Forms\Components\Radio::make('urgency')
                         //                            ->options(['Low' => 'Low', 'Medium' => 'Medium', 'High' => 'High'])
                         //                            ->required(),
-                        Forms\Components\Radio::make('visibility')
-                            ->label('Announcement visibility')
-                            ->hidden(!auth()->user()->is_admin)
-                            ->options([
-                                'existing_user' => 'Visible to existing users only',
-                                'both' => 'Visible to both existing and new users in future'
-                            ])
-                            ->required(),
-                        Forms\Components\Radio::make('audience')
-                            ->options([
-                                'all' => 'All Students',
-                                'course_wise' => 'Course Wise'
-                            ])
-                            ->reactive()
-                            ->hidden(!auth()->user()->is_admin)
-                            ->required(),
-                        Forms\Components\Select::make('course_id')
-                            ->label('Course')
-                            ->options(\App\Models\Course::all()->pluck('name', 'id'))
-                            ->preload()
-                            ->hidden(fn(Forms\Get $get): bool => $get('audience') != 'course_wise' || !auth()->user()->is_admin)
-                            ->required(),
-                        Forms\Components\Select::make('batch_ids')
-                            ->options(function (callable $get) {
-                                $courseId = $get('course_id');
-                                if ($courseId) {
-                                    return \App\Models\Course::with('batches')->find($courseId)->batches->pluck('name', 'id');
-                                }
-                                return \App\Models\Batch::all()->pluck('name', 'id');
-                            })
-                            ->preload()
-                            ->multiple()
-                            ->hidden(fn(Forms\Get $get): bool => $get('audience') != 'course_wise' || !auth()->user()->is_admin)
-                            ->required()
+                        // Forms\Components\Radio::make('visibility')
+                        //     ->label('Announcement visibility')
+                        //     ->hidden(!auth()->user()->is_admin)
+                        //     ->options([
+                        //         'existing_user' => 'Visible to existing users only',
+                        //         'both' => 'Visible to both existing and new users in future'
+                        //     ])
+                        //     ->required(),
+                        // Forms\Components\Radio::make('audience')
+                        //     ->options([
+                        //         'all' => 'All Students',
+                        //         'course_wise' => 'Course Wise'
+                        //     ])
+                        //     ->reactive()
+                        //     ->hidden(!auth()->user()->is_admin)
+                        //     ->required(),
+                        // Forms\Components\Select::make('course_id')
+                        //     ->label('Course')
+                        //     ->options(\App\Models\Course::all()->pluck('name', 'id'))
+                        //     ->preload()
+                        //     ->hidden(fn(Forms\Get $get): bool => $get('audience') != 'course_wise' || !auth()->user()->is_admin)
+                        //     ->required(),
+                        // Forms\Components\Select::make('batch_ids')
+                        //     ->options(function (callable $get) {
+                        //         $courseId = $get('course_id');
+                        //         if ($courseId) {
+                        //             return \App\Models\Course::with('batches')->find($courseId)->batches->pluck('name', 'id');
+                        //         }
+                        //         return \App\Models\Batch::all()->pluck('name', 'id');
+                        //     })
+                        //     ->preload()
+                        //     ->multiple()
+                        //     ->hidden(fn(Forms\Get $get): bool => $get('audience') != 'course_wise' || !auth()->user()->is_admin)
+                        //     ->required()
                     ])->columns(2)
             ]);
     }
@@ -94,7 +96,8 @@ class AnnouncementResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\ImageColumn::make('image')->height(100)->width(100),
+                Tables\Columns\ImageColumn::make('image')->height(100)->width(100)->disk('public')  // Ensure it's publicly accessible
+                ,
                 Tables\Columns\TextColumn::make('title')
                     ->description(fn(Announcement $record) => new HtmlString($record->description
                     . '<br>' .

@@ -17,25 +17,26 @@ class ListAnnouncements extends ListRecords
 
     protected function getHeaderActions(): array
     {
-        if (auth()->user()->is_admin) {
+         {
             return [
                 Actions\CreateAction::make()
                     ->after(function (Announcement $record) {
+                        $users = User::all();
                         //$recipient = auth()->user();
-                        if ($record->audience == "all") {
-                            $users = User::all();
-                        } else {
-                            $users = collect(); // Using a collection to store all users
-                            //$batches = explode(",", $record->batch_ids);
+                        // if ($record->audience == "all") {
+                        //     $users = User::all();
+                        // } else {
+                        //     $users = collect(); // Using a collection to store all users
+                        //     //$batches = explode(",", $record->batch_ids);
 
-                            foreach ($record->batch_ids as $batch) {
-                                //dd($batch, $record->batch_ids);
-                                $batch_data = Batch::with('students')->find($batch);
-                                $batch_users = $batch_data->students;
-                                if ($batch_users)
-                                    $users = $users->merge($batch_users);
-                            }
-                        }
+                        //     foreach ($record->batch_ids as $batch) {
+                        //         //dd($batch, $record->batch_ids);
+                        //         $batch_data = Batch::with('students')->find($batch);
+                        //         $batch_users = $batch_data->students;
+                        //         if ($batch_users)
+                        //             $users = $users->merge($batch_users);
+                        //     }
+                        // }
 
                         //phpdd($record->schedule_at, now());
                         if ($record->schedule_at <= now() && $record->sent == 0) {

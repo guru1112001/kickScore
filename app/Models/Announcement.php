@@ -11,36 +11,41 @@ class Announcement extends Model
 {
     use HasFactory;
 
-    protected static function booted(): void
-    {
-        static::addGlobalScope('limited', function (Builder $query) {
-            if (auth()->check() && auth()->user()->is_student) {
-                $query->where('schedule_at', '<=', Carbon::now()->format('Y-m-d H:i:s'));
-            }
-        });
-    }
+    // protected static function booted(): void
+    // {
+    //     static::addGlobalScope('limited', function (Builder $query) {
+    //         if (auth()->check() && auth()->user()->is_student) {
+    //             $query->where('schedule_at', '<=', Carbon::now()->format('Y-m-d H:i:s'));
+    //         }
+    //     });
+    // }
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
-    public function team()
-    {
-        return $this->belongsTo(Team::class);
-    }
+    // public function team()
+    // {
+    //     return $this->belongsTo(Team::class);
+    // }
 
     // Add a cast for batch_ids
-    protected $casts = [
-        'batch_ids' => 'array',
-    ];
+    // protected $casts = [
+    //     'batch_ids' => 'array',
+    // ];
 
     // Getter for batch_ids
-    public function getBatchIdsAttribute($value)
-    {
-        return explode(',', $value);
-    }
+    // public function getBatchIdsAttribute($value)
+    // {
+    //     return explode(',', $value);
+    // }
 
-    // Setter for batch_ids
-    public function setBatchIdsAttribute($value)
+    // // Setter for batch_ids
+    // public function setBatchIdsAttribute($value)
+    // {
+    //     $this->attributes['batch_ids'] = implode(',', $value);
+    // }
+
+    public function getImageUrlAttribute()
     {
-        $this->attributes['batch_ids'] = implode(',', $value);
+        return $this->image ? Storage::disk('public')->url($this->image) : null;
     }
 }
