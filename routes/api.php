@@ -16,6 +16,7 @@ use App\Http\Controllers\LeaveController;
 //use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\PollController;
 
 /*
 |--------------------------------------------------------------------------
@@ -135,6 +136,12 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('posts/like', [PostController::class, 'like']);
     Route::post('posts/comment', [PostController::class, 'comment']);
     Route::get('posts/comments', [PostController::class, 'getComments']);
+
+
+
+
+    Route::get('/polls', [PollController::class, 'index']);
+    Route::post('/polls/vote/{option}', [PollController::class, 'vote']);
 
 
 
