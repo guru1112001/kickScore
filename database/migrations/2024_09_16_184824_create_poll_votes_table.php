@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('poll_options', function (Blueprint $table) {
+        Schema::create('poll_votes', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('poll_id')->nullable();
-            $table->string('option');
-            // $table->integer('votes')->default(0);
+            $table->unsignedBigInteger('poll_id');
+            $table->unsignedBigInteger('option_id');
+            $table->unsignedBigInteger('user_id'); // If you want to track user votes
             $table->timestamps();
         });
     }
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('poll_options');
+        Schema::dropIfExists('poll_votes');
     }
 };

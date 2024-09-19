@@ -39,7 +39,7 @@ class AdministratorPanelProvider extends PanelProvider
     {
         return $panel
             ->default()
-            // ->viteTheme('resources/css/filament/administrator/theme.css')
+            ->viteTheme('resources/css/filament/administrator/theme.css')
             ->id('administrator')
             ->path('administrator')
             ->login(Login::class)
@@ -87,7 +87,7 @@ class AdministratorPanelProvider extends PanelProvider
                 'primary' => Color::Orange,
                 'secondary' => Color::Blue,
             ])
-            // ->brandLogo(asset('images/sumedha.png'))
+            ->brandLogo(asset('images/KickScore.png'))
             ->brandLogoHeight('3rem')
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')

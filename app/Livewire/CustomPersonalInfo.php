@@ -20,12 +20,9 @@ class CustomPersonalInfo extends LivewirePersonalInfo
         'name', 'email',
         'receive_email_notification',
         'receive_sms_notification',
-        'registration_number',
         'phone',
-        'gender', 'birthday', 'year_of_passed_out', 'address',
-        'pincode', 'school', 'qualification_id', 'state_id', 'aadhaar_number', 'linkedin_profile',
-        'upload_resume', 'upload_aadhar'
-    ];
+        'gender', 'birthday', 'address',
+        'pincode', 'qualification_id', 'state_id'];
     //public bool $hasAvatars = true;
 
     public function getProfileFormSchema(): array

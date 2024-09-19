@@ -73,9 +73,9 @@ class UserResource extends Resource
                             ->required()
                             ->reactive()
                             ->hiddenOn('edit'),
-                        Forms\Components\TextInput::make('registration_number')
-                            ->hidden(fn(Forms\Get $get): bool => $get('role_id') != 6)
-                            ->maxLength(255),
+                        // Forms\Components\TextInput::make('registration_number')
+                        //     ->hidden(fn(Forms\Get $get): bool => $get('role_id') != 6)
+                        //     ->maxLength(255),
                         Forms\Components\TextInput::make('name')
                             ->required()
                             ->maxLength(255),
@@ -119,158 +119,8 @@ class UserResource extends Resource
 
                     ])->columns(2),
 
-    //             Forms\Components\Section::make()
-    //                 ->schema([
 
-    //                     TableRepeater::make('qualification')
-    //                         ->addActionLabel('Add New Qualification')
-    //                         ->headers([
-    //                             Header::make('qualification')
-    //                                 ->label('Qualification')
-    //                                 ->width('250px'),
-    //                             Header::make('year')->label('Year'),
-    //                             Header::make('institute_name')->label('College / School Name'),
-    //                             Header::make('percentage')->label('Percentage (%)'),
-    //                             Header::make('Action')->label('Action'),
-
-    //                         ])
-    //                         ->schema([
-    //                             Forms\Components\Select::make('qualification_id')
-    //                                 ->relationship('qualification', 'name')
-    //                                 ->required()
-    //                                 ->searchable()
-    //                                 ->preload()
-    //                                 ->createOptionForm([
-    //                                     Forms\Components\TextInput::make('name')
-    //                                         ->required(),
-    //                                 ])
-    //                                 ->columnSpanFull(),
-    //                             Forms\Components\TextInput::make('year')
-    //                                 ->numeric()
-    //                                 ->numeric()
-    //                                 ->maxLength(4)
-    //                                 ->columnSpan(2),
-    //                             Forms\Components\TextInput::make('institute_name')
-    //                                 ->columnSpan(2),
-    //                             Forms\Components\TextInput::make('percentage')
-    //                                 ->numeric()
-    //                                 ->maxLength(3)
-    //                                 ->rules('max:100')
-    //                                 ->columnSpan(2)
-    //                         ])
-    //                         ->stackAt(MaxWidth::Medium)
-    //                         ->columnSpan(2)
-    //                         ->deleteAction(fn(Forms\Components\Actions\Action $action) => $action->requiresConfirmation()),
-
-    //                     //                        Forms\Components\Select::make('qualification_id')
-    //                     //                            ->relationship('qualification', 'name')
-    //                     //                            ->searchable()
-    //                     //                            ->preload()
-    //                     //                            ->createOptionForm([
-    //                     //                                Forms\Components\TextInput::make('name')
-    //                     //                                    ->required(),
-    //                     //                            ]),
-    //                     //
-    //                     //                        Forms\Components\TextInput::make('year_of_passed_out')
-    //                     //                            ->numeric()
-    //                     //                            ->maxLength(4),
-
-    //                     Forms\Components\Textarea::make('address')
-    //                         ->columnSpanFull(),
-
-    //                     Forms\Components\TextInput::make('city')
-    //                         ->maxLength(255),
-    //                     /*->relationship('city', 'name')
-    //                     ->searchable()
-    //                     ->preload()
-    //                     ->createOptionForm([
-    //                         Forms\Components\TextInput::make('name')
-    //                             ->required(),
-    //                     ])*/
-
-    //                     Forms\Components\Select::make('state_id')
-    //                         ->relationship('state', 'name')
-    //                         ->searchable()
-    //                         ->preload()
-    //                         ->createOptionForm([
-    //                             Forms\Components\TextInput::make('name')
-    //                                 ->required(),
-    //                         ]),
-
-
-    //                     Forms\Components\TextInput::make('pincode')
-    //                         ->numeric()
-    //                         ->maxLength(6),
-    //                     // Forms\Components\TextInput::make('school')
-    //                     //     ->maxLength(255)
-
-    //                 ])->hiddenOn('create')->columns(2),
-
-    //             Forms\Components\Section::make()
-    //                 ->schema([
-
-    //                     Forms\Components\TextInput::make('aadhaar_number')
-    //                         ->maxLength(255),
-    //                     Forms\Components\TextInput::make('linkedin_profile')
-    //                         ->maxLength(255),
-
-    //                     Forms\Components\FileUpload::make('upload_resume')
-    //                         ->downloadable()
-    //                         ->inlineLabel(true)
-    //                         ->downloadable()
-    //                         ->label('Resume'),
-    //                     Forms\Components\FileUpload::make('upload_aadhar')
-    //                         ->downloadable()
-    //                         ->label('Aadhar')
-    //                         ->downloadable()
-    //                         ->inlineLabel(true),
-    //                 ])->hiddenOn('create'),
-
-    //             Forms\Components\Section::make()
-    //                 ->schema([
-
-    //                     Forms\Components\TextInput::make('parent_name')
-    //                         ->maxLength(255),
-    //                     Forms\Components\TextInput::make('parent_name')
-    //                         ->maxLength(255),
-
-    //                     Forms\Components\TextInput::make('parent_email')
-    //                         ->email()
-    //                         ->maxLength(255),
-    //                     Forms\Components\TextInput::make('parent_aadhar')
-    //                         ->maxLength(255),
-    //                     Forms\Components\TextInput::make('parent_occupation')
-    //                         ->maxLength(255),
-
-
-    //                     Forms\Components\Textarea::make('residential_address')
-    //                         ->columnSpanFull(),
-    //                 ])->hiddenOn('create')->columns(2),
-
-
-    //             Forms\Components\Section::make()
-    //                 ->schema([
-
-    //                     Forms\Components\Select::make('designation_id')
-    //                         ->relationship('designation', 'name')
-    //                         ->searchable()
-    //                         ->preload()
-    //                         ->hidden(fn(Forms\Get $get): bool => $get('role_id') == 6)
-    //                         ->createOptionForm([
-    //                             Forms\Components\TextInput::make('name')
-    //                                 ->required(),
-    //                         ]),
-
-    //                     Forms\Components\Select::make('domain_id')
-    //                         ->relationship('domain', 'name')
-    //                         ->searchable()
-    //                         ->preload()
-    //                         ->createOptionForm([
-    //                             Forms\Components\TextInput::make('name')
-    //                                 ->required(),
-    //                         ]),
-
-    //                 ])->hiddenOn('create')->columns(2),
+    //              
 
             ])->extraAttributes(['autocomplete' => 'off']);
     }
@@ -294,7 +144,7 @@ class UserResource extends Resource
                 Tables\Columns\TextColumn::make('email')
                     ->copyable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('phone')
+                Tables\Columns\TextColumn::make('contact_number')
                     ->searchable(),
                 // Tables\Columns\TextColumn::make('role.name')
                 //     ->searchable(),

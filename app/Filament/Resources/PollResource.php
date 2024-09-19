@@ -18,11 +18,14 @@ class PollResource extends Resource
     protected static ?string $model = Poll::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationGroup = 'Triva';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
+                Forms\Components\Section::make()
+                ->schema([
                 Forms\Components\TextInput::make('title')->required(),
                 Forms\Components\Textarea::make('description'),
                 Forms\Components\Repeater::make('options')
@@ -32,6 +35,7 @@ class PollResource extends Resource
                     ])
                     ->createItemButtonLabel('Add Option')
                     ->minItems(2),
+                    ])->columns(2),
             ]);
     }
 
@@ -41,6 +45,18 @@ class PollResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('title')->sortable(),
                 Tables\Columns\TextColumn::make('description')->limit(50),
+                Tables\Columns\TextColumn::make('options.option')
+                    ->label('Options')
+                    ->getStateUsing(function ($record) {
+                        return implode(', ', $record->options->pluck('option')->toArray());
+                    }),
+                Tables\Columns\TextColumn::make('options.votes_count')
+                    ->label('Vote Count')
+                    ->getStateUsing(function ($record) {
+                        return $record->options->map(function ($option) {
+                            return "{$option->option}: {$option->votes()->count()} votes";
+                        })->implode(', ');
+                    }),
                 Tables\Columns\TextColumn::make('created_at')->date(),
             ])
             ->filters([
@@ -67,8 +83,8 @@ class PollResource extends Resource
     {
         return [
             'index' => Pages\ListPolls::route('/'),
-            'create' => Pages\CreatePoll::route('/create'),
-            'edit' => Pages\EditPoll::route('/{record}/edit'),
+            // 'create' => Pages\CreatePoll::route('/create'),
+            // 'edit' => Pages\EditPoll::route('/{record}/edit'),
         ];
     }
 }

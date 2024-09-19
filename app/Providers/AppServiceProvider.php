@@ -7,7 +7,7 @@ use Filament\Forms\Components\DateTimePicker;
 use Filament\Resources\Resource;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Support\ServiceProvider;
-
+use Filament\Support\Facades\FilamentIcon;
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -32,7 +32,9 @@ class AppServiceProvider extends ServiceProvider
             $datePicker->displayFormat('d/m/Y H:i');
         });
 
-
+        FilamentIcon::register([
+            'tables::actions.edit-action' => 'icon-edit-icon',
+        ]);
         /*DatePicker::configureUsing(fn () => DatePicker::$defaultDateDisplayFormat = __('d/m/Y'));
         DateTimePicker::configureUsing(fn () => DateTimePicker::$defaultDateDisplayFormat = __('d/m/Y'));
         DateTimePicker::configureUsing(fn () => DateTimePicker::$defaultDateTimeDisplayFormat = __('d/m/Y H:i'));*/

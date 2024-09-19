@@ -19,6 +19,8 @@ use App\Filament\Resources\QuestionBankResource\Pages\ListQuestionBanks;
 class QuestionBankResource extends Resource
 {
     protected static ?string $model = QuestionBank::class;
+    protected static ?string $navigationGroup = 'Triva';
+    protected static ?string $label = 'Quiz';
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
