@@ -263,3 +263,28 @@ input:checked+.\[input\:checked\+\&\]\:hover\:bg-custom-500{
 .fi-fo-repeater-item-content .fi-fo-field-wrp .fi-fo-field-wrp-label span{
     color: #303649;
 }
+.fi-fo-rich-editor-toolbar {
+    border-bottom: 1px solid #303649;
+}
+.fi-badge {
+    color: #8a2be2;
+}
+.fi-fo-tabs,.fi-tabs{
+    background: rgba(5, 16, 46, 1)!important;
+}
+.fi-section .fi-section-content-ctn,.fi-section-header   {
+    background-color: #303649;
+}
+.fi-section-header .fi-section-header-heading
+{
+    color: white;
+}
+.filament-breezy-grid-section{
+    background-color: rgba(5, 16, 46, 1);
+}
+.fi-badge span .truncate{
+    color: #303649;
+}
+.fi-tabs-item-active span .truncate{
+    color: #303649 !important;
+}

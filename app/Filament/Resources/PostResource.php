@@ -24,9 +24,9 @@ class PostResource extends Resource
 {
     protected static ?string $model = Post::class;
 
-    protected static ?string $navigationGroup = 'Timeline';
-    protected static ?string $pluralLabel = 'Timeline';
-    protected static ?string $navigationLabel = 'Timeline';
+    protected static ?string $navigationGroup = 'Match Disscussion';
+    protected static ?string $pluralLabel = 'Match Disscussion';
+    protected static ?string $navigationLabel = 'Match Disscussion';
 
     protected static SubNavigationPosition $subNavigationPosition = SubNavigationPosition::Top;
 
@@ -82,16 +82,16 @@ class PostResource extends Resource
                     ->label('Author')
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('comments_count')
-                    ->label('Comments')
-                    ->counts('comments')
-                    ->searchable()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('likes_count')
-                    ->label('Likes')
-                    ->counts('likes')
-                    ->searchable()
-                    ->sortable(),
+                // Tables\Columns\TextColumn::make('comments_count')
+                //     ->label('Comments')
+                //     ->counts('comments')
+                //     ->searchable()
+                //     ->sortable(),
+                // Tables\Columns\TextColumn::make('likes_count')
+                //     ->label('Likes')
+                //     ->counts('likes')
+                //     ->searchable()
+                //     ->sortable(),
                 Tables\Columns\TextColumn::make('publish_date')
                     ->dateTime()
                     ->sortable(),
@@ -134,7 +134,7 @@ class PostResource extends Resource
             'index' => Pages\ListPosts::route('/'),
             // 'create' => Pages\CreatePost::route('/create'),
             'edit' => Pages\EditPost::route('/{record}/edit'),
-            'view' => Pages\ViewPost::route('/{record}'),
+            // 'view' => Pages\ViewPost::route('/{record}'),
             'comments' => Pages\ManagePostComments::route('/{record}/comments'),
             'likes' => Pages\ManageLike::route('/{record}/likes'),
         ];

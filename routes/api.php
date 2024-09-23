@@ -1,22 +1,23 @@
 <?php
 
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PollController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Password;
 use App\Http\Controllers\BatchController;
-use App\Http\Controllers\CurriculumController;
+use App\Http\Controllers\LeaveController;
 use App\Http\Controllers\SectionController;
 use App\Http\Controllers\CalendarController;
-use App\Http\Controllers\TeachingMaterialController;
-use App\Http\Controllers\QualificationController;
-use App\Http\Controllers\LeaveController;
+use App\Http\Controllers\CurriculumController;
+use App\Http\Controllers\QuestionBankController;
 //use App\Http\Controllers\AttendanceController;
+use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Controllers\PasswordResetController;
-use App\Http\Controllers\PostController;
-use App\Http\Controllers\PollController;
+use App\Http\Controllers\QualificationController;
+use App\Http\Controllers\TeachingMaterialController;
 
 /*
 |--------------------------------------------------------------------------
@@ -116,7 +117,12 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('polls/vote/{pollId}', [PollController::class, 'vote']);
     
     
-    
+    //api for question bank/Quizzes
+    Route::get('/question-banks', [QuestionBankController::class, 'index']);
+
+    Route::get('/question-banks/questions/{id}', [QuestionBankController::class, 'getQuestionsForBank']);
+
+
     //	 Route::get('/attendances', [AttendanceController::class, 'index']);
     //	  Route::get('/batches',[BatchController::class,'get_batches']);
 });
