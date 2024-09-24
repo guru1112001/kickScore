@@ -31,6 +31,8 @@ use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Saade\FilamentFullCalendar\FilamentFullCalendarPlugin;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
+use DutchCodingCompany\FilamentSocialite\FilamentSocialitePlugin;
+use DutchCodingCompany\FilamentSocialite\Provider;
 //use Tapp\FilamentAuthenticationLog\FilamentAuthenticationLogPlugin;
 
 class AdministratorPanelProvider extends PanelProvider
@@ -51,6 +53,35 @@ class AdministratorPanelProvider extends PanelProvider
             //->profile(EditTeamProfile::class)
             //->profile(isSimple: false)
             ->plugins([
+                FilamentSocialitePlugin::make()
+                ->providers([
+                    Provider::make('google')
+                        ->label('Google')
+                        // ->icon('google')
+                        // ->color(Colors::blue())
+                        ->scopes(['email', 'profile']),
+
+                    Provider::make('facebook')
+                        ->label('Facebook')
+                        // ->icon('fa-brands fa-facebook')
+                        // ->color(Colors::blue())
+                        ->scopes(['email', 'public_profile']),
+
+                    Provider::make('instagram')
+                        ->label('Instagram')
+                        // ->icon('fa-brands fa-instagram')
+                        // ->color(Colors::pink())
+                        ->scopes(['user_profile', 'user_media']),
+
+                    Provider::make('apple')
+                        ->label('Apple')
+                        // ->icon('fa-brands fa-apple')
+                        // ->color(Colors::black())
+                        ->stateless(true),
+                ])
+                ->slug('admin')  // Optional: define panel slug
+                ->registration(true), // Enable new user registration
+                
                 
                 FilamentFullCalendarPlugin::make(),
                 TableLayoutTogglePlugin::make()

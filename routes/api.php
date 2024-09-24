@@ -9,11 +9,12 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Password;
 use App\Http\Controllers\BatchController;
 use App\Http\Controllers\LeaveController;
+use App\Http\Controllers\LeagueController;
 use App\Http\Controllers\SectionController;
 use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\CurriculumController;
-use App\Http\Controllers\QuestionBankController;
 //use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\QuestionBankController;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\QualificationController;
@@ -99,9 +100,15 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/announcements', [\App\Http\Controllers\AnnouncementController::class, 'index']);
     
     
-    //api for listing for sections
+    //api for leagues 
+    Route::get('leagues', [LeagueController::class, 'getAllLeagues']);
+    Route::get('leagues/{id}', [LeagueController::class, 'getLeagueById']);
+    Route::get('leagues/live', [LeagueController::class, 'getLiveLeagues']);
+    Route::get('leagues/fixture-date/{date}', [LeagueController::class, 'getLeaguesByFixtureDate']);
+    Route::get('leagues/country/{countryId}', [LeagueController::class, 'getLeaguesByCountryId']);
+    Route::get('leagues/search/{name}', [LeagueController::class, 'searchLeaguesByName']);
     
-    // Api for Post/Timeline
+    // Api for Post/match_disccusion
     
     Route::get('posts', [PostController::class, 'index']);
     // Route::get('posts/{id}', [PostController::class, 'show']);

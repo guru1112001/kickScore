@@ -11,8 +11,9 @@
         "php": "^8.1",
         "awcodes/filament-table-repeater": "^3.0",
         "bezhansalleh/filament-shield": "^3.2",
+        "dutchcodingcompany/filament-socialite": "^2.2",
         "filament/filament": "^3.2",
-        "guzzlehttp/guzzle": "^7.2",
+        "guzzlehttp/guzzle": "^7.8",
         "hydrat/filament-table-layout-toggle": "^1.2",
         "jeffgreco13/filament-breezy": "^2.3",
         "kreait/laravel-firebase": "^5.9",
@@ -20,8 +21,11 @@
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.8",
+        "owenvoke/blade-fontawesome": "^2.6",
         "rappasoft/laravel-authentication-log": "^4.0",
         "saade/filament-fullcalendar": "^3.0",
+        "socialiteproviders/apple": "*",
+        "socialiteproviders/instagram": "*",
         "spatie/laravel-activitylog": "^4.8"
     },
     "require-dev": {
