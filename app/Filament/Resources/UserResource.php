@@ -93,7 +93,7 @@ class UserResource extends Resource
                                 ->required()
                                 ->searchable()
                                 ->extraAttributes(['style' => 'width: 150px;']), // Apply custom width,
-                            Forms\Components\TextInput::make('phone')
+                            Forms\Components\TextInput::make('contact_number')
                                 ->label('Contact Number')
                                 ->required()
                                 ->numeric()
@@ -137,7 +137,13 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\ImageColumn::make('avatar_url')->label('Avatar')
+                Tables\Columns\ImageColumn::make('avatar_url') 
+                // ->directory('avatars') // Specify the directory if needed
+                // ->preserveFilenames() // Keeps the original filenames
+                // ->acceptedFileTypes(['image/png', 'image/jpeg']) // Ensure you are allowing the correct file types
+                // ->visibility('public') // Set the visibility if needed
+                // ->url(fn ($record) => $record->avatar_url ? \Storage::url($record->avatar_url) : null)
+                ->label('Avatar')
                     ->rounded(),
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
@@ -231,31 +237,31 @@ class UserResource extends Resource
             // 'assignments' => Pages\Assignments::route('/{record}/assignments'),
             // 'branches' => Pages\ManageBranches::route('/{record}/branches'),
             // 'create' => Pages\CreateUser::route('/create'),
-            'edit' => Pages\EditUser::route('/{record}/edit'),
+            // 'edit' => Pages\EditUser::route('/{record}/edit'),
             'changepassword' => Pages\ChangePassword::route('/{record}/changepassword'),
-            'view' => Pages\ViewUser::route('/{record}'),
+            // 'view' => Pages\ViewUser::route('/{record}'),
         ];
 
         return $pages;
     }
 
-    public static function getRecordSubNavigation(Page $page): array
-    {
-        $pages = [
-            //Pages\ListUsers::class,
-            Pages\ViewUser::class,
-            Pages\EditUser::class,
-            Pages\ChangePassword::class,
-            // Pages\ManageBatches::class,
-            // Pages\ManageBranches::class,
-            // Pages\Assignments::class,
-        ];
+    // public static function getRecordSubNavigation(Page $page): array
+    // {
+    //     $pages = [
+    //         //Pages\ListUsers::class,
+    //         // Pages\ViewUser::class,
+    //         // Pages\EditUser::class,
+    //         Pages\ChangePassword::class,
+    //         // Pages\ManageBatches::class,
+    //         // Pages\ManageBranches::class,
+    //         // Pages\Assignments::class,
+    //     ];
 
-        // if ($page->getRecord()->role_id == 6) {
-        //     unset($pages[4]);
-        // }
-        return $page->generateNavigationItems($pages);
-    }
+    //     // if ($page->getRecord()->role_id == 6) {
+    //     //     unset($pages[4]);
+    //     // }
+    //     return $page->generateNavigationItems($pages);
+    // }
 
     // public static function relations(): array
     // {

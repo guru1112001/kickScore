@@ -20,12 +20,13 @@
         "lara-zeus/accordion": "^1.1",
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.3",
+        "laravel/socialite": "^5.16",
         "laravel/tinker": "^2.8",
         "owenvoke/blade-fontawesome": "^2.6",
         "rappasoft/laravel-authentication-log": "^4.0",
         "saade/filament-fullcalendar": "^3.0",
-        "socialiteproviders/apple": "*",
-        "socialiteproviders/instagram": "*",
+        "socialiteproviders/apple": "^5.6",
+        "socialiteproviders/instagram": "^5.0",
         "spatie/laravel-activitylog": "^4.8"
     },
     "require-dev": {

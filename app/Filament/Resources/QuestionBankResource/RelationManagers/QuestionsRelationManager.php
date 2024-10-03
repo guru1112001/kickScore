@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Clusters\CourseMaster\Resources\QuestionBankResource\RelationManagers;
+namespace App\Filament\Resources\QuestionBankResource\RelationManagers;
 
 use Filament\Forms;
 use Filament\Forms\Form;

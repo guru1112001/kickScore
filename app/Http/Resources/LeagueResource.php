@@ -28,4 +28,5 @@ class LeagueResource extends JsonResource
             'category' => $this->category,
         ];
     }
+    
 }

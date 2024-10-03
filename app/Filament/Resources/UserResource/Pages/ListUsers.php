@@ -42,8 +42,8 @@ class ListUsers extends ListRecords
 
                     //dd($email, $password);
 
-                    $notification = new WelcomeEmail(['login_email' => $email, 'login_password' => $password]);
-                    \Notification::route('mail', $email)->notify($notification);
+                    // $notification = new WelcomeEmail(['login_email' => $email, 'login_password' => $password]);
+                    // \Notification::route('mail', $email)->notify($notification);
                 }),
 
             // Actions\CreateAction::make()

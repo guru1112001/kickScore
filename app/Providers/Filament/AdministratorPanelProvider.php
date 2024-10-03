@@ -14,25 +14,26 @@ use Filament\Support\Colors\Color;
 use App\Livewire\CustomPersonalInfo;
 use Filament\Support\Enums\MaxWidth;
 use App\Livewire\MyCustomPersonalInfo;
+use App\Filament\Resources\RoleResource;
 use App\Http\Middleware\ApplyTenantScopes;
 use Filament\Http\Middleware\Authenticate;
 use Jeffgreco13\FilamentBreezy\BreezyCore;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Cookie\Middleware\EncryptCookies;
+use DutchCodingCompany\FilamentSocialite\Provider;
 use Hydrat\TableLayoutToggle\TableLayoutTogglePlugin;
-use Illuminate\Routing\Middleware\SubstituteBindings;
-use Illuminate\Session\Middleware\AuthenticateSession;
 //use App\Filament\Pages\Auth\EditProfile;
 // use App\Filament\Pages\Auth\Tenancy\EditTeamProfile;
-use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Illuminate\Routing\Middleware\SubstituteBindings;
 // use App\Filament\Pages\Tenancy\RegisterTeam;
+use Illuminate\Session\Middleware\AuthenticateSession;
+use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Saade\FilamentFullCalendar\FilamentFullCalendarPlugin;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use DutchCodingCompany\FilamentSocialite\FilamentSocialitePlugin;
-use DutchCodingCompany\FilamentSocialite\Provider;
 //use Tapp\FilamentAuthenticationLog\FilamentAuthenticationLogPlugin;
 
 class AdministratorPanelProvider extends PanelProvider
@@ -57,30 +58,72 @@ class AdministratorPanelProvider extends PanelProvider
                 ->providers([
                     Provider::make('google')
                         ->label('Google')
-                        // ->icon('google')
-                        // ->color(Colors::blue())
-                        ->scopes(['email', 'profile']),
-
+                        ->icon('fab-google')
+                        // ->color(Color::primary())
+                        ->scopes(['profile', 'email']),
+                        
                     Provider::make('facebook')
                         ->label('Facebook')
-                        // ->icon('fa-brands fa-facebook')
-                        // ->color(Colors::blue())
-                        ->scopes(['email', 'public_profile']),
+                        ->icon('fab-facebook'),
+                        // ->color(Color::primary()),
 
                     Provider::make('instagram')
                         ->label('Instagram')
-                        // ->icon('fa-brands fa-instagram')
-                        // ->color(Colors::pink())
-                        ->scopes(['user_profile', 'user_media']),
+                        ->icon('fab-instagram'),
+                        // ->color(Color::primary()),
 
                     Provider::make('apple')
                         ->label('Apple')
-                        // ->icon('fa-brands fa-apple')
-                        // ->color(Colors::black())
-                        ->stateless(true),
+                        ->icon('fab-apple'),
+                        // ->color(Color::primary())
                 ])
-                ->slug('admin')  // Optional: define panel slug
-                ->registration(true), // Enable new user registration
+                ->registration(true)  // Enables new user registration
+                ->userModelClass(\App\Models\User::class) // Specifies the User model
+                ->createUserUsing(function (string $provider, SocialiteUserContract $oauthUser, FilamentSocialitePlugin $plugin) {
+                    // Logic to create or update a user in your database
+                    $user = User::updateOrCreate(
+                        ['email' => $oauthUser->getEmail()],
+                        [
+                            'name' => $oauthUser->getName(),
+                            'avatar' => $oauthUser->getAvatar(),
+                        ]
+                    );
+    
+                    return $user;
+                })
+                ->resolveUserUsing(function (string $provider, SocialiteUserContract $oauthUser, FilamentSocialitePlugin $plugin) {
+                    // Logic to retrieve an existing user by email
+                    return User::where('email', $oauthUser->getEmail())->first();
+                }),
+                
+                // FilamentSocialitePlugin::make()
+                // ->providers([
+                //     Provider::make('google')
+                //         ->label('Google')
+                //         // ->icon('google')
+                //         // ->color(Colors::blue())
+                //         ->scopes(['email', 'profile']),
+
+                //     Provider::make('facebook')
+                //         ->label('Facebook')
+                //         // ->icon('fa-brands fa-facebook')
+                //         // ->color(Colors::blue())
+                //         ->scopes(['email', 'public_profile']),
+
+                //     Provider::make('instagram')
+                //         ->label('Instagram')
+                //         // ->icon('fa-brands fa-instagram')
+                //         // ->color(Colors::pink())
+                //         ->scopes(['user_profile', 'user_media']),
+
+                //     Provider::make('apple')
+                //         ->label('Apple')
+                //         // ->icon('fa-brands fa-apple')
+                //         // ->color(Colors::black())
+                //         ->stateless(true),
+                // ])
+                // ->slug('admin')  // Optional: define panel slug
+                // ->registration(true), // Enable new user registration
                 
                 
                 FilamentFullCalendarPlugin::make(),
@@ -91,7 +134,7 @@ class AdministratorPanelProvider extends PanelProvider
                     ->displayToggleAction() // used to display the toogle button automatically, on the desired filament hook (defaults to table bar)
                     ->listLayoutButtonIcon('heroicon-o-list-bullet')
                     ->gridLayoutButtonIcon('heroicon-o-squares-2x2'),
-				\BezhanSalleh\FilamentShield\FilamentShieldPlugin::make(),
+				\BezhanSalleh\FilamentShield\FilamentShieldPlugin::make(RoleResource::class),
                 BreezyCore::make()
                 ->myProfile(
                     shouldRegisterUserMenu: true, // Sets the 'account' link in the panel User Menu (default = true)

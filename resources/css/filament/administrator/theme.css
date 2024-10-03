@@ -24,267 +24,329 @@
 .fi-sidebar-item-active a svg path{
     fill: transparent;
 }
-.fi-sidebar-item-active{
-    /* background: var(--orange-gradient, linear-gradient(135.51deg, rgba(235, 103, 7, 1) 0%, rgba(228, 43, 18, 1) 100%)); */
-    border-radius: 10px;
-    /*padding: 0px 16px 0px 16px;
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-    align-items: center;
-    justify-content: flex-start;
-    flex-shrink: 0;*/
-    /*width: 240px;*/
-    /*height: 50px;
-    position: relative;*/
+.fi-sidebar-item-active
+{
+    border-radius: 10px;   
 }
-/* .button{
-    background: #ff5003;
-    border-radius: 100px;
-    padding: 8px 10px 8px 10px;
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-    align-items: flex-start;
-    justify-content: flex-start;
-    align-self: stretch;
-    flex-shrink: 0;
-    position: relative;
-} */
 
-/*.fi-ta-table thead {*/
-/*    position: sticky !important;*/
-/*    top: 4rem;*/
-/*    z-index: 50;*/
-/*}*/
-/* opacity does not looks good in dark mode, so insert the corresponding bg color here */
-thead .dark\:bg-white\/5:is(.dark *), thead  .dark\:bg-white\/5{
+thead .dark\:bg-white\/5:is(.dark *), thead  .dark\:bg-white\/5
+{
     background-color: rgba(255, 240, 234, 1)  !important;
 }
-thead .dark\:text-white:is(.dark *) {
+thead .dark\:text-white:is(.dark *) 
+{
     color: rgba(69, 69, 69, 1) !important;
 }
 
-.fi-topbar nav{
-    /*box-shadow:none !important;
-    background: none;*/
+.fi-topbar nav
+{
     width: 400px;
     float: right;
     border-radius: 15px;
     margin: 10px 10px 0px 0px;
 }
-.ring-1 {
+.ring-1 
+{
     box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.1) !important;
 }
-/* .fi-btn{
-    background: var(--orange-gradient, linear-gradient(135.51deg, rgba(235, 103, 7, 1) 0%, rgba(228, 43, 18, 1) 100%));
-    color: #ffffff;
-} */
-.fi-fo-radio .fi-btn{
+
+.fi-fo-radio .fi-btn
+{
     background: #ffffff;
     color: linear-gradient(to right, #8a2be2, #4169e1);
 }
-input:checked+.\[input\:checked\+\&\]\:hover\:bg-custom-500{
-    /* background-color: rgba(var(--c-500),var(--tw-bg-opacity)); */
+input:checked+.\[input\:checked\+\&\]\:hover\:bg-custom-500
+{
+   
     background-color: linear-gradient(to right, #8a2be2, #4169e1);
     color: #ffffff;
 }
-.fi-tabs{
+.fi-tabs
+{
     background: rgb(250 250 250) !important;
     box-shadow: none !important;
 }
-.fi-tabs-item {
+.fi-tabs-item 
+{
     background: none;
-    /* border: 1px solid rgb(234, 88, 12); */
+
 }
-.fi-tabs-item span{
-    /* color: rgb(234, 88, 12); */
-}
-.fi-tabs-item-active{
+
+.fi-tabs-item-active
+{
     background:  linear-gradient(to right, #8a2be2, #4169e1);
 } 
- .fi-tabs-item-active span{
+ .fi-tabs-item-active span
+{
     color: #ffffff !important;
 } 
-.fi-sidebar-nav .fi-sidebar-nav-groups{
+.fi-sidebar-nav .fi-sidebar-nav-groups
+{
     row-gap: 0.5rem;
 }
-.fi-sidebar-nav .fi-sidebar-nav-groups .fi-sidebar-group .fi-sidebar-group-items{
+.fi-sidebar-nav .fi-sidebar-nav-groups .fi-sidebar-group .fi-sidebar-group-items
+{
     row-gap: 0;
 }
-.fi-sidebar-nav{
+.fi-sidebar-nav
+{
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
     row-gap:0.5rem;
 }
-.active{
+.active
+{
     background-color: #fff0ea!important;
     border: 1px solid rgba(var(--primary-600), var(--tw-text-opacity));
 }
-/* .button {
-    @apply bg-gradient-to-r from-purple-600 to-blue-500 text-white py-2 px-4 border-none rounded-full text-lg font-bold text-center cursor-pointer shadow-lg transition-all duration-300 ease-in-out;
-}
-
-.button {
-    @apply transform hover:translate-y-1 hover:shadow-xl;
-} */
-
-.fi-btn {
+.fi-btn 
+{
     background: linear-gradient(to right, #8a2be2, #4169e1);
     color: white;
-    /* padding: 10px 20px; */
     border: none;
     border-radius: 25px;
-    /* font-size: 18px; */
-    /* font-weight: bold; */
     text-align: center;
     cursor: pointer;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
 }
 
-.fi-sidebar-nav , .fi-sidebar-header , .fi-topbar, .fi-topbar nav ,.fi-simple-main-ctn {
+.fi-sidebar-nav , .fi-sidebar-header , .fi-topbar, .fi-topbar nav ,.fi-simple-main-ctn 
+{
     background-color: rgba(5, 16, 46, 1);
 }
-.fi-sidebar-nav::-webkit-scrollbar {
+.fi-sidebar-nav::-webkit-scrollbar 
+{
     display: none;
 }
-.fi-layout, .fi-simple-main  {
-    background-color: #303649;
-
-}
-.fi-sidebar-item-active a, .fi-sidebar-item-active a:hover{
-    background-color: rgba(5, 16, 46, 1);
-
-}
-.fi-sidebar-item a:hover{
-     background-color: rgba(5, 16, 46, 1);
-}
-/* .fi-simple-header-subheading  {
-    background-color: rgba(5, 16, 46, 1);
-
-} */
-
-/* .fi-simple-header-heading {
-    color: #ffffff;
-} */
-.fi-simple-header-heading{
-    background-image: linear-gradient(to right, #8a2be2, #4169e1);
-    color: transparent;
-    background-clip: text;
-
-
-}
-.fi-link span  {
-    color: rgb(255, 255, 255);
-}
-.fi-form span{
-    color: white;
-}
-.fi-radio-input {
-    background-color: linear-gradient(to right, #8a2be2, #4169e1);
-
-}
-.fi-ta-row{
-    background-color: #303649;
-}
-.fi-ta-table ,.fi-pagination ,.fi-ta-pagination ,.fi-ta-header-toolbar,.fi-ta th {
-    background-color:  rgba(5, 16, 46, 1);
-}
-.fi-ta-row:hover {
-    background-color: #303649 !important;
-}
-.fi-ta-header-cell-label{
-    color: #ffffff;
-}
-.fi-ta-text-item-label {
-    color: white;
-}
-
-.fi-link-icon{
-    color: #8a2be2;
-}
-
-.fi-ta-table{
-    border:1px solid rgba(5, 16, 46, 1);
-}
-/* .fi-breadcrumbs-item-label  {
-    font-size:50px ;
-
-} */
-.fi-header-heading,.fi-fo-field-wrp-label span,.fi-modal-heading {
-    color: white;
-}
-.fi-modal-content,.fi-modal-header,.fi-modal-footer ,.fi-section   {
-    background-color: rgba(5, 16, 46, 1);
-
-}
-.fi-dropdown-panel  {
-    background-color: #303649;
-    /* border-radius: 5px; */
-}
-/* .fi-input{
-    color: white;
-} */
-.fi-ta-search-field .fi-input-wrp div{
-    background-color: #303649;
-    color: white;
- }
-.fi-dropdown-panel div h4{
-    color: white;
-}
- .fi-fo-field-wrp  .fi-input-wrp .fi-input  {
-
-    background-color: white;
-}
-.fi-modal-content .fi-section 
-/* .fi-section-content-ctn  */
-/* .fi-section-content  */
-/* .fi-fo-component-ctn .fi-fo-field-wrp input */
-
+.fi-layout, .fi-simple-main  
 {
     background-color: #303649;
 }
-.filepond--label-action,.filepond--label-action:hover {
-    color: rgba(5, 16, 46, 1);
+.fi-sidebar-item-active a, .fi-sidebar-item-active a:hover
+{
+    background-color: rgba(5, 16, 46, 1);
 }
- /* .fi-fo-field-wrp{
+.fi-sidebar-item a:hover
+{
+     background-color: rgba(5, 16, 46, 1);
+}
+.fi-simple-header-heading
+{
+    background-image: linear-gradient(to right, #8a2be2, #4169e1);
+    color: transparent;
+    background-clip: text;
+}
+.fi-link span  
+{
+    color: rgb(255, 255, 255);
+}
+.fi-form span
+{
+    color: white;
+}
+.fi-radio-input 
+{
+    background-color: linear-gradient(to right, #8a2be2, #4169e1);
+}
+.fi-ta-row
+{
     background-color: #303649;
+}
+.fi-ta-table ,.fi-pagination ,.fi-ta-pagination ,.fi-ta-header-toolbar,.fi-ta th 
+{
+    background-color:  rgba(5, 16, 46, 1);
+}
+.fi-ta-row:hover 
+{
+    background-color: #303649 !important;
+}
+.fi-ta-header-cell-label
+{
+    color: #ffffff;
+}
+.fi-ta-text-item-label 
+{
+    color: white;
+}
 
-} */
- /* .fi-modal-content {
-    background-color: #303649;
- } */
-.fi-fo-repeater-item-header {
-    border-bottom: 1px solid #303649;
-}
-.fi-input-wrp {    border: 1px solid #303649;
-}
-.fi-fo-repeater-item-content .fi-fo-field-wrp .fi-fo-field-wrp-label span{
-    color: #303649;
-}
-.fi-fo-rich-editor-toolbar {
-    border-bottom: 1px solid #303649;
-}
-.fi-badge {
+.fi-link-icon
+{
     color: #8a2be2;
 }
-.fi-fo-tabs,.fi-tabs{
+
+.fi-ta-table .fi-ta-row:nth-child(even),.fi-pagination,.fi-ta-table .fi-ta-row:nth-child(odd)
+{
+    border:1px solid rgba(5, 16, 46, 1);
+}
+
+.fi-header-heading,.fi-fo-field-wrp-label span,.fi-modal-heading
+{
+    color: white;
+}
+.fi-modal-content,.fi-modal-header,.fi-modal-footer ,.fi-section   
+{
+    background-color: rgba(5, 16, 46, 1);
+}
+.fi-dropdown-panel  
+{
+    background-color: #303649;
+}
+
+.fi-ta-search-field .fi-input-wrp div
+{
+    background-color: #303649;
+    color: white;
+}
+.fi-dropdown-panel div h4
+{
+    color: white;
+}
+ 
+.fi-modal-content .fi-section 
+{
+    background-color: #303649;
+}
+.filepond--label-action,.filepond--label-action:hover
+{
+    color: rgba(5, 16, 46, 1);
+}
+
+.fi-fo-repeater-item-header 
+{
+    border-bottom: 1px solid #303649;
+}
+.fi-input-wrp 
+{
+        border: 1px solid #303649;
+}
+.fi-fo-repeater-item-content .fi-fo-field-wrp .fi-fo-field-wrp-label span
+{
+    color: #303649;
+}
+.fi-fo-rich-editor-toolbar 
+{
+    border-bottom: 1px solid #303649;
+}
+.fi-badge 
+{
+    color: #8a2be2;
+}
+.fi-fo-tabs,.fi-tabs
+{
     background: rgba(5, 16, 46, 1)!important;
 }
-.fi-section .fi-section-content-ctn,.fi-section-header   {
+.fi-section .fi-section-content-ctn,.fi-section-header   
+{
     background-color: #303649;
 }
 .fi-section-header .fi-section-header-heading
 {
     color: white;
 }
-.filament-breezy-grid-section{
+.filament-breezy-grid-section
+{
     background-color: rgba(5, 16, 46, 1);
 }
-.fi-badge span .truncate{
+.fi-badge span .truncate
+{
     color: #303649;
 }
-.fi-tabs-item-active span .truncate{
+.fi-tabs-item-active span .truncate
+{
     color: #303649 !important;
+}
+.fi-ta-empty-state 
+{
+    background-color: rgba(5, 16, 46, 1);
+}
+.fi-ta-empty-state-heading 
+{
+    color: white;
+}
+.fi-radio-input:checked,.fi-radio-input:checked:hover 
+{
+    background-color: rgba(5, 16, 46, 1);
+    border-color: rgba(5, 16, 46, 1);
+}
+.fi-radio-input:checked:focus 
+{
+    ring-color: rgba(5, 16, 46, 0.5);
+}
+.fi-checkbox-input:checked 
+{
+    background-color: rgba(5, 16, 46, 1)!important; /* Same background as the radio button */
+    border-color: rgba(5, 16, 46, 1)!important; /* Match the border color */
+}
+
+.fi-checkbox-input:checked:focus:hover 
+{
+    box-shadow: 0 0 0 2px rgba(5, 16, 46, 0.5)!important; /* Custom focus ring */
+}
+
+.fi-modal-window  
+{
+    background-color: rgba(5, 16, 46, 1);
+}
+.fi-modal-footer
+{
+    border-radius: 20%;
+}
+.fi-pagination   
+{
+    border: 1px solid rgba(5, 16, 46, 1)!important;
+}
+.fi-sidebar-item-button 
+{
+    background-color: rgba(5, 16, 46, 1);
+}
+
+ .fi-ta-content > div:first-child ,.fi-ta-panel 
+{
+    background-color: rgba(5, 16, 46, 1)!important;
+}
+.fi-ta-content .fi-ta-record,.fi-ta-content .fi-ta-record:hover
+{
+    background-color: #303649;
+    border-left: 1px solid lightgrey;
+    border-right: 1px solid lightgrey;
+}
+
+ .fi-dropdown-list-item 
+ {
+    background-color: rgba(5, 16, 46, 1);
+ }
+ .fi-dropdown-panel .fi-dropdown-list:hover
+ {
+    background-color: rgba(5, 16, 46, 1)!important;
+ }
+ .fi-dropdown-list-item-label 
+ {
+    color: white;
+ }
+ .fi-no-notification div
+{
+    background-color: #303649;
+}
+ .fi-no-notification-title 
+ {
+    color: white;
+ }
+ .fi-ta-toggle .fi-color-custom 
+{
+    background: linear-gradient(to right, #8a2be2, #4169e1);
+}
+
+.fi-dropdown-list-item:hover 
+{
+    background-color: rgba(5, 16, 46, 1)!important;
+}
+.fi-input 
+{
+    color: black;
+}
+
+.fi-pagination>div:nth-child(2)
+{
+    background-color: #303649;
 }

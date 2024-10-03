@@ -17,8 +17,8 @@ class PollResource extends Resource
 {
     protected static ?string $model = Poll::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-    protected static ?string $navigationGroup = 'Triva';
+    protected static ?string $navigationIcon = 'icon-poll';
+    protected static ?string $navigationGroup = 'Trivia';
 
     public static function form(Form $form): Form
     {

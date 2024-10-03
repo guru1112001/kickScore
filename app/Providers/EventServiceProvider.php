@@ -2,10 +2,11 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\Event;
 use Illuminate\Auth\Events\Registered;
+use SocialiteProviders\Manager\SocialiteWasCalled;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
-use Illuminate\Support\Facades\Event;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -20,6 +21,11 @@ class EventServiceProvider extends ServiceProvider
         ],
         'Illuminate\Auth\Events\Login' => [
             'App\Listeners\UpdateSessionId',
+        ],
+        SocialiteWasCalled::class => [
+            // Add your Socialite providers here
+            \SocialiteProviders\Instagram\InstagramExtendSocialite::class.'@handle',
+            \SocialiteProviders\Apple\AppleExtendSocialite::class.'@handle',
         ],
     ];
 

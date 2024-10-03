@@ -19,6 +19,8 @@ use Filament\Forms\Components\Hidden;
 use Filament\Support\Enums\FontWeight;
 use Filament\Tables\Columns\Summarizers\Count;
 use Illuminate\Support\HtmlString;
+use Filament\Tables\Actions\Action;
+use Filament\Facades\Filament;
 
 class PostResource extends Resource
 {
@@ -30,7 +32,7 @@ class PostResource extends Resource
 
     protected static SubNavigationPosition $subNavigationPosition = SubNavigationPosition::Top;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'icon-discussion';
 
     public static function form(Form $form): Form
     {
@@ -62,7 +64,7 @@ class PostResource extends Resource
     {
         return $page->generateNavigationItems([
             Pages\ListPosts::class,
-            Pages\EditPost::class,
+            // Pages\EditPost::class,
             Pages\ManagePostComments::class,
             Pages\ManageLike::class,
 
@@ -110,6 +112,13 @@ class PostResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\ViewAction::make(),
+                // Action::make('goToComments')
+                // ->label('Comments')
+                // // ->icon('heroicon-o-chat')
+                // ->action(function (Post $record) {  // Changed to Post instead of Model
+                //     return redirect()->route('/{record}/comments');
+
+                // }),
 
             ])
             ->bulkActions([
@@ -133,8 +142,8 @@ class PostResource extends Resource
         return [
             'index' => Pages\ListPosts::route('/'),
             // 'create' => Pages\CreatePost::route('/create'),
-            'edit' => Pages\EditPost::route('/{record}/edit'),
-            // 'view' => Pages\ViewPost::route('/{record}'),
+            // 'edit' => Pages\EditPost::route('/{record}/edit'),
+            'view' => Pages\ViewPost::route('/{record}'),
             'comments' => Pages\ManagePostComments::route('/{record}/comments'),
             'likes' => Pages\ManageLike::route('/{record}/likes'),
         ];

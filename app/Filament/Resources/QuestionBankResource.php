@@ -19,10 +19,10 @@ use App\Filament\Resources\QuestionBankResource\Pages\ListQuestionBanks;
 class QuestionBankResource extends Resource
 {
     protected static ?string $model = QuestionBank::class;
-    protected static ?string $navigationGroup = 'Triva';
+    protected static ?string $navigationGroup = 'Trivia';
     protected static ?string $label = 'Quiz';
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'icon-quiz';
 
     // protected static ?string $cluster = CourseMaster::class;
     // protected static ?int $navigationSort = 0;
@@ -148,11 +148,11 @@ class QuestionBankResource extends Resource
     {
         return [
             'index' => ListQuestionBanks::route('/'),
-            //'questions' => Pages\ManageQuestions::route('/'),
+            // 'questions' => Pages\ManageQuestions::route('/'),
             //'create' => Pages\CreateQuestionBank::route('/create'),
             //'edit' => Pages\EditQuestionBank::route('/{record}/edit'),
-            //'view' => Pages\ManageQuestions::route('/{record}/questions'),
-            //'view' => RelationManagers\QuestionsRelationManager::route('/{record}/questions'),
+            // 'view' => Pages\ManageQuestions::route('/{record}/questions'),
+            // 'view' => RelationManagers\QuestionsRelationManager::route('/{record}/questions'),
         ];
     }
 }
