@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('country_code')->nullable();
             $table->string('contact_number')->nullable();
             $table->string('gender')->nullable();
-            $table->integer('city')->nullable();
+            $table->unsignedBigInteger('Country_id')->nullable();
             $table->string('avatar_url')->nullable();
             $table->boolean('is_active')->nullable();
             $table->timestamp('email_verified_at')->nullable();

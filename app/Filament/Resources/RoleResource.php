@@ -2,12 +2,23 @@
 
 namespace App\Filament\Resources;
 
-use BezhanSalleh\FilamentShield\Resources\RoleResource as BaseRole;
+use Filament\Forms;
+use App\Models\Role;
+use Filament\Tables;
+use Filament\Forms\Form;
+use Filament\Tables\Table;
+use Filament\Resources\Resource;
+use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Resources\RoleResource\Pages;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
+use BezhanSalleh\FilamentShield\Resources\RoleResource as baseResource;
+use App\Filament\Resources\RoleResource\RelationManagers;
 
-class RoleResource extends BaseRole
+class RoleResource extends baseResource
+// RoleResource 
 {
+    // protected static ?string $model = Role::class;
     protected static ?string $navigationGroup = 'Settings';
-}
 
     // protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -53,3 +64,4 @@ class RoleResource extends BaseRole
     //         'edit' => Pages\EditRole::route('/{record}/edit'),
     //     ];
     // }
+}

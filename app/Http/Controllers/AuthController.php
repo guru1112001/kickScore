@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Country;
 use Illuminate\Http\Request;
 use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Auth;
@@ -135,12 +136,54 @@ class AuthController extends Controller
         'contact_number' => 'nullable|string|max:255|unique:users,contact_number,'.$user->id,
         'birthday' => 'nullable|date',
         'gender' => 'nullable|string',
-        'city' => 'nullable|integer',
-        'avatar_url' => 'nullable|string',
+        'country' => 'nullable|string|max:255',
+        'avatar_url' => 'nullable|image|mimes:jpg,jpeg,png',
     ]);
+// Check if the country was provided
+    if (!empty($validatedData['country'])) {
+    // Find or create the country in the countries table
+    $country = Country::firstOrCreate(['name' => $validatedData['country']]);
 
+    // Set the country_id in the validated data
+    $validatedData['country_id'] = $country->id;
+
+    // Remove the 'country' field from the validated data (since it's not a column in the users table)
+    unset($validatedData['country']);
+}
+if ($request->hasFile('avatar_url')) {
+    $file = $request->file('avatar_url');
+    // Store the file in the 'public' directory (this will place it in storage/app/public)
+    $path = $file->store('', 'public');
+    // Get the file name to store in the database
+    $filename = basename($path);
+
+    // Save the filename or path in the avatar_url field of the user
+    $validatedData['avatar_url'] = $filename;
+}
+// Update the user's profile with the validated data
     $user->update($validatedData);
 
     return response()->json(['message' => 'Profile updated successfully']);
+}
+
+public function getProfile(Request $request)
+{
+    // Get the authenticated user
+    $user = auth()->user();
+
+    // Load the associated country
+    $user->load('country');
+
+    // Return the user profile data as JSON
+    return response()->json([
+        'name' => $user->name,
+        'email' => $user->email,
+        'contact_number' => $user->contact_number,
+        'birthday' => $user->birthday,
+        'gender' => $user->gender,
+        // 'city' => $user->city,
+        'avatar_url'=>$user->avatar_url ? url("storage/" . $user->avatar_url) : "",
+        'country' => $user->country ? $user->country->name : null, // Include country name
+    ]);
 }
 }

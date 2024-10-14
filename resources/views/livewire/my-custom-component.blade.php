@@ -1,4 +1,4 @@
-<x-filament-breezy::grid-section md=1 title="" description="">
+<x-filament-breezy::grid-section  md=1 title="" description="">
     <x-filament::card>
         <form wire:submit.prevent="submit" class="space-y-6">
 

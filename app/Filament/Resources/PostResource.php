@@ -60,31 +60,21 @@ class PostResource extends Resource
             ]);
     }
 
-    public static function getRecordSubNavigation(Page $page): array
-    {
-        return $page->generateNavigationItems([
-            Pages\ListPosts::class,
-            // Pages\EditPost::class,
-            Pages\ManagePostComments::class,
-            Pages\ManageLike::class,
-
-        ]);
-    }
-
+    
     public static function table(Table $table): Table
     {
         return $table
-            ->columns([
+        ->columns([
                 Tables\Columns\ImageColumn::make('image')->square(),
                 Tables\Columns\TextColumn::make('content')
                     ->limit(50)
                     ->html(true)
                     ->columnSpanFull(),
-                Tables\Columns\TextColumn::make('user.name')
+                    Tables\Columns\TextColumn::make('user.name')
                     ->label('Author')
                     ->searchable()
                     ->sortable(),
-                // Tables\Columns\TextColumn::make('comments_count')
+                    // Tables\Columns\TextColumn::make('comments_count')
                 //     ->label('Comments')
                 //     ->counts('comments')
                 //     ->searchable()
@@ -95,57 +85,68 @@ class PostResource extends Resource
                 //     ->searchable()
                 //     ->sortable(),
                 Tables\Columns\TextColumn::make('publish_date')
-                    ->dateTime()
-                    ->sortable(),
+                ->dateTime()
+                ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                ->dateTime()
+                ->sortable()
+                ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-            ])
-            ->filters([
-                //
+                ->dateTime()
+                ->sortable()
+                ->toggleable(isToggledHiddenByDefault: true),
+                ])
+                ->filters([
+                    //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\ViewAction::make(),
+                Tables\Actions\EditAction::make()->label(''),
+                Tables\Actions\ViewAction::make()->label(''),
                 // Action::make('goToComments')
                 // ->label('Comments')
                 // // ->icon('heroicon-o-chat')
                 // ->action(function (Post $record) {  // Changed to Post instead of Model
                 //     return redirect()->route('/{record}/comments');
-
+                
                 // }),
+                
+                ])
+                ->bulkActions([
+                    Tables\Actions\BulkActionGroup::make([
+                        Tables\Actions\DeleteBulkAction::make(),
+                    ]),
+                ]);
+            }
+            
+            
+            // public static function getRelations(): array
+            // {
+            //     return [
+            //         // RelationManagers\CommentRelationManager::class,
+            //         // RelationManagers\LikeRelationManager::class,
+            //     ];
+            // }
 
-            ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
-            ]);
-    }
-
-
-    public static function getRelations(): array
-    {
-        return [
-            // RelationManagers\CommentRelationManager::class,
-            // RelationManagers\LikeRelationManager::class,
-        ];
-    }
-
-    public static function getPages(): array
-    {
-        return [
-            'index' => Pages\ListPosts::route('/'),
-            // 'create' => Pages\CreatePost::route('/create'),
-            // 'edit' => Pages\EditPost::route('/{record}/edit'),
-            'view' => Pages\ViewPost::route('/{record}'),
-            'comments' => Pages\ManagePostComments::route('/{record}/comments'),
-            'likes' => Pages\ManageLike::route('/{record}/likes'),
-        ];
-    }
-}
+            public static function getPages(): array
+            {
+                return [
+                    'index' => Pages\ListPosts::route('/'),
+                    'create' => Pages\CreatePost::route('/create'),
+                    'edit' => Pages\EditPost::route('/{record}/edit'),
+                    'view' => Pages\ViewPost::route('/{record}'),
+                    'comments' => Pages\ManagePostComments::route('/{record}/comments'),
+                    // 'likes' => Pages\ManageLike::route('/{record}/likes'),
+                ];
+            }
+            public static function getRecordSubNavigation(Page $page): array
+            {
+                return $page->generateNavigationItems([
+                    Pages\ListPosts::class,
+                    // Pages\EditPost::class,
+                    Pages\ManagePostComments::class,
+                    // Pages\ManageLike::class,
+        
+                ]);
+            }
+        }
+        

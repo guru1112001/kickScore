@@ -12,8 +12,9 @@ use App\Http\Controllers\LeaveController;
 use App\Http\Controllers\LeagueController;
 use App\Http\Controllers\SectionController;
 use App\Http\Controllers\CalendarController;
-use App\Http\Controllers\CurriculumController;
+use App\Http\Controllers\FanPhotoController;
 //use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\CurriculumController;
 use App\Http\Controllers\QuestionBankController;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Controllers\PasswordResetController;
@@ -78,6 +79,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     
     //api for profile update
     Route::post('/profile', [AuthController::class, 'updateProfile']);
+    Route::get('get/profile', [AuthController::class, 'getProfile']);
     
     Route::post('password/change', [PasswordResetController::class, 'changePassword']);
     //api for notifications
@@ -108,6 +110,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('leagues/country/{countryId}', [LeagueController::class, 'getLeaguesByCountryId']);
     Route::get('leagues/search/{name}', [LeagueController::class, 'searchLeaguesByName']);
     
+    //api for league selection 
+    Route::post('/user/select-leagues', [LeagueController::class, 'selectLeagues']);
     // Api for Post/match_disccusion
     
     Route::get('posts', [PostController::class, 'index']);
@@ -116,7 +120,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('posts/comment', [PostController::class, 'comment']);
     Route::get('posts/comments', [PostController::class, 'getComments']);
     
-    
+    //api for fan photos
+    Route::post('post/fan-photos', [FanPhotoController::class, 'store']);
+    Route::get('get/fan-photos', [FanPhotoController::class, 'index']);
     
     //api for polls
     

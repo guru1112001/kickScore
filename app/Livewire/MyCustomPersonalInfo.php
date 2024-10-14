@@ -61,7 +61,7 @@ class MyCustomPersonalInfo extends MyProfileComponent
                                     Select::make('country_code')
                                         ->options(config('country-codes'))
                                         ->label('Country Code')
-                                        ->disabled()
+                                        // ->disabled()
                                         ->extraAttributes(['style' => 'width: 150px;']), // Apply custom width,
                                     Forms\Components\TextInput::make('contact_number')
                                         ->label('Contact Number'),
@@ -69,63 +69,24 @@ class MyCustomPersonalInfo extends MyProfileComponent
                                 //])->columns(2),
                                 Forms\Components\Select::make('gender')
                                     ->options(['Male' => 'Male', 'Female' => 'Female']),
-                                Forms\Components\DatePicker::make('birthday')
-                                    //->maxDate(now()->subYear(15))
-                                    ->native(false)
-                                    ->displayFormat('d/m/Y')
-                                    ->firstDayOfWeek(7),
-                                // TableRepeater::make('qualification')
-                                //     ->addActionLabel('Add New Qualification')
-                                //     ->headers([
-                                //         Header::make('qualification')->label('Qualification'),
-                                //         Header::make('year')->label('year'),
-                                //         Header::make('institute_name')->label('College / School Name'),
-                                //         Header::make('percentage')->label('Percentage (%)'),
-                                //         Header::make('Action')->label('Action'),
-                                //     ])
-                                //     ->schema([
-                                //         Forms\Components\Select::make('qualification_id')
-                                //             ->options(Qualification::get()->pluck('name', 'id'))
-                                //             ->required()
-                                //             ->searchable()
-                                //             ->disablePlaceholderSelection()
-                                //             ->preload(),
-                                //         Forms\Components\TextInput::make('year')
-                                //             ->required()
-                                //             ->numeric()
-                                //             ->maxLength(4),
-                                //         Forms\Components\TextInput::make('institute_name')
-                                //             ->required(),
-                                //         Forms\Components\TextInput::make('percentage')
-                                //             ->required()
-                                //             ->numeric()
-                                //             ->maxLength(3)
-                                //             ->rules('max:100')
-                                //     ])
-                                //     ->deleteAction(fn (Forms\Components\Actions\Action $action) => $action->requiresConfirmation())
-
-                                //     ->columnSpan(2),
-                                //                                Forms\Components\Select::make('qualification_id')
-                                //                                    ->label('Qualification')
-                                //                                    ->options(Qualification::pluck('name', 'id'))
-                                //                                    ->searchable()
-                                //                                    ->preload(),
-                                //
-                                //                                Forms\Components\TextInput::make('year_of_passed_out')
-                                //                                    ->numeric()
-                                //                                    ->maxLength(4),
+                                
+                               
 
                             ]),
                         Tabs\Tab::make('Additional Details')
                             ->schema([
 
 
-                                Forms\Components\Textarea::make('address')
-                                    ->columnSpanFull(),
+                                // Forms\Components\Textarea::make('address')
+                                //     ->columnSpanFull(),
+                                Forms\Components\DatePicker::make('birthday')
+                                    //->maxDate(now()->subYear(15))
+                                    ->native(false)
+                                    ->displayFormat('d/m/Y')
+                                    ->firstDayOfWeek(7),
 
-
-                                Forms\Components\TextInput::make('city')
-                                    ->label('City'),
+                                Forms\Components\TextInput::make('Country')
+                                    ->label('Country'),
 
                                 // Forms\Components\Select::make('state_id')
                                 //     ->label('State')
@@ -134,68 +95,9 @@ class MyCustomPersonalInfo extends MyProfileComponent
                                 //     ->preload(),
 
 
-                                Forms\Components\TextInput::make('pincode')
-                                    ->numeric()
-                                    ->maxLength(6),
+                                
                             ]),
-                        // Tabs\Tab::make('Docs')
-                        //     ->schema([
-                        //         Forms\Components\TextInput::make('aadhaar_number')
-                        //             ->required()
-                        //             ->numeric()
-                        //             ->minLength(12)
-                        //             ->maxLength(12),
-                        //         Forms\Components\TextInput::make('linkedin_profile')
-                        //             ->url()
-                        //             ->maxLength(255),
-                        //         Forms\Components\FileUpload::make('upload_resume')
-                        //             ->required()
-                        //             ->inlineLabel(true)
-                        //             ->downloadable()
-                        //             ->label('Resume'),
-                        //         Forms\Components\FileUpload::make('upload_aadhar')
-                        //             ->required()
-                        //             ->label('Aadhar')
-                        //             ->downloadable()
-                        //             ->inlineLabel(true),
-
-
-                        //     ]),
-                        // Tabs\Tab::make('Parent Details')
-                        //     ->schema([
-
-                        //         Forms\Components\TextInput::make('parent_name')
-                        //             ->maxLength(255),
-
-                        //         Forms\Components\TextInput::make('parent_email')
-                        //             ->email()
-                        //             ->maxLength(255),
-                        //         Forms\Components\TextInput::make('parent_aadhar')
-                        //             ->maxLength(255),
-                        //         Forms\Components\TextInput::make('parent_occupation')
-                        //             ->maxLength(255),
-                        //         Forms\Components\Textarea::make('residential_address')
-                        //             ->columnSpanFull(),
-                        //     ])
-                        //     ->hidden(fn () => auth()->user()->is_admin),
-
-                        // Tabs\Tab::make('Notification')
-                        //     ->schema([
-
-                        //         //                    Forms\Components\TextInput::make('name')
-                        //         //                        ->required()->columnSpan(2),
-                        //         //                    Forms\Components\TextInput::make('email')
-                        //         //                        ->required()->columnSpan(2),
-                        //         Forms\Components\Toggle::make('receive_email_notification')
-                        //             ->label('Receive Email notification.')
-                        //             ->required()
-                        //             ->columnSpan(2),
-                        //         Forms\Components\Toggle::make('receive_sms_notification')
-                        //             ->label('Receive SMS notification.')
-                        //             ->required()
-                        //             ->columnSpan(2)
-
-                        //     ]),
+                        
                     ])
             ])
             ->statePath('data');

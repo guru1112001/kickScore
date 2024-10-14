@@ -26,12 +26,12 @@ class PollResource extends Resource
             ->schema([
                 Forms\Components\Section::make()
                 ->schema([
-                Forms\Components\TextInput::make('title')->required(),
-                Forms\Components\Textarea::make('description'),
+                Forms\Components\TextInput::make('title')->required()->placeholder('Enter the Title'),
+                Forms\Components\Textarea::make('description')->placeholder('Enter the Description'),
                 Forms\Components\Repeater::make('options')
                     ->relationship('options')
                     ->schema([
-                        Forms\Components\TextInput::make('option')->required(),
+                        Forms\Components\TextInput::make('option')->required()->placeholder('Enter the Option'),
                     ])
                     ->createItemButtonLabel('Add Option')
                     ->minItems(2),
@@ -50,20 +50,49 @@ class PollResource extends Resource
                     ->getStateUsing(function ($record) {
                         return implode(', ', $record->options->pluck('option')->toArray());
                     }),
-                Tables\Columns\TextColumn::make('options.votes_count')
-                    ->label('Vote Count')
-                    ->getStateUsing(function ($record) {
-                        return $record->options->map(function ($option) {
-                            return "{$option->option}: {$option->votes()->count()} votes";
-                        })->implode(', ');
-                    }),
+                    Tables\Columns\TextColumn::make('options.votes_count')
+    ->label('Vote Count')
+    ->html()
+    ->listWithLineBreaks(false) // Disable automatic line breaks
+    ->bulleted(false) // Disable bullets if not needed
+    ->getStateUsing(function ($record) {
+        return $record->options->map(function ($option) {
+            return "{$option->option}: {$option->votes()->count()} votes";
+        })->implode('<br>'); // Add HTML <br> tag for line breaks
+    }),
+
+                    // Tables\Columns\TextColumn::make('options.votes_count')
+                    // ->label('Vote Count')
+                    // ->html()
+                    // ->getStateUsing(function ($record) {
+                    //     $totalVotes = $record->options->sum(function ($option) {
+                    //         return $option->votes()->count();
+                    //     });
+                
+                    //     return $record->options->map(function ($option) use ($totalVotes) {
+                    //         $voteCount = $option->votes()->count();
+                    //         $percentage = $totalVotes > 0 ? round(($voteCount / $totalVotes) * 100) : 0;
+                
+                    //         // Create progress bar using HTML
+                    //         return "
+                    //             <div>
+                    //                 <strong>{$option->option}</strong>: {$voteCount} votes ({$percentage}%)
+                    //                 <div style='background-color: #e0e0e0; border-radius: 10px; width: 100%; height: 15px;'>
+                    //                     <div style='width: {$percentage}%; background-color: #4caf50; height: 100%; border-radius: 10px;'></div>
+                    //                 </div>
+                    //             </div>
+                    //         ";
+                    //     })->implode('<br>');
+                    // }),
+                
+                
                 Tables\Columns\TextColumn::make('created_at')->date(),
             ])
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()->label(''),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -83,8 +112,8 @@ class PollResource extends Resource
     {
         return [
             'index' => Pages\ListPolls::route('/'),
-            // 'create' => Pages\CreatePoll::route('/create'),
-            // 'edit' => Pages\EditPoll::route('/{record}/edit'),
+            'create' => Pages\CreatePoll::route('/create'),
+            'edit' => Pages\EditPoll::route('/{record}/edit'),
         ];
     }
 }

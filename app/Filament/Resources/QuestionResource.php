@@ -48,25 +48,25 @@ class QuestionResource extends Resource
                 //     ->collapsed(),
                 Forms\Components\Section::make()
                     ->schema([
-                        Forms\Components\RichEditor::make('question')
+                        Forms\Components\RichEditor::make('question_text')
                             ->required(),
-                        Forms\Components\Group::make()
-                            ->schema([
-                                Forms\Components\Select::make('question_type')
-                                    ->label('Question Type')
-                                    ->relationship('question_bank_type', 'name')
-                                    ->searchable()
-                                    ->preload()
-                                    ->reactive()
-                                    ->createOptionForm([
-                                        Forms\Components\TextInput::make('name')
-                                            ->required(),
-                                    ])
-                                    ->default((request('question_bank_id') &&
-                                        QuestionBank::find(request('question_bank_id')))
-                                        ? QuestionBank::find(request('question_bank_id'))->question_bank_type_id
-                                        : '')
-                                    ->required(),
+                        // Forms\Components\Group::make()
+                        //     ->schema([
+                                // Forms\Components\Select::make('question_type')
+                                //     ->label('Question Type')
+                                //     ->relationship('question_bank_type', 'name')
+                                //     ->searchable()
+                                //     ->preload()
+                                //     ->reactive()
+                                //     ->createOptionForm([
+                                //         Forms\Components\TextInput::make('name')
+                                //             ->required(),
+                                //     ])
+                                //     ->default((request('question_bank_id') &&
+                                //         QuestionBank::find(request('question_bank_id')))
+                                //         ? QuestionBank::find(request('question_bank_id'))->question_bank_type_id
+                                //         : '')
+                                //     ->required(),
 //                                    ->options([
 //                                        'MCQ - Single Correct' => 'MCQ - Single Correct',
 //                                        'MCQ - Multiple Correct' => 'MCQ - Multiple Correct',
@@ -75,18 +75,18 @@ class QuestionResource extends Resource
 //                                        'True/False' => 'True/False',
 //                                        'English Transcription' => 'English Transcription',
 //                                    ])
-                                Forms\Components\Placeholder::make('difficulty')
-                                    ->content((request('question_bank_id') &&
-                                        QuestionBank::find(request('question_bank_id')))
-                                        ? QuestionBank::find(request('question_bank_id'))->formatted_difficulty
-                                        : '')
-                                    ->extraAttributes(['class' => 'inline-html-field']),
-                                Forms\Components\Placeholder::make('topic')
-                                    ->content((request('question_bank_id') &&
-                                        QuestionBank::find(request('question_bank_id')))
-                                        ? QuestionBank::find(request('question_bank_id'))->question_bank_chapter
-                                        : '')
-                                    ->extraAttributes(['class' => 'inline-html-field']),
+                                // Forms\Components\Placeholder::make('difficulty')
+                                //     ->content((request('question_bank_id') &&
+                                //         QuestionBank::find(request('question_bank_id')))
+                                //         ? QuestionBank::find(request('question_bank_id'))->formatted_difficulty
+                                //         : '')
+                                //     ->extraAttributes(['class' => 'inline-html-field']),
+                                // Forms\Components\Placeholder::make('topic')
+                                //     ->content((request('question_bank_id') &&
+                                //         QuestionBank::find(request('question_bank_id')))
+                                //         ? QuestionBank::find(request('question_bank_id'))->question_bank_chapter
+                                //         : '')
+                                //     ->extraAttributes(['class' => 'inline-html-field']),
 //                                Forms\Components\Select::make('difficulty')
 //                                    ->options([
 //                                        'Beginner' => 'Beginner',
@@ -97,22 +97,22 @@ class QuestionResource extends Resource
 //                                Forms\Components\TextInput::make('topic')
 //                                    ->required()
 //                                    ->maxLength(255),
-                            ]),
-                        Forms\Components\Group::make()
-                            ->schema([
-                                Forms\Components\TextInput::make('Points')
-                                    ->required()
-                                    ->numeric(),
+                            // ]),
+                        // Forms\Components\Group::make()
+                        //     ->schema([
+                        //         Forms\Components\TextInput::make('Points')
+                        //             ->required()
+                        //             ->numeric(),
                                 // Forms\Components\TextInput::make('negative_marks')
                                 //     ->required()
                                 //     ->numeric()
                                 //     ->hidden(fn(Forms\Get $get): bool => $get('question_type') == 4)
                                 //     ->default(0),
-                            ])->columns(2),
-                        Forms\Components\TextInput::make('answer')
-                            ->columnSpanFull()
-                            ->hidden(fn(Forms\Get $get): bool => $get('question_type') != 3)
-                            ->helperText(new HtmlString("Separate all the possible answers by '|'. For eg., if both 'Tamil Nadu' and 'TN' are correct, then write it as 'Tamil Nadu | TN'")),
+                            // ])->columns(2),
+                        // Forms\Components\TextInput::make('answer')
+                        //     ->columnSpanFull(),
+                            // ->hidden(fn(Forms\Get $get): bool => $get('question_type') != 3),
+                            // ->helperText(new HtmlString("Separate all the possible answers by '|'. For eg., if both 'Tamil Nadu' and 'TN' are correct, then write it as 'Tamil Nadu | TN'")),
 
                         // Forms\Components\Group::make()
                         //     ->schema([
@@ -131,7 +131,7 @@ class QuestionResource extends Resource
                                 Header::make('is_correct')->label('Correct Answer'),
                             ])
                             ->schema([
-                                Forms\Components\RichEditor::make('option'),
+                                Forms\Components\RichEditor::make('option_text')->extraAttributes(['class'=>'custom-height']),
                                 Forms\Components\Checkbox::make('is_correct')
                                     ->label('Correct Answer')
                             ])
@@ -139,29 +139,29 @@ class QuestionResource extends Resource
                             ->reorderable()
                             ->reorderableWithButtons()
                             ->reorderableWithDragAndDrop()
-                            ->defaultItems(2)
-                            ->hidden(fn(Forms\Get $get): bool => !in_array($get('question_type'), [1,2])),
+                            ->defaultItems(2),
+                            // ->hidden(fn(Forms\Get $get): bool => !in_array($get('question_type'), [1,2])),
 
-                        TableRepeater::make('options')
-                            //->addActionLabel('Add New Option')
-                            ->relationship()
-                            ->headers([
-                                Header::make('option')->label('Options'),
-                                Header::make('is_correct')->label('Correct Answer'),
-                            ])
-                            ->schema([
-                                Forms\Components\RichEditor::make('option'),
-                                Forms\Components\Checkbox::make('is_correct')
-                                    ->inlineLabel('Correct Answer')
-                            ])
-                            ->columnSpanFull()
-                            ->reorderable()
-                            ->reorderableWithButtons()
-                            ->reorderableWithDragAndDrop()
-                            ->defaultItems(2)
-                            ->maxItems(2)
-                            ->minItems(2)
-                            ->hidden(fn(Forms\Get $get): bool => $get('question_type') != 5),
+                        // TableRepeater::make('options')
+                        //     //->addActionLabel('Add New Option')
+                        //     ->relationship()
+                        //     ->headers([
+                        //         Header::make('option')->label('Options'),
+                        //         Header::make('is_correct')->label('Correct Answer'),
+                        //     ])
+                        //     ->schema([
+                        //         Forms\Components\RichEditor::make('option'),
+                        //         Forms\Components\Checkbox::make('is_correct')
+                        //             ->inlineLabel('Correct Answer')
+                        //     ])
+                        //     ->columnSpanFull()
+                        //     ->reorderable()
+                        //     ->reorderableWithButtons()
+                        //     ->reorderableWithDragAndDrop()
+                        //     ->defaultItems(2)
+                        //     ->maxItems(2)
+                        //     ->minItems(2)
+                        //     ->hidden(fn(Forms\Get $get): bool => $get('question_type') != 5),
 
 
                         // Forms\Components\Section::make('Hint and Explanation')
@@ -173,7 +173,7 @@ class QuestionResource extends Resource
                         //     ])->collapsible(true)
                         //     ->collapsed(),
                     ])
-                    ->columns(2)
+                    // ->columns(2)
             ]);
     }
 
@@ -182,21 +182,21 @@ class QuestionResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\Layout\Split::make([
-                    Tables\Columns\TextColumn::make('question')
+                    Tables\Columns\TextColumn::make('question_text')
                         ->description(fn(Question $record) => "Question: #" . $record->id, 'above')
                         ->columnSpan(4)
                         ->html(),
-                    Tables\Columns\TextColumn::make('marks')
-                        ->description('Mark', 'above')
-                        ->prefix('+')
-                        ->badge()
-                        ->color('success')
-                    ,
-                    Tables\Columns\TextColumn::make('negative_marks')
-                        ->description('Negative', 'above')
-                        ->prefix('-')
-                        ->badge()
-                        ->color('danger'),
+                    // Tables\Columns\TextColumn::make('Points')
+                    //     ->description('Mark', 'above')
+                    //     ->prefix('+')
+                    //     ->badge()
+                    //     ->color('success')
+                    // ,
+                    // Tables\Columns\TextColumn::make('negative_marks')
+                    //     ->description('Negative', 'above')
+                    //     ->prefix('-')
+                    //     ->badge()
+                    //     ->color('danger'),
 
                     //->description(fn(Question $record) =>  $record->question),
 //                    Tables\Columns\TextColumn::make('question_type')
@@ -207,12 +207,12 @@ class QuestionResource extends Resource
                 ])->columnSpanFull(),
                 Tables\Columns\Layout\Panel::make([
                     Tables\Columns\Layout\Split::make([
-                        Tables\Columns\TextColumn::make('options.option')
+                        Tables\Columns\TextColumn::make('options.option_text')
                             ->html()
                             ->listWithLineBreaks()
                             ->bulleted(),
                         Tables\Columns\TextColumn::make('options.is_correct')
-                            ->formatStateUsing(fn(string $state) => $state ? 'true' : 'false')
+                            ->formatStateUsing(fn(string $state) => $state ? 'correct' : 'wrong')
                             //->html()
                             ->listWithLineBreaks()
                     ]),
@@ -273,7 +273,7 @@ class QuestionResource extends Resource
         return [
             'index' => Pages\ListQuestions::route('/'),
             'create' => Pages\CreateQuestion::route('/create'),
-            // 'edit' => Pages\EditQuestion::route('/{record}/edit'),
+            'edit' => Pages\EditQuestion::route('/{record}/edit'),
         ];
     }
 }

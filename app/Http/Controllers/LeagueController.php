@@ -56,4 +56,25 @@ public function searchLeaguesByName($name)
     $leagues = League::where('name', 'LIKE', "%{$name}%")->get();
     return LeagueResource::collection($leagues);
 }
+
+
+public function selectLeagues(Request $request)
+{
+    $user = auth()->user();
+    
+    // Validate the leagues sent by the user
+    $validatedData = $request->validate([
+        'leagues' => 'required|array',
+        'leagues.*' => 'exists:leagues,id',
+    ]);
+
+    // Sync the user's selected leagues
+    $user->leagues()->sync($validatedData['leagues']);
+
+    return response()->json([
+        'message' => 'Leagues successfully selected',
+        'leagues' => $user->leagues,
+    ]);
+}
+
 }

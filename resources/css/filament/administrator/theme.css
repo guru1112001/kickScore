@@ -66,7 +66,7 @@ input:checked+.\[input\:checked\+\&\]\:hover\:bg-custom-500
     background: rgb(250 250 250) !important;
     box-shadow: none !important;
 }
-.fi-tabs-item 
+.fi-tabs-item :focus
 {
     background: none;
 
@@ -349,4 +349,238 @@ input:checked+.\[input\:checked\+\&\]\:hover\:bg-custom-500
 .fi-pagination>div:nth-child(2)
 {
     background-color: #303649;
+}
+/* new theme from here  */
+
+
+
+
+
+
+
+
+.fi-main,.fi-layout
+{
+background-color: #F5F5F5;
+}
+.fi-ta
+{
+    border:1px solid  #A9A9A9!important;
+    border-radius: 13px;
+}
+.fi-ta-header-toolbar,.fi-ta th  ,.fi-pagination ,.fi-tabs  ,.fi-ta-content >div:first-child{
+    background-color:#c8c8c8 !important ;
+}
+.fi-ta-row,.fi-ta-record>div:first-child
+{
+    background-color: #f0f0f0;
+}
+.fi-ta-table .fi-ta-row:nth-child(even),.fi-pagination,.fi-ta-table .fi-ta-row:nth-child(odd)
+{
+    border:1px solid #A9A9A9 !important;
+}
+.fi-ta th
+{
+    border-left: #A9A9A9 !important;
+}
+.fi-header-heading 
+{
+    color: black;
+}
+.fi-ta-content 
+{
+    overflow-x: hidden;
+}
+.fi-ta-header-cell-label ,.fi-ta-text-item-label 
+{
+    color: black;
+}
+.fi-breadcrumbs-item 
+{
+    color: #7F7F7F;
+}
+
+
+.fi-ta-search-field .fi-input-wrp div
+{
+    background-color:#f0f0f0 ;
+    color: white;
+}
+.fi-input-wrp 
+{
+    border: none;
+}
+
+.fi-input:hover
+{
+    caret-color: black;
+}
+
+.fi-ta-row:hover 
+{
+    background-color: #f0f0f0 !important;
+}
+.fi-checkbox-input 
+{
+    /* opacity: 5%; */
+    border: 1px solid black;
+    /* border-color:black ; */
+    /* box-shadow: -1px -2px 42px 30px rgba(0,0,0,0.64); */
+}
+input[type="text"]:hover
+{
+    caret-color: black;
+}
+.fi-ta-selection-cell 
+{
+    border-color: #A9A9A9!important;
+}
+/* .fi-pagination-records-per-page-select .fi-input-wrp 
+{ */
+    /* border: none; */
+
+/* } */
+.fi-pagination .fi-input-wrp {
+    border-color: #A9A9A9 !important;
+}
+.fi-input-wrp div
+{
+    background-color: white;
+}
+/* .fi-ta-header-toolbar 
+{
+    borwwder-bottom: 1px solid #A9A9A9;
+} */
+ /* */
+ .social-auth-btn {
+    display: flex;
+    justify-content: center; /* Center-aligns the buttons horizontally */
+    gap: 10px; /* Adjust the gap between the buttons as needed */
+}
+
+.social-auth-btn .fi-btn {
+    background: none; 
+    border: none; /* Remove border */
+    padding: 0; /* Remove padding */
+    /* box-shadow: none; Remove shadow if any */
+    text-align: center; /* Ensure the icon is centered */
+    background-color: transparent;
+    
+}
+
+.social-auth-btn .fi-btn svg {
+    width: 40px;  /* Adjust the size as needed */
+    height: 40px; /* Adjust the size as needed */
+}
+
+.social-auth-btn .fi-btn {
+    width: 50px;  /* Adjust button width if needed */
+    height: 50px; /* Adjust button height if needed */
+    padding: 0;   /* Ensure no extra padding is applied */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+}
+
+.fi-section .fi-section-content-ctn .fi-section-content ,.fi-fo-tabs-tab 
+{
+    background-color: #c8c8c8;
+}
+.fi-input-wrp .fi-input,.filepond--root ,.choices,.choices__inner,.choices__placeholder ,.choices__item ,.fi-select-input ,.fi-fo-date-time-picker-display-text-input ,.fi-input-wrp textarea,.fi-fo-repeater-item-header ,.fi-fo-repeater-item-content,.fi-fo-rich-editor-toolbar ,.fi-fo-rich-editor-toolbar div,.prose
+{
+    background-color: #F0F0F0 !important;
+    border: 1px solid #a9a9a9 !important;
+
+}
+.choices__placeholder ,.choices__item
+{
+    border: none!important;
+}
+.fi-fo-field-wrp-label  span
+{
+    color: black;
+}
+
+.fi-input[type="search"] 
+{
+    border: none !important;;
+}
+.fi-fo-rich-editor-toolbar div
+{
+    border: none!important;
+}
+span.filepond--label-action
+{
+    color: #000000;
+}
+.my-quiz
+{
+    /* font-size: larger; */
+    font-weight: bold;
+}
+.fi-ta-record>div:first-child
+{
+    border: 1px solid #a9a9a9;
+}
+.fi-ta-panel{
+    background-color: #F0F0F0!important;
+    border: 1px solid #a9a9a9;
+}
+.my-permission .fi-section-content-ctn  .fi-section-content 
+{
+    background-color: #f0f0f0!important;
+}
+.filament-breezy-grid-section
+{
+    background-color: #c8c8c8;
+    padding: 1rem;
+}
+.filament-breezy-grid-section div .fi-section .fi-section-content-ctn .fi-section-content 
+{
+    background-color: #f0f0f0!important;
+}
+.fi-fo-checkbox-list-option-label 
+{
+    color:black !important;
+}
+
+.my-permission .fi-section-content-ctn  .fi-section-content .fi-fo-field-wrp .fi-color-custom  span
+{
+
+    color: #000000;
+}
+
+.fi-modal-window ,.fi-modal-header , .fi-modal-content , .fi-modal-footer 
+{
+    background-color: #c8c8c8 !important;
+} 
+.fi-modal-heading ,.fi-modal-description  button > span , .fi-ta-filters >div>h4 ,.fi-link  >span{
+    color: black;
+}
+.fi-ta-filters 
+{
+    background-color: #c8c8c8 !important;
+}
+.fi-ta-header {
+    background-color: #c8c8c8 !important;
+}
+ 
+.custom-login-form .fi-fo-field-wrp>div .fi-fo-field-wrp-label >span{
+    color: #F0F0F0;
+} 
+.fi-ta-empty-state-heading {
+    color: black;
+
+}
+.custom-toogle {
+    background: linear-gradient(to right, #8a2be2, #4169e1);
+    
+}
+.fi-sidebar-item-label {
+    color: #a1a1aa;
+}
+.fi-simple-header-subheading a>span
+{
+    color: white;
 }

@@ -85,16 +85,16 @@ class ListUsers extends ListRecords
         ];
     }
 
-//     public function getTabs(): array
-//     {
-//         return [
-//             'Students' => ListRecords\Tab::make()->query(fn($query) => User::whereHas('team')->where('role_id', 6)),
-//             'Others' => ListRecords\Tab::make()->query(fn($query) => User::where('role_id', '<>', 6)
-// //                ->whereHas('teams', function ($query) {
-// //                    $query->where('id', Filament::getTenant());
-// //                })
-//             ),
-//             //null => ListRecords\Tab::make('All')
-//         ];
-//     }
+    public function getTabs(): array
+    {
+        return [
+            'Fan' => ListRecords\Tab::make()->query(fn($query) => User::where('role_id', 2)),
+            'Others' => ListRecords\Tab::make()->query(fn($query) => User::where('role_id', '<>',2)
+//                ->whereHas('teams', function ($query) {
+//                    $query->where('id', Filament::getTenant());
+//                })
+            ),
+            //null => ListRecords\Tab::make('All')
+        ];
+    }
 }

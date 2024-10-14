@@ -15,7 +15,7 @@
             </div>
         @endif
 
-        <div class="grid @if(count($providers) > 1) grid-cols-2 @endif gap-4">
+        <div class="flex gap-2 social-auth-btn">
             @foreach($providers as $key => $provider)
                 <x-filament::button
                     :color="$provider->getColor()"
@@ -25,7 +25,7 @@
                     :href="route($socialiteRoute, $key)"
                     :spa-mode="false"
                 >
-                    {{ $provider->getLabel() }}
+                    {{-- {{ $provider->getLabel() }} --}}
                 </x-filament::button>
             @endforeach
         </div>

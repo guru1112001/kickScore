@@ -93,13 +93,14 @@ class ManagePostComments extends ManageRelatedRecords
 
                 Tables\Columns\TextColumn::make('content')
                     ->label('Comment')
-                    ->searchable(),
+                    // ->searchable()
+                    ,
 
                 UserColumn::make('user')
                     ->label('Commented By'),
 
                 Tables\Columns\TextColumn::make('created_at')
-                    ->searchable()
+                    // ->searchable()
                     ->sortable(),
             ])
             ->filters([

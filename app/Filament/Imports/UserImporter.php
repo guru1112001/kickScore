@@ -23,7 +23,7 @@ class UserImporter extends Importer
                 ->rules(['required', 'email', 'max:255']),
 //            ImportColumn::make('email_verified_at')
 //                ->rules(['email', 'datetime']),
-            ImportColumn::make('phone')
+            ImportColumn::make('contact_number')
                 ->requiredMapping()
                 ->rules(['max:255']),
             ImportColumn::make('password')
@@ -33,61 +33,61 @@ class UserImporter extends Importer
                 ->numeric()
                 ->rules(['integer']),
 
-            ImportColumn::make('registration_number')
-                ->rules(['max:255']),
+            // ImportColumn::make('registration_number')
+            //     ->rules(['max:255']),
             ImportColumn::make('birthday')
                 ->rules(['date']),
-            ImportColumn::make('contact_number')
-                ->rules(['max:255']),
+            // ImportColumn::make('contact_number')
+            //     ->rules(['max:255']),
             ImportColumn::make('gender')
                 ->rules(['max:255']),
-            ImportColumn::make('qualification_id')
-                ->numeric()
-                ->rules(['integer']),
-            ImportColumn::make('year_of_passed_out')
-                ->rules(['max:255']),
-            ImportColumn::make('address'),
-            ImportColumn::make('city')
-                ->rules(['max:255']),
-            ImportColumn::make('state_id')
-                ->numeric()
-                ->rules(['integer']),
-            ImportColumn::make('pincode')
-                ->rules(['max:255']),
-            ImportColumn::make('school')
-                ->rules(['max:255']),
-            ImportColumn::make('aadhaar_number')
-                ->rules(['nullable','number','max:12', 'min:12','digit:12']),
-            ImportColumn::make('linkedin_profile')
-                ->rules(['max:255']),
-            ImportColumn::make('upload_resume')
-                ->rules(['max:255']),
-            ImportColumn::make('upload_aadhar')
-                ->rules(['max:255']),
-            ImportColumn::make('upload_picture')
-                ->rules(['max:255']),
-            ImportColumn::make('upload_marklist'),
-            ImportColumn::make('upload_agreement'),
-            ImportColumn::make('parent_name')
-                ->rules(['max:255']),
-            ImportColumn::make('parent_contact')
-                ->rules(['max:255']),
-            ImportColumn::make('parent_email')
-                ->rules(['email', 'max:255']),
-            ImportColumn::make('parent_aadhar')
-                ->rules(['max:255']),
-            ImportColumn::make('parent_occupation')
-                ->rules(['max:255']),
-            ImportColumn::make('residential_address'),
-            ImportColumn::make('designation_id')
-                ->numeric()
-                ->rules(['integer']),
-            ImportColumn::make('experience')
-                ->rules(['max:255']),
-            ImportColumn::make('domain_id')
-                ->numeric()
-                ->rules(['integer']),
-            ImportColumn::make('subject'),
+            // ImportColumn::make('qualification_id')
+            //     ->numeric()
+            //     ->rules(['integer']),
+            // ImportColumn::make('year_of_passed_out')
+            //     ->rules(['max:255']),
+            // ImportColumn::make('address'),
+            // ImportColumn::make('city')
+            //     ->rules(['max:255']),
+            // ImportColumn::make('state_id')
+            //     ->numeric()
+            //     ->rules(['integer']),
+            // ImportColumn::make('pincode')
+            //     ->rules(['max:255']),
+            // ImportColumn::make('school')
+            //     ->rules(['max:255']),
+            // ImportColumn::make('aadhaar_number')
+            //     ->rules(['nullable','number','max:12', 'min:12','digit:12']),
+            // ImportColumn::make('linkedin_profile')
+            //     ->rules(['max:255']),
+            // ImportColumn::make('upload_resume')
+            //     ->rules(['max:255']),
+            // ImportColumn::make('upload_aadhar')
+            //     ->rules(['max:255']),
+            // ImportColumn::make('upload_picture')
+            //     ->rules(['max:255']),
+            // ImportColumn::make('upload_marklist'),
+            // ImportColumn::make('upload_agreement'),
+            // ImportColumn::make('parent_name')
+            //     ->rules(['max:255']),
+            // ImportColumn::make('parent_contact')
+            //     ->rules(['max:255']),
+            // ImportColumn::make('parent_email')
+            //     ->rules(['email', 'max:255']),
+            // ImportColumn::make('parent_aadhar')
+            //     ->rules(['max:255']),
+            // ImportColumn::make('parent_occupation')
+            //     ->rules(['max:255']),
+            // ImportColumn::make('residential_address'),
+            // ImportColumn::make('designation_id')
+            //     ->numeric()
+            //     ->rules(['integer']),
+            // ImportColumn::make('experience')
+            //     ->rules(['max:255']),
+            // ImportColumn::make('domain_id')
+            //     ->numeric()
+            //     ->rules(['integer']),
+            // ImportColumn::make('subject'),
             ImportColumn::make('is_active')
                 ->boolean()
                 ->rules(['boolean']),
@@ -115,10 +115,10 @@ class UserImporter extends Importer
         return $body;
     }
 
-    protected function afterSave(): void
-    {
-        $this->record->teams()->syncWithoutDetaching([1]);
+    // protected function afterSave(): void
+    // {
+    //     $this->record->teams()->syncWithoutDetaching([1]);
 
-    }
+    // }
 
 }

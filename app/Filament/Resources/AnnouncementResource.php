@@ -19,7 +19,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\HtmlString;
 use Filament\Support\Enums\FontWeight;
-
+use Filament\Tables\Actions\DeleteBulkAction;
 class AnnouncementResource extends Resource
 {
     protected static ?string $model = Announcement::class;
@@ -38,6 +38,7 @@ class AnnouncementResource extends Resource
                     ->schema([
                         Forms\Components\TextInput::make('title')
                             ->required()
+                            ->placeholder('Enter the Title')
                             ->maxLength(255),
                         Forms\Components\DateTimePicker::make('schedule_at')
                             ->native(false)
@@ -45,6 +46,7 @@ class AnnouncementResource extends Resource
                             ->required(),
                         Forms\Components\Textarea::make('description')
                             ->required()
+                            ->placeholder('Enter the Description')
                             ->columnSpanFull(),
                         Forms\Components\FileUpload::make('image')
                             ->image()
@@ -88,7 +90,7 @@ class AnnouncementResource extends Resource
                         //     ->multiple()
                         //     ->hidden(fn(Forms\Get $get): bool => $get('audience') != 'course_wise' || !auth()->user()->is_admin)
                         //     ->required()
-                    ])->columns(2)
+                    ])
             ]);
     }
 
@@ -96,19 +98,19 @@ class AnnouncementResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\ImageColumn::make('image')->height(100)->width(100)->disk('public')  // Ensure it's publicly accessible
+                Tables\Columns\ImageColumn::make('image')->height(50)->width(50)->disk('public')  // Ensure it's publicly accessible
                 ,
                 Tables\Columns\TextColumn::make('title')
-                    ->description(fn(Announcement $record) => new HtmlString($record->description
-                    . '<br>' .
-                        (auth()->user()->is_admin ?
-                        Carbon::parse($record->schedule_at)
-                            ->format('d M Y h:i')
-                        : Carbon::parse($record->schedule_at)
-                            ->format('d M Y'))))
+                    // ->description(fn(Announcement $record) => new HtmlString($record->description
+                    // . '<br>' .
+                    //     (auth()->user()->super_admin ?
+                    //     Carbon::parse($record->schedule_at)
+                    //         ->format('d M Y h:i')
+                    //     : Carbon::parse($record->schedule_at)
+                    //         ->format('d M Y'))))
                     ->searchable(),
-                //Tables\Columns\TextColumn::make('urgency'),
-                //Tables\Columns\TextColumn::make('visibility'),
+                Tables\Columns\TextColumn::make('description'),
+                Tables\Columns\TextColumn::make('schedule_at'),
                 //Tables\Columns\TextColumn::make('audience'),
 //                Tables\Columns\TextColumn::make('created_at')
 //                    ->dateTime()
@@ -124,41 +126,43 @@ class AnnouncementResource extends Resource
             ])
             ->actions([
                 // Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()->label(''),
+                Tables\Actions\DeleteAction::make()->label(''),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
+                   
                 ]),
             ]);
     }
 
-    public static function infolist(Infolist $infolist): Infolist
-    {
-        return $infolist
-            ->schema([
-                Infolists\Components\ImageEntry::make('image')
-                    ->label(false)
-                    //->width(100)
-                    ->columnSpanFull(),
-                Infolists\Components\TextEntry::make('title')
-                    ->label(false)
-                    ->weight(FontWeight::SemiBold)
-                    ->columnSpanFull(),
+    // public static function infolist(Infolist $infolist): Infolist
+    // {
+    //     return $infolist
+    //         ->schema([
+    //             Infolists\Components\ImageEntry::make('image')
+    //                 ->label(false)
+    //                 //->width(100)
+    //                 ->columnSpanFull(),
+    //             Infolists\Components\TextEntry::make('title')
+    //                 ->label(false)
+    //                 ->weight(FontWeight::SemiBold)
+    //                 ->columnSpanFull(),
 
-                Infolists\Components\TextEntry::make('schedule_at')
-                    ->label(false)
-                    ->formatStateUsing(function (Announcement $record) {
-                        // Convert the schedule_at string to a Carbon instance and then format it
-                        return Carbon::parse($record->schedule_at)
-                            ->format('d M Y');
-                    })
-                    ->columnSpanFull(),
-                Infolists\Components\TextEntry::make('description')
-                    ->label(false)
-                    ->columnSpanFull(),
-            ])->columns(2);
-    }
+    //             Infolists\Components\TextEntry::make('schedule_at')
+    //                 ->label(false)
+    //                 ->formatStateUsing(function (Announcement $record) {
+    //                     // Convert the schedule_at string to a Carbon instance and then format it
+    //                     return Carbon::parse($record->schedule_at)
+    //                         ->format('d M Y');
+    //                 })
+    //                 ->columnSpanFull(),
+    //             Infolists\Components\TextEntry::make('description')
+    //                 ->label(false)
+    //                 ->columnSpanFull(),
+    //         ])->columns(2);
+    // }
 
     public static function getRelations(): array
     {
@@ -171,8 +175,8 @@ class AnnouncementResource extends Resource
     {
         return [
             'index' => Pages\ListAnnouncements::route('/'),
-            //'create' => Pages\CreateAnnouncement::route('/create'),
-            //'edit' => Pages\EditAnnouncement::route('/{record}/edit'),
+            'create' => Pages\CreateAnnouncement::route('/create'),
+            'edit' => Pages\EditAnnouncement::route('/{record}/edit'),
         ];
     }
 }

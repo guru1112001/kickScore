@@ -2,7 +2,6 @@
 
 namespace App\Filament\Pages\Auth;
 
-use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
@@ -29,6 +28,7 @@ class Login extends BaseLogin
                 $this->getPasswordFormComponent(),
                 $this->getRememberFormComponent(),
             ])
+            ->extraAttributes(['class' => 'custom-login-form'])
             ->statePath('data');
     }
 
@@ -56,48 +56,43 @@ class Login extends BaseLogin
         ];
     }
 
-//     public function authenticate(): ?LoginResponse
-// {
-//     try {
-//         $credentials = $this->getCredentialsFromFormData($this->form->getState());
-//         $loginField = array_keys($credentials)[0]; // This will be either 'email' or 'contact_number'
-//         $loginValue = $credentials[$loginField];
-
-//         $user = User::where($loginField, $loginValue)->first();
-
-//         if (!$user || !Hash::check($credentials['password'], $user->password)) {
-//             // Throw validation exception if the user does not exist or the password is incorrect
-//             throw ValidationException::withMessages([
-//                 'login' => [__('auth.failed')],
-//             ]);
-//         }
-
-//         // Optionally, rehash the password if necessary (if the current hash is outdated)
-//         if (Hash::needsRehash($user->password)) {
-//             $user->password = Hash::make($credentials['password']);
-//             $user->save();
-//         }
-
-//         return parent::authenticate();
-//     } catch (ValidationException $e) {
-//         throw $e;
-//     }
-// }
-public function authenticate(): ?LoginResponse
+    public function authenticate(): ?LoginResponse
 {
     $credentials = $this->getCredentialsFromFormData($this->form->getState());
     $loginField = array_keys($credentials)[0]; // Email or contact number
-    
+
     $user = User::where($loginField, $credentials[$loginField])
-                ->orWhere('provider_id', $credentials[$loginField])
                 ->first();
-    
+
+    // Custom validation for login
     if (!$user || !Hash::check($credentials['password'], $user->password)) {
+        // Incorrect credentials notification
+        \Filament\Notifications\Notification::make()
+            ->title('Login failed')
+            ->body('The provided credentials are incorrect.')
+            ->icon('heroicon-o-x-circle')
+            ->iconColor('danger')
+            ->send();
+
         throw ValidationException::withMessages([
-            'login' => [__('auth.failed')],
+            'login' => 'The provided credentials are incorrect.',
         ]);
+    }
+
+    // Check if the user has the 'fan' role
+    if ($user->role === 'fan') {
+        // Role-based notification for fan users
+        \Filament\Notifications\Notification::make()
+            ->title('Fan Role Access')
+            ->body('Your account has limited access because you are a fan.')
+            ->icon('heroicon-o-information-circle')
+            ->iconColor('warning')
+            ->send();
+
+        // You can add more logic here if necessary, e.g., restrict access
     }
 
     return parent::authenticate();
 }
+
 }

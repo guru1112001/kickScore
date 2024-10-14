@@ -24,10 +24,10 @@ class AuthenticationLogResource extends Resource
 
     protected static bool $isScopedToTenant = false;
 
-    public static function canAccess(): bool
-    {
-        return (bool) auth()->user()->is_admin;
-    }
+    // public static function canAccess(): bool
+    // {
+    //     return (bool) auth()->user()->is_admin;
+    // }
 
 //    public static function isDiscovered(): bool
 //    {

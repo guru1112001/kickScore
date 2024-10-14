@@ -2,33 +2,35 @@
 
 namespace App\Filament\Resources;
 
-use App\Models\Batch;
-use Filament\Infolists\Infolist;
-use Filament\Notifications\Notification;
-use Filament\Support\Enums\MaxWidth;
-
-use App\Filament\Resources\UserResource\Pages;
-use App\Filament\Resources\UserResource\RelationManagers;
-use App\Models\Qualification;
-use App\Models\User;
-use Awcodes\TableRepeater\Components\TableRepeater;
-use Awcodes\TableRepeater\Header;
-use Filament\Facades\Filament;
 use Filament\Forms;
-use Filament\Forms\Components\Group;
-use Filament\Forms\Components\Select;
+use App\Models\User;
+use Filament\Tables;
+use App\Models\Batch;
+
+use App\Models\Country;
 use Filament\Forms\Form;
 use Filament\Pages\Page;
+use Filament\Tables\Table;
+use App\Models\Qualification;
+use Filament\Facades\Filament;
+use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
-use Filament\Tables;
+use Awcodes\TableRepeater\Header;
+use Illuminate\Support\Collection;
+use Filament\Forms\Components\Group;
+use Filament\Support\Enums\MaxWidth;
+use Illuminate\Support\Facades\Hash;
+use Filament\Forms\Components\Select;
+use Filament\Notifications\Notification;
+use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Filters\SelectFilter;
-use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Resources\UserResource\Pages;
+use Filament\Tables\Filters\MultiSelectFilter;
+use Awcodes\TableRepeater\Components\TableRepeater;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Hash;
-use Filament\Tables\Enums\FiltersLayout;
+use App\Filament\Resources\UserResource\RelationManagers;
 
 class UserResource extends Resource
 {
@@ -78,11 +80,13 @@ class UserResource extends Resource
                         //     ->maxLength(255),
                         Forms\Components\TextInput::make('name')
                             ->required()
+                            ->placeholder('Enter the name')
                             ->maxLength(255),
                         Forms\Components\TextInput::make('email')
                             ->email()
                             ->default("")
                             ->autocomplete('off')
+                            ->placeholder('Enter the Email')
                             ->unique(ignoreRecord: true)
                             ->required()
                             ->maxLength(255),
@@ -97,10 +101,12 @@ class UserResource extends Resource
                                 ->label('Contact Number')
                                 ->required()
                                 ->numeric()
-                                ->unique()
+                                ->placeholder('Enter the Contact')
+                                ->unique(ignoreRecord: true)
                                 ->maxLength(10),
                         ])->columns(2),
                         Forms\Components\Select::make('gender')
+                            ->placeholder('Select your Gender')
                             ->options(['Male' => 'Male', 'Female' => 'Female']),
                         Forms\Components\DatePicker::make('birthday')
                             //->maxDate(now()->subYear(15))
@@ -113,6 +119,7 @@ class UserResource extends Resource
                             //->label(fn(string $context) => $context === 'create' ? 'Password' : 'Change Password')
                             ->hiddenOn('edit')
                             ->password()
+                            ->placeholder('Enter your password')
                             // ->dehydrateStateUsing(fn ($state) => Hash::make($state))
                             // ->dehydrated(fn ($state) => filled($state))
                             ->required(fn(string $context): bool => $context === 'create'),
@@ -138,20 +145,31 @@ class UserResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\ImageColumn::make('avatar_url') 
+                // ->getUrlUsing(fn($record) => $record->getFilamentAvatarUrl())
                 // ->directory('avatars') // Specify the directory if needed
                 // ->preserveFilenames() // Keeps the original filenames
                 // ->acceptedFileTypes(['image/png', 'image/jpeg']) // Ensure you are allowing the correct file types
                 // ->visibility('public') // Set the visibility if needed
                 // ->url(fn ($record) => $record->avatar_url ? \Storage::url($record->avatar_url) : null)
                 ->label('Avatar')
+                ->height(50)
+                ->width(50)
                     ->rounded(),
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
                     ->copyable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('contact_number')
+                Tables\Columns\TextColumn::make('country.name')->label('Country')->default('Not selected yet!')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('role.name')
+                    ->label('Role'),
+                Tables\Columns\TextColumn::make('contact_number')
+                ->hidden(fn($record) => empty($record->country))
+                    ->searchable(),
+                Tables\Columns\TagsColumn::make('leagues.name')->default('Not selected yet!')
+                    ->label('Selected Leagues'),
+                    
                 // Tables\Columns\TextColumn::make('role.name')
                 //     ->searchable(),
                 ToggleColumn::make('is_active')
@@ -165,9 +183,12 @@ class UserResource extends Resource
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
-//            ->filters([
-//
-//            ])
+           ->filters([
+            MultiSelectFilter::make('country')
+            ->label('Country')
+            ->relationship('country', 'name')
+            ->options(Country::pluck('name', 'id')->toArray()),
+           ])
             // ->filters([
             //     Tables\Filters\TrashedFilter::make(),
             //     SelectFilter::make('batch')
@@ -236,8 +257,8 @@ class UserResource extends Resource
             // 'batches' => Pages\ManageBatches::route('/{record}/batches'),
             // 'assignments' => Pages\Assignments::route('/{record}/assignments'),
             // 'branches' => Pages\ManageBranches::route('/{record}/branches'),
-            // 'create' => Pages\CreateUser::route('/create'),
-            // 'edit' => Pages\EditUser::route('/{record}/edit'),
+            'create' => Pages\CreateUser::route('/create'),
+            'edit' => Pages\EditUser::route('/{record}/edit'),
             'changepassword' => Pages\ChangePassword::route('/{record}/changepassword'),
             // 'view' => Pages\ViewUser::route('/{record}'),
         ];
@@ -248,14 +269,15 @@ class UserResource extends Resource
     // public static function getRecordSubNavigation(Page $page): array
     // {
     //     $pages = [
-    //         //Pages\ListUsers::class,
-    //         // Pages\ViewUser::class,
-    //         // Pages\EditUser::class,
-    //         Pages\ChangePassword::class,
-    //         // Pages\ManageBatches::class,
-    //         // Pages\ManageBranches::class,
-    //         // Pages\Assignments::class,
-    //     ];
+    //         Pages\ListUsers::class,
+            // Pages\ViewUser::class,
+            // Pages\EditUser::class,
+            // Pages\ChangePassword::class,
+            // Pages\ManageBatches::class,
+            // Pages\ManageBranches::class,
+            // Pages\Assignments::class,
+        // ];
+    
 
     //     // if ($page->getRecord()->role_id == 6) {
     //     //     unset($pages[4]);

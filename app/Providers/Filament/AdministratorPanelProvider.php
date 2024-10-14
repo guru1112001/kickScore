@@ -58,23 +58,23 @@ class AdministratorPanelProvider extends PanelProvider
                 ->providers([
                     Provider::make('google')
                         ->label('Google')
-                        ->icon('fab-google')
+                        ->icon('icon-google')
                         // ->color(Color::primary())
                         ->scopes(['profile', 'email']),
                         
                     Provider::make('facebook')
                         ->label('Facebook')
-                        ->icon('fab-facebook'),
+                        ->icon('icon-facebook'),
                         // ->color(Color::primary()),
 
                     Provider::make('instagram')
                         ->label('Instagram')
-                        ->icon('fab-instagram'),
+                        ->icon('icon-instagram'),
                         // ->color(Color::primary()),
 
                     Provider::make('apple')
                         ->label('Apple')
-                        ->icon('fab-apple'),
+                        ->icon('icon-apple'),
                         // ->color(Color::primary())
                 ])
                 ->registration(true)  // Enables new user registration
