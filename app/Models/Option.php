@@ -14,4 +14,7 @@ class Option extends Model
 {
     return $this->belongsTo(Question::class);
 }
+protected $casts = [
+    'is_correct' => 'boolean',  // Cast is_correct as boolean
+];
 }
