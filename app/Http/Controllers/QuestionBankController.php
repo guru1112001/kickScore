@@ -9,8 +9,12 @@ class QuestionBankController extends Controller
 {
     public function index()
     {
-        // Fetch all question banks
-        return QuestionBank::all();
+        $questionBanks = QuestionBank::all()->map(function ($questionBank) {
+            $questionBank->image = $questionBank->image ? url("storage/" . $questionBank->image) : null;
+            return $questionBank;
+        });
+
+        return $questionBanks;
     }
 
     public function getQuestionsForBank($questionBankId)
