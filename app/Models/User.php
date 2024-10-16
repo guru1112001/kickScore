@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Filament\Panel;
+use App\Models\Like;
 use App\Models\League;
 use App\Models\Country;
 use Filament\Facades\Filament;
@@ -14,9 +15,9 @@ use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Filament\Models\Contracts\HasAvatar;
-use Illuminate\Notifications\Notifiable;
 
 //use Filament\Models\Contracts\HasDefaultTenant;
+use Illuminate\Notifications\Notifiable;
 use Filament\Models\Contracts\HasTenants;
 use Filament\Models\Contracts\FilamentUser;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -77,7 +78,10 @@ FilamentUser, HasAvatar
     // protected $tutorGroup = [7];
     // protected $coordinatorGroup = [5];
 
-
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
+    }
 
     public function coomments()
     {

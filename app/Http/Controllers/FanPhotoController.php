@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Like;
 use App\Models\FanPhoto;
+use Illuminate\Http\Request;
 
 class FanPhotoController extends Controller
 {
@@ -12,10 +13,10 @@ class FanPhotoController extends Controller
         $request->validate([
             'image' => 'required|image',
             'caption' => 'required|string',
-            'acknowledge' => 'required|boolean',
+            'acknowledge' => 'required',
         ]);
 
-        $imagePath = $request->file('image')->store('fan_photos', 'public');
+        $imagePath = $request->file('image')->store('', 'public');
 
         $fanPhoto = FanPhoto::create([
             'image' => $imagePath,
@@ -30,9 +31,73 @@ class FanPhotoController extends Controller
 
     public function index()
     {
-        $photos = FanPhoto::where('status', 'approved')->with('user:id,name') // Include user name and id with each fan photo
-        ->get();
-        return response()->json($photos);
+        $photos = FanPhoto::where('status', 'approved')
+            ->with('user:id,name,avatar_url')
+            ->get()
+            ->map(function ($photo) {
+                $photo->image = $photo->image ? url('storage/' . $photo->image) : null;
+                $photo->user->avatar_url = $photo->user->avatar_url ? url('storage/' . $photo->user->avatar_url) : null;
+                $photo->claps_count = $photo->clapsCount();
+                $photo->likes_count = $photo->likesCount();
+                $photo->hearts_count = $photo->heartsCount();
+                return $photo;
+            });
+    
+        return $photos;
+    }
+    
+public function reactToFanPhoto(Request $request, $id)
+    {
+        $request->validate([
+            // 'user_id' => 'required|exists:users,id', // Validate user existence
+            'reaction_type' => 'required|in:clap,like,heart', // Validate reaction type
+        ]);
+
+        // Check if the fan photo exists
+        $fanPhoto = FanPhoto::findOrFail($id);
+
+        $user_id=auth()->id();
+        // Check if the user has already reacted to the fan photo
+        $existingReaction = Like::where('user_id', $user_id)
+            ->where('fan_photo_id', $fanPhoto->id)
+            ->first();
+
+        // If the user has already reacted, remove the previous reaction
+        if ($existingReaction) {
+            $existingReaction->delete();
+        }
+
+        // Add the new reaction
+        Like::create([
+            'user_id' => $user_id,
+            'fan_photo_id' => $fanPhoto->id,
+            'reaction_type' => $request->reaction_type,
+        ]);
+
+        return response()->json(['message' => 'Reaction added successfully'], 201);
+    }
+
+    // Remove a reaction from a fan photo
+    public function removeReaction(Request $request, $id)
+    {
+        $request->validate([
+            // 'user_id' => 'required|exists:users,id',
+            'reaction_type' => 'required|in:clap,like,heart',
+        ]);
+        $user_id=auth()->id();
+        // Find the user's reaction and delete it
+        $reaction = Like::where('user_id', $user_id)
+            ->where('fan_photo_id', $id)
+            ->where('reaction_type', $request->reaction_type)
+            ->first();
+
+        if (!$reaction) {
+            return response()->json(['message' => 'Reaction not found'], 404);
+        }
+
+        $reaction->delete();
+
+        return response()->json(['message' => 'Reaction removed successfully'], 200);
     }
 
     // public function approve(FanPhoto $fanPhoto)
