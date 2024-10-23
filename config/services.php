@@ -37,14 +37,24 @@ return [
 
     'google' => [
         'client_id' => env('GOOGLE_CLIENT_ID'),
+        'client_id_mobile' => env('GOOGLE_CLIENT_ID_mobile'),
         'client_secret' => env('GOOGLE_CLIENT_SECRET'),
         'redirect' => env('GOOGLE_REDIRECT_URL'),
     ],
+'microsoft' => [    
+        'client_id' => env('MICROSOFT_CLIENT_ID'),  
+        'client_secret' => env('MICROSOFT_CLIENT_SECRET'),  
+        'redirect' => env('MICROSOFT_REDIRECT_URI'),
+        'proxy' => env('PROXY')  // Optional, will be used for all requests
+],
     
     'facebook' => [
         'client_id' => env('FACEBOOK_CLIENT_ID'),
         'client_secret' => env('FACEBOOK_CLIENT_SECRET'),
         'redirect' => env('FACEBOOK_REDIRECT_URL'),
+        'client_id_mobile' => env('FACEBOOK_CLIENT_ID_mobile'),
+        'client_secret_mobile' => env('FACEBOOK_CLIENT_SECRET_mobile'),
+
     ],
     
     'instagram' => [

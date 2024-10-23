@@ -44,49 +44,50 @@ class PollResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('title')->sortable(),
-                Tables\Columns\TextColumn::make('description')->limit(50),
-                Tables\Columns\TextColumn::make('options.option')
-                    ->label('Options')
-                    ->getStateUsing(function ($record) {
-                        return implode(', ', $record->options->pluck('option')->toArray());
-                    }),
-                    Tables\Columns\TextColumn::make('options.votes_count')
-    ->label('Vote Count')
-    ->html()
-    ->listWithLineBreaks(false) // Disable automatic line breaks
-    ->bulleted(false) // Disable bullets if not needed
-    ->getStateUsing(function ($record) {
-        return $record->options->map(function ($option) {
-            return "{$option->option}: {$option->votes()->count()} votes";
-        })->implode('<br>'); // Add HTML <br> tag for line breaks
-    }),
+                // Tables\Columns\TextColumn::make('description')->limit(50),
+                // Tables\Columns\TextColumn::make('options.option')
+                //     ->label('Options')
+                //     ->getStateUsing(function ($record) {
+                //         return implode(', ', $record->options->pluck('option')->toArray());
+                //     }),
+    // Tables\Columns\TextColumn::make('options.votes_count')
+    // ->label('Vote Count')
+    // ->html()
+    // ->listWithLineBreaks(false) // Disable automatic line breaks
+    // ->bulleted(false) // Disable bullets if not needed
+    // ->getStateUsing(function ($record) {
+    //     return $record->options->map(function ($option) {
+    //         return "{$option->option}: {$option->votes()->count()} votes";
+    //     })->implode('<br>'); // Add HTML <br> tag for line breaks
+    // }),
 
-                    // Tables\Columns\TextColumn::make('options.votes_count')
-                    // ->label('Vote Count')
-                    // ->html()
-                    // ->getStateUsing(function ($record) {
-                    //     $totalVotes = $record->options->sum(function ($option) {
-                    //         return $option->votes()->count();
-                    //     });
+                    Tables\Columns\TextColumn::make('options.votes_count')
+                    ->label('Vote Count')
+                    ->html()
+                    // ->collapsible()
+                    ->getStateUsing(function ($record) {
+                        $totalVotes = $record->options->sum(function ($option) {
+                            return $option->votes()->count();
+                        });
                 
-                    //     return $record->options->map(function ($option) use ($totalVotes) {
-                    //         $voteCount = $option->votes()->count();
-                    //         $percentage = $totalVotes > 0 ? round(($voteCount / $totalVotes) * 100) : 0;
+                        return $record->options->map(function ($option) use ($totalVotes) {
+                            $voteCount = $option->votes()->count();
+                            $percentage = $totalVotes > 0 ? round(($voteCount / $totalVotes) * 100) : 0;
                 
-                    //         // Create progress bar using HTML
-                    //         return "
-                    //             <div>
-                    //                 <strong>{$option->option}</strong>: {$voteCount} votes ({$percentage}%)
-                    //                 <div style='background-color: #e0e0e0; border-radius: 10px; width: 100%; height: 15px;'>
-                    //                     <div style='width: {$percentage}%; background-color: #4caf50; height: 100%; border-radius: 10px;'></div>
-                    //                 </div>
-                    //             </div>
-                    //         ";
-                    //     })->implode('<br>');
-                    // }),
+                            // Create progress bar using HTML
+                            return "
+                                <div>
+                                    <strong>{$option->option}</strong>: {$voteCount} votes ({$percentage}%)
+                                    <div style='background-color: #e0e0e0; border-radius: 10px; width: 100%; height: 15px;'>
+                                        <div style='width: {$percentage}%; background-color: #4caf50; height: 100%; border-radius: 10px;'></div>
+                                    </div>
+                                </div>
+                            ";
+                        })->implode('<br>');
+                    }),
                 
                 
-                Tables\Columns\TextColumn::make('created_at')->date(),
+                // Tables\Columns\TextColumn::make('created_at')->date(),
             ])
             ->filters([
                 //

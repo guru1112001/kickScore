@@ -26,6 +26,7 @@ class EventServiceProvider extends ServiceProvider
             // Add your Socialite providers here
             \SocialiteProviders\Instagram\InstagramExtendSocialite::class.'@handle',
             \SocialiteProviders\Apple\AppleExtendSocialite::class.'@handle',
+            \SocialiteProviders\Microsoft\MicrosoftExtendSocialite::class.'@handle',
         ],
     ];
 

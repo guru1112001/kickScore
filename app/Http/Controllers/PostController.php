@@ -17,13 +17,13 @@ class PostController extends Controller
     $user = $request->user();
     $userId=$user->id;
 
-    $posts = Post::withCount(['likes', 'comments'])
+    $posts = Post::withCount(['comments'])
         ->with('user:id,name,avatar_url')
-        ->when($userId, function ($query) use ($userId) {
-            $query->withExists(['likes as is_liked' => function ($query) use ($userId) {
-                $query->where('user_id', $userId);
-            }]);
-        })
+        // ->when($userId, function ($query) use ($userId) {
+        //     $query->withExists(['likes as is_liked' => function ($query) use ($userId) {
+        //         $query->where('user_id', $userId);
+        //     }]);
+        // })
         ->orderBy('publish_date', 'desc')
         ->get()
         ->map(function ($post) {

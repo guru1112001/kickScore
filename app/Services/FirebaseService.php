@@ -17,14 +17,14 @@ class FirebaseService
             $firebase = (new Factory)->withServiceAccount(base_path(config('services.firebase.credentials')));
             $this->messaging = $firebase->createMessaging();
         } catch (\Exception $e) {
-            Log::error('Failed to initialize Firebase: ' . $e->getMessage());
+            // Log::error('Failed to initialize Firebase: ' . $e->getMessage());
         }
     }
 
     public function sendNotification($fcm_token, $title, $body)
     {
         if (!$this->messaging) {
-            Log::error('Firebase Messaging not initialized');
+            // Log::error('Firebase Messaging not initialized');
             return false;
         }
 
@@ -34,10 +34,10 @@ class FirebaseService
                 ->withNotification($notification);
 
             $response = $this->messaging->send($message);
-            Log::info('Notification sent successfully', ['response' => $response]);
+            // Log::info('Notification sent successfully', ['response' => $response]);
             return true;
         } catch (\Exception $e) {
-            Log::error('Failed to send notification: ' . $e->getMessage());
+            // Log::error('Failed to send notification: ' . $e->getMessage());
             return false;
         }
     }

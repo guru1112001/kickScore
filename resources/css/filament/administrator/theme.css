@@ -389,7 +389,7 @@ background-color: #F5F5F5;
 }
 .fi-ta-content 
 {
-    overflow-x: hidden;
+    /* overflow-x: hidden; */
 }
 .fi-ta-header-cell-label ,.fi-ta-text-item-label 
 {

@@ -24,11 +24,11 @@ class DatabaseSeeder extends Seeder
             // QuestionBankSeeder::class,
             // QuestionSeeder::class,
             // OptionSeeder::class,
-            // PollSeeder::class,
+            PollSeeder::class,
             // PollOptionSeeder::class,
             // AnnouncementSeeder::class,
             // UserSeeder::class,
-            FanPhotoSeeder::class,
+            // FanPhotoSeeder::class,
         ]);
         // \App\Models\User::factory(10)->create();
 

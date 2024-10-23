@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "71ad5c0f22b12403363a51264f24e5f8",
+    "content-hash": "4d4189f7e7df6ccf5d22738b4c85f22e",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -1722,6 +1722,66 @@
             "time": "2023-10-06T06:47:41+00:00"
         },
         {
+            "name": "facebook/graph-sdk",
+            "version": "5.1.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/facebook/php-graph-sdk.git",
+                "reference": "38fd7187a6704d3ab14ded2f3a534ac4ee6f3481"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/facebook/php-graph-sdk/zipball/38fd7187a6704d3ab14ded2f3a534ac4ee6f3481",
+                "reference": "38fd7187a6704d3ab14ded2f3a534ac4ee6f3481",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "guzzlehttp/guzzle": "~5.0",
+                "mockery/mockery": "~0.8",
+                "phpunit/phpunit": "~4.0"
+            },
+            "suggest": {
+                "guzzlehttp/guzzle": "Allows for implementation of the Guzzle HTTP client"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "5.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Facebook\\": "src/Facebook/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Facebook Platform"
+            ],
+            "authors": [
+                {
+                    "name": "Facebook",
+                    "homepage": "https://github.com/facebook/facebook-php-sdk-v4/contributors"
+                }
+            ],
+            "description": "Facebook SDK for PHP",
+            "homepage": "https://github.com/facebook/facebook-php-sdk-v4",
+            "keywords": [
+                "facebook",
+                "sdk"
+            ],
+            "support": {
+                "issues": "https://github.com/facebook/php-graph-sdk/issues",
+                "source": "https://github.com/facebook/php-graph-sdk/tree/5.1.4"
+            },
+            "abandoned": true,
+            "time": "2016-05-13T17:28:30+00:00"
+        },
+        {
             "name": "fig/http-message-util",
             "version": "1.1.5",
             "source": {
@@ -2342,6 +2402,119 @@
                 }
             ],
             "time": "2023-10-12T05:21:21+00:00"
+        },
+        {
+            "name": "google/apiclient",
+            "version": "v2.18.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/googleapis/google-api-php-client.git",
+                "reference": "846f149c9f879449145326dad99ef00bf1d879f3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/googleapis/google-api-php-client/zipball/846f149c9f879449145326dad99ef00bf1d879f3",
+                "reference": "846f149c9f879449145326dad99ef00bf1d879f3",
+                "shasum": ""
+            },
+            "require": {
+                "firebase/php-jwt": "^6.0",
+                "google/apiclient-services": "~0.350",
+                "google/auth": "^1.37",
+                "guzzlehttp/guzzle": "^7.4.5",
+                "guzzlehttp/psr7": "^2.6",
+                "monolog/monolog": "^2.9||^3.0",
+                "php": "^8.0",
+                "phpseclib/phpseclib": "^3.0.36"
+            },
+            "require-dev": {
+                "cache/filesystem-adapter": "^1.1",
+                "composer/composer": "^1.10.23",
+                "phpcompatibility/php-compatibility": "^9.2",
+                "phpspec/prophecy-phpunit": "^2.1",
+                "phpunit/phpunit": "^9.6",
+                "squizlabs/php_codesniffer": "^3.8",
+                "symfony/css-selector": "~2.1",
+                "symfony/dom-crawler": "~2.1"
+            },
+            "suggest": {
+                "cache/filesystem-adapter": "For caching certs and tokens (using Google\\Client::setCache)"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "2.x-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/aliases.php"
+                ],
+                "psr-4": {
+                    "Google\\": "src/"
+                },
+                "classmap": [
+                    "src/aliases.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "description": "Client library for Google APIs",
+            "homepage": "http://developers.google.com/api-client-library/php",
+            "keywords": [
+                "google"
+            ],
+            "support": {
+                "issues": "https://github.com/googleapis/google-api-php-client/issues",
+                "source": "https://github.com/googleapis/google-api-php-client/tree/v2.18.0"
+            },
+            "time": "2024-10-16T21:58:58+00:00"
+        },
+        {
+            "name": "google/apiclient-services",
+            "version": "v0.377.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/googleapis/google-api-php-client-services.git",
+                "reference": "912727289dd617a97da7d2700debbe81a59cea19"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/912727289dd617a97da7d2700debbe81a59cea19",
+                "reference": "912727289dd617a97da7d2700debbe81a59cea19",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.6"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "autoload.php"
+                ],
+                "psr-4": {
+                    "Google\\Service\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "description": "Client library for Google APIs",
+            "homepage": "http://developers.google.com/api-client-library/php",
+            "keywords": [
+                "google"
+            ],
+            "support": {
+                "issues": "https://github.com/googleapis/google-api-php-client-services/issues",
+                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.377.0"
+            },
+            "time": "2024-10-14T00:56:24+00:00"
         },
         {
             "name": "google/auth",
@@ -7676,6 +7849,56 @@
                 "source": "https://github.com/socialiteproviders/manager"
             },
             "time": "2024-05-04T07:57:39+00:00"
+        },
+        {
+            "name": "socialiteproviders/microsoft",
+            "version": "4.5.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/SocialiteProviders/Microsoft.git",
+                "reference": "9f55e544f183c36096a14b2e61b5d6c9dc23961e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/SocialiteProviders/Microsoft/zipball/9f55e544f183c36096a14b2e61b5d6c9dc23961e",
+                "reference": "9f55e544f183c36096a14b2e61b5d6c9dc23961e",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": "^8.0",
+                "socialiteproviders/manager": "^4.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SocialiteProviders\\Microsoft\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Brian Faust",
+                    "email": "hello@brianfaust.de"
+                }
+            ],
+            "description": "Microsoft OAuth2 Provider for Laravel Socialite",
+            "keywords": [
+                "laravel",
+                "microsoft",
+                "oauth",
+                "provider",
+                "socialite"
+            ],
+            "support": {
+                "docs": "https://socialiteproviders.com/microsoft",
+                "issues": "https://github.com/socialiteproviders/providers/issues",
+                "source": "https://github.com/socialiteproviders/providers"
+            },
+            "time": "2024-07-12T02:43:55+00:00"
         },
         {
             "name": "spatie/color",

@@ -12,8 +12,8 @@ use App\Http\Controllers\LeaveController;
 use App\Http\Controllers\LeagueController;
 use App\Http\Controllers\SectionController;
 use App\Http\Controllers\CalendarController;
-use App\Http\Controllers\FanPhotoController;
 //use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\FanPhotoController;
 use App\Http\Controllers\CurriculumController;
 use App\Http\Controllers\QuestionBankController;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -37,6 +37,10 @@ Route::post('/send-notification', [\App\Http\Controllers\NotificationController:
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
+Route::post('/auth/social/token', [AuthController::class, 'handleToken']);
+Route::post('/verify-google-token', [AuthController::class, 'verifyGoogleToken']);
+// Route::post('/verify-facebook-token',[AuthController::class,'facebookLogin']);
+Route::post('/verify-facebook-token',[AuthController::class,'handleFacebookToken']);
 
 Route::middleware(['auth:sanctum'
     //, 'verified'
@@ -81,7 +85,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/profile', [AuthController::class, 'updateProfile']);
     Route::get('get/profile', [AuthController::class, 'getProfile']);
     
-    Route::post('password/change', [PasswordResetController::class, 'changePassword']);
+    Route::post('reset/password', [PasswordResetController::class, 'changePassword']);
     //api for notifications
     Route::get('/notifications',[\App\Http\Controllers\NotificationController::class,'index']);
     
@@ -123,6 +127,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     //api for fan photos
     Route::post('post/fan-photos', [FanPhotoController::class, 'store']);
     Route::get('get/fan-photos', [FanPhotoController::class, 'index']);
+
+    Route::post('/photos/{id}/react', [FanPhotoController::class, 'reactToFanPhoto']);
+    Route::post('/photos/{id}/unreact', [FanPhotoController::class, 'removeReaction']);
     
     //api for polls
     

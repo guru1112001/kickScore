@@ -5,6 +5,7 @@ namespace App\Providers\Filament;
 use Filament\Pages;
 use Filament\Panel;
 use App\Models\Team;
+use App\Models\User;
 use Filament\Widgets;
 use Filament\PanelProvider;
 use App\Filament\Pages\Dashboard;
@@ -21,11 +22,11 @@ use Jeffgreco13\FilamentBreezy\BreezyCore;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use DutchCodingCompany\FilamentSocialite\Provider;
-use Hydrat\TableLayoutToggle\TableLayoutTogglePlugin;
 //use App\Filament\Pages\Auth\EditProfile;
 // use App\Filament\Pages\Auth\Tenancy\EditTeamProfile;
-use Illuminate\Routing\Middleware\SubstituteBindings;
+use Hydrat\TableLayoutToggle\TableLayoutTogglePlugin;
 // use App\Filament\Pages\Tenancy\RegisterTeam;
+use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -33,6 +34,7 @@ use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Saade\FilamentFullCalendar\FilamentFullCalendarPlugin;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
+use Laravel\Socialite\Contracts\User as SocialiteUserContract;
 use DutchCodingCompany\FilamentSocialite\FilamentSocialitePlugin;
 //use Tapp\FilamentAuthenticationLog\FilamentAuthenticationLogPlugin;
 
@@ -58,9 +60,11 @@ class AdministratorPanelProvider extends PanelProvider
                 ->providers([
                     Provider::make('google')
                         ->label('Google')
-                        ->icon('icon-google')
+                        // ->scopes(['...'])
+                        ->icon('icon-google'),
+                        // ->stateless(false),
                         // ->color(Color::primary())
-                        ->scopes(['profile', 'email']),
+                        // ->scopes(['profile', 'email']),
                         
                     Provider::make('facebook')
                         ->label('Facebook')
@@ -75,17 +79,24 @@ class AdministratorPanelProvider extends PanelProvider
                     Provider::make('apple')
                         ->label('Apple')
                         ->icon('icon-apple'),
+                    Provider::make('microsoft')
+                        ->label('Microsoft')
+                        ->icon('icon-microsoft'),
                         // ->color(Color::primary())
                 ])
-                ->registration(true)  // Enables new user registration
-                ->userModelClass(\App\Models\User::class) // Specifies the User model
+                ->slug('administrator')
+                ->registration(true)
+                // ->domainAllowList(['localhost'])  // Enables new user registration
+                ->userModelClass(User::class) // Specifies the User model
                 ->createUserUsing(function (string $provider, SocialiteUserContract $oauthUser, FilamentSocialitePlugin $plugin) {
                     // Logic to create or update a user in your database
                     $user = User::updateOrCreate(
                         ['email' => $oauthUser->getEmail()],
                         [
                             'name' => $oauthUser->getName(),
-                            'avatar' => $oauthUser->getAvatar(),
+                            'avatar_url' => $oauthUser->getAvatar(),
+                            'role_id'=>'1',
+                            'password' => null,
                         ]
                     );
     

@@ -30,21 +30,33 @@ class FanPhotoController extends Controller
     }
 
     public function index()
-    {
-        $photos = FanPhoto::where('status', 'approved')
-            ->with('user:id,name,avatar_url')
-            ->get()
-            ->map(function ($photo) {
-                $photo->image = $photo->image ? url('storage/' . $photo->image) : null;
-                $photo->user->avatar_url = $photo->user->avatar_url ? url('storage/' . $photo->user->avatar_url) : null;
-                $photo->claps_count = $photo->clapsCount();
-                $photo->likes_count = $photo->likesCount();
-                $photo->hearts_count = $photo->heartsCount();
-                return $photo;
-            });
-    
-        return $photos;
-    }
+{
+    $user_id = auth()->id(); // Get the logged-in user's ID
+
+    $photos = FanPhoto::where('status', 'approved')
+        ->with('user:id,name,avatar_url')
+        ->get()
+        ->map(function ($photo) use ($user_id) {
+            $photo->image = $photo->image ? url('storage/' . $photo->image) : null;
+            $photo->user->avatar_url = $photo->user->avatar_url ? url('storage/' . $photo->user->avatar_url) : null;
+            $photo->claps_count = $photo->clapsCount();
+            $photo->likes_count = $photo->likesCount();
+            $photo->hearts_count = $photo->heartsCount();
+
+            // Get the reaction type (like, clap, or heart) if the user has reacted
+            $reaction = Like::where('user_id', $user_id)
+                ->where('fan_photo_id', $photo->id)
+                ->first();
+
+            // Add reaction type or set it to null if no reaction
+            $photo->is_reacted = $reaction ? $reaction->reaction_type : null;
+
+            return $photo;
+        });
+
+    return $photos;
+}
+
     
 public function reactToFanPhoto(Request $request, $id)
     {
