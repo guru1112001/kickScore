@@ -69,6 +69,6 @@ return [
         'redirect' => env('APPLE_REDIRECT_URL'),
     ],
 
-
+    'sportmonks_api_token' => env('SPORTMONKS_API_TOKEN', 'default_value_if_any'),
 
 ];

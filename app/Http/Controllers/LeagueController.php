@@ -9,53 +9,81 @@ use App\Http\Resources\LeagueResource;
 
 class LeagueController extends Controller
 {
-    public function getAllLeagues()
-{
-    $leagues = Cache::remember('leagues_all', 86400, function() {
-        return League::all();
-    });
-    return LeagueResource::collection($leagues);
-}
+    public function getAllLeagues(Request $request)
+    {
+        $locale = $request->input('locale', 'en');
+        $leagues = League::with(['translations' => function ($query) use ($locale) {
+            $query->where('locale', $locale);
+        }])->get();
 
-public function getLeagueById($id)
-{
-    $league = Cache::remember("league_{$id}", 86400, function() use ($id) {
-        return League::find($id);
-    });
-
-    if (!$league) {
-        return response()->json(['error' => 'League not found'], 404);
+        return LeagueResource::collection($leagues);
     }
 
-    return new LeagueResource($league);
-}
-public function getLiveLeagues()
-{
-    // Assuming leagues are active when 'active' is true
-    $liveLeagues = League::where('active', TRUE)->get();
-    return LeagueResource::collection($liveLeagues);
-}
+    public function getLeagueById(Request $request)
+    {
+        $id=$request->input('league_id');
+        $locale = $request->input('locale', 'en');
+        $league = League::with(['translations' => function ($query) use ($locale) {
+            $query->where('locale', $locale);
+        }])->where('league_id', $id)->first();
 
-public function getLeaguesByFixtureDate($date)
-{
-    // Assuming you have a relationship between League and Fixture
-    $leagues = League::whereHas('fixtures', function ($query) use ($date) {
-        $query->whereDate('fixture_date', $date);
-    })->get();
+        if (!$league) {
+            return response()->json(['error' => 'League not found'], 404);
+        }
 
-    return LeagueResource::collection($leagues);
-}
+        return new LeagueResource($league);
+    }
+    public function getLiveLeagues(Request $request)
+    {
+        $locale = $request->input('locale', 'en'); // Default locale to 'en' if not provided
+    
+        // Fetch active leagues
+        $liveLeagues = League::where('active', 1)->with(['translations' => function ($query) use ($locale) {
+            $query->where('locale', $locale);
+        }])->get();
+    
+        return LeagueResource::collection($liveLeagues);
+    }
 
-public function getLeaguesByCountryId($countryId)
-{
-    $leagues = League::where('country_id', $countryId)->get();
-    return LeagueResource::collection($leagues);
-}
-public function searchLeaguesByName($name)
-{
-    $leagues = League::where('name', 'LIKE', "%{$name}%")->get();
-    return LeagueResource::collection($leagues);
-}
+    public function getLeaguesByFixtureDate($date, Request $request)
+    {
+        $locale = $request->input('locale', 'en');
+    
+        // Fetch leagues where last_played_at matches the specified date
+        $leagues = League::whereDate('last_played_at', $date)
+            ->with(['translations' => function ($query) use ($locale) {
+                $query->where('locale', $locale);
+            }])
+            ->get();
+    
+        return LeagueResource::collection($leagues);
+    }
+
+    public function getLeaguesByCountryId($countryId, Request $request)
+    {
+        $locale = $request->input('locale', 'en');
+    
+        // Fetch leagues by country ID
+        $leagues = League::where('country_id', $countryId)->with(['translations' => function ($query) use ($locale) {
+            $query->where('locale', $locale);
+        }])->get();
+    
+        return LeagueResource::collection($leagues);
+    }
+    public function searchLeaguesByName($name, Request $request)
+    {
+        $locale = $request->input('locale', 'en');
+    
+        // Search for leagues by name, including translations
+        $leagues = League::whereHas('translations', function ($query) use ($name, $locale) {
+            $query->where('locale', $locale)
+                  ->where('name', 'LIKE', "%{$name}%");
+        })->with(['translations' => function ($query) use ($locale) {
+            $query->where('locale', $locale);
+        }])->get();
+    
+        return LeagueResource::collection($leagues);
+    }
 
 
 public function selectLeagues(Request $request)

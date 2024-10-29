@@ -179,6 +179,19 @@ public function getProfile(Request $request)
     // Load the associated country
     $user->load('country');
 
+    // Determine if the avatar URL is an external link or local storage
+    $avatarUrl = $user->avatar_url;
+    if ($avatarUrl) {
+        // Check if the avatar URL is an external link
+        if (preg_match('/^(http|https):\/\//', $avatarUrl)) {
+            // External URL, use as is
+            $avatarUrl = $avatarUrl;
+        } else {
+            // Local storage URL, prepend the base storage path
+            $avatarUrl = url("storage/" . $avatarUrl);
+        }
+    }
+
     // Return the user profile data as JSON
     return response()->json([
         'name' => $user->name,
@@ -186,8 +199,7 @@ public function getProfile(Request $request)
         'contact_number' => $user->contact_number,
         'birthday' => $user->birthday,
         'gender' => $user->gender,
-        // 'city' => $user->city,
-        'avatar_url'=>$user->avatar_url ? url("storage/" . $user->avatar_url) : "",
+        'avatar_url' => $avatarUrl, // Updated avatar logic
         'country' => $user->country ? $user->country->name : null, // Include country name
     ]);
 }
@@ -237,7 +249,7 @@ public function verifyGoogleToken(Request $request)
 
         Log::info('Attempting to verify token: ' . substr($token, 0, 10) . '...');
 
-        $client = new Google_Client(['client_id' => config('services.google.client_id')]);
+        $client = new Google_Client(['client_id' => config('services.google.client_id_mobile')]);
         
         try {
             Log::info('Google Client ID: ' . config('services.google.client_id'));
@@ -314,70 +326,13 @@ public function verifyGoogleToken(Request $request)
         }
     }
 
-    public function facebookLogin(Request $request)
-    {
-        // Get the Facebook token from the request
-        $Token = $request->input('token');
-        
-        if (!$Token) {
-            return response()->json(['error' => 'No Facebook token provided.'], 400);
-        }
 
-        try {
-            // Initialize Facebook SDK
-            $fb = new Facebook([
-                'app_id' => 1334161241290057,
-                'app_secret' =>'ba2a73fc75629ae86da9075dad3c7853',
-                'default_graph_version' => 'v17.0',
-            ]);
-
-            // Send a request to Facebook to retrieve user info
-            $response = $fb->get('/me?fields=id,name,email,picture', $Token);
-            $fbUser = $response->getGraphUser();
-
-            // Extract user details
-            $fbId = $fbUser->getId();
-            $fbName = $fbUser->getName();
-            $fbEmail = $fbUser->getEmail();
-            $fbAvatar = $fbUser->getPicture()->getUrl();
-
-            // Store or update user in the database
-            $user = User::updateOrCreate(
-                ['email' => $fbEmail], // Unique field
-                [
-                    'name' => $fbName,
-                    'facebook_id' => $fbId,
-                    'avatar_url' => $fbAvatar,
-                    'email_verified_at' => now(), // Optional, mark email as verified
-                ]
-            );
-
-            // Optionally generate token for further API calls
-            $token = $user->createToken('auth_token')->plainTextToken;
-
-            // Return user data and token
-            return response()->json([
-                'message' => 'Logged in successfully',
-                'user' => $user,
-                'token' => $token,
-            ]);
-
-        } catch (\Facebook\Exceptions\FacebookResponseException $e) {
-            // Graph API error
-            Log::error('Graph API error: ' . $e->getMessage());
-            return response()->json(['error' => 'Facebook API Error: ' . $e->getMessage()], 500);
-        } catch (\Facebook\Exceptions\FacebookSDKException $e) {
-            // SDK error
-            Log::error('Facebook SDK error: ' . $e->getMessage());
-            return response()->json(['error' => 'Facebook SDK Error: ' . $e->getMessage()], 500);
-        }
-    }
     public function handleFacebookToken(Request $request)
 {
     try {
         $accessToken = $request->input('access_token');
         
-        // Verify token
+        // Verify the token
         $verifyResponse = Http::get('https://graph.facebook.com/oauth/access_token_info', [
             'client_id' => config('services.facebook.client_id_mobile'),
             'access_token' => $accessToken
@@ -389,7 +344,7 @@ public function verifyGoogleToken(Request $request)
             ], 401);
         }
         
-        // Get user info
+        // Get user info from Facebook
         $userResponse = Http::get('https://graph.facebook.com/me', [
             'fields' => 'id,name,email,picture',
             'access_token' => $accessToken
@@ -403,19 +358,36 @@ public function verifyGoogleToken(Request $request)
         
         $userData = $userResponse->json();
         
-        // Optional: Find or create user in your database
-        $user = User::updateOrCreate(
-            ['provider_id' => $userData['id']],
-            [
+        // Check if a user with the same email exists
+        $existingUser = User::where('email', $userData['email'])->first();
+        
+        if ($existingUser) {
+            // If user exists, update their Facebook info
+            $existingUser->update([
+                'provider_id' => $userData['id'],
+                'provider' => 'facebook',
+                'avatar_url' => $userData['picture']['data']['url'] ?? null,
+            ]);
+            $user = $existingUser;
+        } else {
+            // Create new user if no existing email match
+            $user = User::create([
+                'provider_id' => $userData['id'],
                 'name' => $userData['name'],
                 'email' => $userData['email'] ?? null,
-                'avatar_url' => $userData['picture']['data']['url'] ?? null
-            ]
-        );
+                'avatar_url' => $userData['picture']['data']['url'] ?? null,
+                'role_id' => 2, // Default role ID
+                'provider' => 'facebook',
+            ]);
+        }
         
-        // Return user data
+        // Generate Sanctum token for authentication
+        $token = $user->createToken('facebook_token')->plainTextToken;
+
+        // Return user data and token
         return response()->json([
             'user' => $user,
+            'token' => $token,
             'facebook_data' => $userData
         ]);
         
@@ -425,4 +397,5 @@ public function verifyGoogleToken(Request $request)
         ], 500);
     }
 }
+
 }

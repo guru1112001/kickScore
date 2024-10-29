@@ -12,9 +12,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        $schedule->command('app:send-scheduled-notifications')->everyMinute();
-        $schedule->command('assignments:send-reminders')->daily();
-        $schedule->command('notifications:send-pending')->everyMinute();
+        // $schedule->command('app:send-scheduled-notifications')->everyMinute();
+        // $schedule->command('assignments:send-reminders')->daily();
+        // $schedule->command('notifications:send-pending')->everyMinute();
         $schedule->command('fetch:leagues')->dailyAt('02:00');
 
 

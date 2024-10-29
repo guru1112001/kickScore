@@ -15,8 +15,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return redirect('/administrator');
-    //return view('welcome');
+    // return view('welcome');
 });
+// Route::get('/', function () {
+//     return view('home');
+// })->name('home');
 
 //Route::get('/api/events/meetings', 'EventController@getMeetings');
 //Route::get('/api/events/deadlines', 'EventController@getDeadlines');

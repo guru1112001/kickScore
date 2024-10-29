@@ -105,10 +105,16 @@ FilamentUser, HasAvatar
     public function canAccessPanel(Panel $panel): bool
     {
         // Replace 'super_admin' with the actual name of the role used for super admins
-        // return $this->hasRole('super_admin');
-        return $this->role_id === 1;
+        return $this->hasRole('super_admin') || $this->role_id === 1;
+        // return $this->role_id === 1;
         
         // return true;
+    }
+    public function syncRoleWithId(): void
+    {
+        if ($this->role_id === 1 && !$this->hasRole('super_admin')) {
+            $this->assignRole('super_admin');
+        }
     }
 
     public function leagues()

@@ -65,23 +65,26 @@ class AdministratorPanelProvider extends PanelProvider
                         // ->stateless(false),
                         // ->color(Color::primary())
                         // ->scopes(['profile', 'email']),
+                    Provider::make('apple')
+                        ->label('Apple')
+                        ->icon('icon-apple'),
+                        
+                    Provider::make('microsoft')
+                        ->label('Microsoft')
+                        ->icon('icon-microsoft'),
+                        
+                    Provider::make('instagram')
+                        ->label('Instagram')
+                        ->icon('icon-instagram'),
                         
                     Provider::make('facebook')
                         ->label('Facebook')
                         ->icon('icon-facebook'),
                         // ->color(Color::primary()),
 
-                    Provider::make('instagram')
-                        ->label('Instagram')
-                        ->icon('icon-instagram'),
                         // ->color(Color::primary()),
 
-                    Provider::make('apple')
-                        ->label('Apple')
-                        ->icon('icon-apple'),
-                    Provider::make('microsoft')
-                        ->label('Microsoft')
-                        ->icon('icon-microsoft'),
+                   
                         // ->color(Color::primary())
                 ])
                 ->slug('administrator')
@@ -99,12 +102,21 @@ class AdministratorPanelProvider extends PanelProvider
                             'password' => null,
                         ]
                     );
+                    $user->syncRoleWithId();
+        
+        // return $user;
     
                     return $user;
                 })
                 ->resolveUserUsing(function (string $provider, SocialiteUserContract $oauthUser, FilamentSocialitePlugin $plugin) {
                     // Logic to retrieve an existing user by email
                     return User::where('email', $oauthUser->getEmail())->first();
+                    if ($user) {
+                        // Ensure existing users have their roles synced
+                        $user->syncRoleWithId();
+                    }
+                    return $user;
+                
                 }),
                 
                 // FilamentSocialitePlugin::make()
@@ -172,7 +184,7 @@ class AdministratorPanelProvider extends PanelProvider
                 'primary' => Color::Orange,
                 'secondary' => Color::Blue,
             ])
-            ->brandLogo(asset('images/KickScore.png'))
+            ->brandLogo(asset('images/Group 163654 (1).png'))
             ->brandLogoHeight('3rem')
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
@@ -180,10 +192,11 @@ class AdministratorPanelProvider extends PanelProvider
                 Dashboard::class,
             ])
             // ->discoverClusters(in: app_path('Filament/Clusters'), for: 'App\\Filament\\Clusters')
-            // ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
+            ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
                 //Widgets\AccountWidget::class,
                 //Widgets\FilamentInfoWidget::class,
+                
             ])
             ->middleware([
                 EncryptCookies::class,

@@ -108,7 +108,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     
     //api for leagues 
     Route::get('leagues', [LeagueController::class, 'getAllLeagues']);
-    Route::get('leagues/{id}', [LeagueController::class, 'getLeagueById']);
+    Route::get('league', [LeagueController::class, 'getLeagueById']);
     Route::get('leagues/live', [LeagueController::class, 'getLiveLeagues']);
     Route::get('leagues/fixture-date/{date}', [LeagueController::class, 'getLeaguesByFixtureDate']);
     Route::get('leagues/country/{countryId}', [LeagueController::class, 'getLeaguesByCountryId']);

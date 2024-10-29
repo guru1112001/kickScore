@@ -14,11 +14,19 @@ class LeagueResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $locale = $request->input('locale', 'en');
+        // $locale = $request->input('locale', 'en');
+        
+        // Fetch the translation for the specified locale or fallback to the default name
+        $translatedName = $this->translations
+        ->where('locale', $locale)
+        ->first()?->name ?? $this->name;
         return [
             'id' => $this->id,
+            'league_id'=>$this->league_id,
             'sport_id' => $this->sport_id,
             'country_id' => $this->country_id,
-            'name' => $this->name,
+            'name' => $translatedName,
             'active' => $this->active,
             'short_code' => $this->short_code,
             'image_path' => $this->image_path,

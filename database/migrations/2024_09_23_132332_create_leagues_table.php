@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('leagues', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('league_id')->nullable();
             $table->integer('sport_id')->nullable();
             $table->integer('country_id')->nullable();
             $table->string('name')->nullable();
