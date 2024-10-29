@@ -116,6 +116,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     
     //api for league selection 
     Route::post('/user/select-leagues', [LeagueController::class, 'selectLeagues']);
+    Route::get('/get/select-leagues',[LeagueController::class,'getSelectedLeagues']);
     // Api for Post/match_disccusion
     
     Route::get('posts', [PostController::class, 'index']);

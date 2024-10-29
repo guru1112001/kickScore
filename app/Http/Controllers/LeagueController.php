@@ -86,23 +86,42 @@ class LeagueController extends Controller
     }
 
 
-public function selectLeagues(Request $request)
+    public function selectLeagues(Request $request)
+    {
+        $user = auth()->user();
+    
+        // Validate the leagues sent by the user based on `league_id` instead of `id`
+        $validatedData = $request->validate([
+            'leagues' => 'required|array',
+            'leagues.*' => 'exists:leagues,league_id', // Adjusted to check against `league_id`
+        ]);
+    
+        // Retrieve the internal `id` values for syncing using `league_id`
+        $leagueIds = League::whereIn('league_id', $validatedData['leagues'])->pluck('id')->toArray();
+    
+        // Sync the user's selected leagues using the retrieved `id` values
+        $user->leagues()->sync($leagueIds);
+    
+        return response()->json([
+            'message' => 'Leagues successfully selected',
+            'leagues' => $user->leagues,
+        ]);
+    }
+    
+public function getSelectedLeagues(Request $request)
 {
     $user = auth()->user();
-    
-    // Validate the leagues sent by the user
-    $validatedData = $request->validate([
-        'leagues' => 'required|array',
-        'leagues.*' => 'exists:leagues,id',
-    ]);
+    $locale = $request->input('locale', 'en'); // Default to 'en' if no locale is provided
 
-    // Sync the user's selected leagues
-    $user->leagues()->sync($validatedData['leagues']);
+    // Fetch the user's selected leagues along with translations for the specified locale
+    $selectedLeagues = $user->leagues()->with(['translations' => function ($query) use ($locale) {
+        $query->where('locale', $locale);
+    }])->get();
 
     return response()->json([
-        'message' => 'Leagues successfully selected',
-        'leagues' => $user->leagues,
+        'leagues' => LeagueResource::collection($selectedLeagues),
     ]);
 }
+
 
 }
