@@ -8,11 +8,13 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Password;
 use App\Http\Controllers\BatchController;
+use App\Http\Controllers\GroupController;
 use App\Http\Controllers\LeaveController;
 use App\Http\Controllers\LeagueController;
+use App\Http\Controllers\MessageController;
+//use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\SectionController;
 use App\Http\Controllers\CalendarController;
-//use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\FanPhotoController;
 use App\Http\Controllers\CurriculumController;
 use App\Http\Controllers\QuestionBankController;
@@ -101,6 +103,13 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/calenders/list', [CalendarController::class, 'fetchData']);
     
     
+    //api for fan meeting room
+    Route::post('/groups', [GroupController::class, 'createGroup']);
+    Route::get('/groups', [GroupController::class, 'getAllGroups']);
+    Route::post('/groups/{groupId}/join', [MessageController::class, 'joinGroup']);
+    Route::post('/groups/{groupId}/leave', [MessageController::class, 'leaveGroup']);
+    Route::post('/groups/{groupId}/messages', [MessageController::class, 'sendMessage']);
+    Route::get('/groups/{groupId}/messages', [MessageController::class, 'getOldMessages']);
     
     //Api for annoucements
     Route::get('/announcements', [\App\Http\Controllers\AnnouncementController::class, 'index']);

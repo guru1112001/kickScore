@@ -5,18 +5,21 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Filament\Panel;
 use App\Models\Like;
+use App\Models\Group;
 use App\Models\League;
 use App\Models\Country;
+use App\Models\Message;
 use Filament\Facades\Filament;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Storage;
-use Filament\Models\Contracts\HasAvatar;
+
 
 //use Filament\Models\Contracts\HasDefaultTenant;
+use Illuminate\Support\Facades\Storage;
+use Filament\Models\Contracts\HasAvatar;
 use Illuminate\Notifications\Notifiable;
 use Filament\Models\Contracts\HasTenants;
 use Filament\Models\Contracts\FilamentUser;
@@ -77,6 +80,14 @@ FilamentUser, HasAvatar
     // protected $studentGroup = [6];
     // protected $tutorGroup = [7];
     // protected $coordinatorGroup = [5];
+
+    public function groups() {
+        return $this->belongsToMany(Group::class);
+    }
+
+    public function messages() {
+        return $this->hasMany(Message::class);
+    }
 
     public function likes()
     {
