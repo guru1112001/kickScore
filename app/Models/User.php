@@ -81,6 +81,21 @@ FilamentUser, HasAvatar
     // protected $tutorGroup = [7];
     // protected $coordinatorGroup = [5];
 
+    public function getFormattedAvatarUrlAttribute()
+{
+    $avatarUrl = $this->avatar_url;
+
+    if ($avatarUrl) {
+        if (preg_match('/^(http|https):\/\//', $avatarUrl)) {
+            return $avatarUrl;
+        } else {
+            return url("storage/" . $avatarUrl);
+        }
+    }
+
+    return null; // Default or fallback URL
+}
+
     public function groups() {
         return $this->belongsToMany(Group::class);
     }

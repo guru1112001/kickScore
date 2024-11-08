@@ -30,14 +30,24 @@ class MessageController extends Controller
             'user_id' => $user->id,
             'content' => $request->content,
         ]);
-        return response()->json(['message' => $message->load('user')]);
+
+        // Include formatted avatar URL in the response
+        $message->load('user');
+        $message->user->formatted_avatar_url = $message->user->formatted_avatar_url;
+
+        return response()->json(['message' => $message]);
     }
 
     public function getOldMessages($groupId) {
         $messages = Message::where('group_id', $groupId)
                            ->with('user')
-                           ->get();
+                           ->get()
+                           ->map(function ($message) {
+                               // Add formatted avatar URL for each user
+                               $message->user->formatted_avatar_url = $message->user->formatted_avatar_url;
+                               return $message;
+                           });
+
         return response()->json(['messages' => $messages]);
     }
-
 }

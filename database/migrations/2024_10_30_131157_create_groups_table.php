@@ -14,9 +14,10 @@ return new class extends Migration
         Schema::create('groups', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->boolean('is_scheduled')->default(false);
+            $table->text('description')->nullable();
+            // $table->boolean('is_scheduled')->default(false);
             $table->timestamp('schedule_start')->nullable();
-            $table->timestamp('schedule_end')->nullable();
+            // $table->timestamp('schedule_end')->nullable();
             $table->timestamps();
         });
     }

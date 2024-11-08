@@ -21,9 +21,7 @@ class Group extends Model
     }
 
     public function scopeScheduled($query) {
-        return $query->where('is_scheduled', true)
-                     ->where('schedule_start', '<=', now())
-                     ->where('schedule_end', '>=', now());
+    return $query->where('schedule_start', '<=', Carbon::now());
     }
 
 }
