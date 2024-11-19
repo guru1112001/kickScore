@@ -150,7 +150,7 @@ FilamentUser, HasAvatar
 
     public function country()
 {
-    return $this->belongsTo(Country::class);
+    return $this->belongsTo(Country::class,'Country_id', 'id');
 }
 
     // public function batches()

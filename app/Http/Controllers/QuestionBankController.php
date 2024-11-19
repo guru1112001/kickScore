@@ -19,8 +19,11 @@ class QuestionBankController extends Controller
 
     public function getQuestionsForBank($questionBankId)
     {
-        // Fetch the question bank with its questions and the associated options for each question
-        $questionBank = QuestionBank::with('questions.options')->findOrFail($questionBankId);
+        // Fetch the question bank with its questions in random order and the associated options for each question
+        $questionBank = QuestionBank::with(['questions' => function ($query) {
+            $query->inRandomOrder(); // Randomize the order of questions
+        }, 'questions.options'])->findOrFail($questionBankId);
+
         return $questionBank->questions;
     }
 }

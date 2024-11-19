@@ -17,8 +17,10 @@ use Filament\Forms\Components\Section;
 class FanPhotoResource extends Resource
 {
     protected static ?string $model = FanPhoto::class;
+    
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'icon-spotlight';
+    // protected static ?string $navigationIcon = 'icon-student';
 
     protected static ?string $navigationGroup = 'Fan Spotlight';
 

@@ -48,6 +48,7 @@ class AdministratorPanelProvider extends PanelProvider
             ->id('administrator')
             ->path('administrator')
             ->login(Login::class)
+            ->darkMode(false)
             ->registration()
             ->passwordReset()
             ->sidebarCollapsibleOnDesktop()
@@ -73,9 +74,9 @@ class AdministratorPanelProvider extends PanelProvider
                         ->label('Microsoft')
                         ->icon('icon-microsoft'),
                         
-                    Provider::make('instagram')
-                        ->label('Instagram')
-                        ->icon('icon-instagram'),
+                    // Provider::make('instagram')
+                    //     ->label('Instagram')
+                    //     ->icon('icon-instagram'),
                         
                     Provider::make('facebook')
                         ->label('Facebook')

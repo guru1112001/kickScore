@@ -60,8 +60,8 @@ class QuestionBankResource extends Resource
                 
                     Stack::make([
                     Tables\Columns\ImageColumn::make('image')
-                    ->width(300)
-                    ->height(100)
+                    ->width(211)
+                    ->height(166)
                     // ->square()
                     ,
                     Tables\Columns\TextColumn::make('name')

@@ -42,10 +42,11 @@ return [
         'redirect' => env('GOOGLE_REDIRECT_URL'),
     ],
 'microsoft' => [    
-        'client_id' => env('MICROSOFT_CLIENT_ID'),  
-        'client_secret' => env('MICROSOFT_CLIENT_SECRET'),  
-        'redirect' => env('MICROSOFT_REDIRECT_URI'),
-        'proxy' => env('PROXY')  // Optional, will be used for all requests
+        'client_id' => env('AZURE_CLIENT_ID'),  
+        'client_secret' => env('AZURE_CLIENT_SECRET'),  
+        'redirect' => env('AZURE_REDIRECT_URI'),
+        'tenant' => env('AZURE_TENANT_ID','common'),
+        // 'proxy' => env('PROXY')  // Optional, will be used for all requests
 ],
     
     'facebook' => [

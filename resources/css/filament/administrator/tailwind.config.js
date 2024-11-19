@@ -7,6 +7,7 @@ export default {
         './resources/views/filament/d:\wamp64\www\argus\lms\mylearning.live\app\-filament\-clusters\-course-master\**/*.blade.php',
         './vendor/filament/**/*.blade.php',
         "./resources/**/*.blade.php",
+        './resources/views/**/*.blade.php',
     "./resources/**/*.js",
     "./resources/**/*.vue",
     ],

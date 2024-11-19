@@ -17,6 +17,8 @@ return new class extends Migration
             $table->text('description')->nullable();
             // $table->boolean('is_scheduled')->default(false);
             $table->timestamp('schedule_start')->nullable();
+            $table->boolean('is_active')->default(true); // Active by default
+            $table->unsignedBigInteger('created_by'); // Creator's user ID
             // $table->timestamp('schedule_end')->nullable();
             $table->timestamps();
         });

@@ -12,12 +12,20 @@ class Group extends Model
 {
     use HasFactory;
     protected $guarded = ['id'];
+    protected $casts = [
+        'is_active' => 'boolean',
+    ];
+
     public function users() {
         return $this->belongsToMany(User::class);
     }
     
     public function messages() {
         return $this->hasMany(Message::class);
+    }
+
+    public function creator() {
+        return $this->belongsTo(User::class, 'created_by');
     }
 
     public function scopeScheduled($query) {

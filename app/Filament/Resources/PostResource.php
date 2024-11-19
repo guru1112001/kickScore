@@ -22,6 +22,7 @@ use Illuminate\Support\HtmlString;
 use Filament\Tables\Actions\Action;
 use Filament\Facades\Filament;
 
+
 class PostResource extends Resource
 {
     protected static ?string $model = Post::class;

@@ -1,10 +1,4 @@
-<nav>
-    <div class="container mx-auto">
-        <ul class="flex space-x-4">
-            <li><a href="{{ route('home') }}">Home</a></li>
-            <li><a href="#">About</a></li>
-            <li><a href="#">Services</a></li>
-            <li><a href="#">Contact</a></li>
-        </ul>
-    </div>
+<nav class="flex justify-center items-center pt-11 h-20 ">    
+        <img src="{{ asset('images/Group 163654 (1).png') }}" alt="Image" class=" w-40 h-16">
+    
 </nav>

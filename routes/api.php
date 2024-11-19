@@ -11,8 +11,9 @@ use App\Http\Controllers\BatchController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\LeaveController;
 use App\Http\Controllers\LeagueController;
-use App\Http\Controllers\MessageController;
+use App\Http\Controllers\CountryController;
 //use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\SectionController;
 use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\FanPhotoController;
@@ -57,9 +58,7 @@ Route::middleware(['auth:sanctum'
 // Authentication Routes
 
 
-Route::get('cities', function() {
-    return \App\Http\Resources\CityResource::collection(\App\Models\City::all());
-});
+
 
 Route::post('/forgot-password', function (Request $request) {
     $request->validate(['email' => 'required|email']);
@@ -106,6 +105,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     //api for fan meeting room
     Route::post('/groups', [GroupController::class, 'createGroup']);
     Route::get('/groups', [GroupController::class, 'getAllGroups']);
+    Route::post('/groups/{group}/toggle-status', [GroupController::class, 'toggleGroupStatus']);
+    Route::get('/groups/search', [GroupController::class, 'searchGroups']);
+    Route::get('/groups/filter-by-country', [GroupController::class, 'filterGroupsByCountry']);
+
     Route::post('/groups/{groupId}/join', [MessageController::class, 'joinGroup']);
     Route::post('/groups/{groupId}/leave', [MessageController::class, 'leaveGroup']);
     Route::post('/groups/{groupId}/messages', [MessageController::class, 'sendMessage']);
@@ -152,7 +155,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::get('/question-banks/questions/{id}', [QuestionBankController::class, 'getQuestionsForBank']);
 
-
+    Route::get('/get/countries', [CountryController::class,'index']);
     //	 Route::get('/attendances', [AttendanceController::class, 'index']);
     //	  Route::get('/batches',[BatchController::class,'get_batches']);
 });

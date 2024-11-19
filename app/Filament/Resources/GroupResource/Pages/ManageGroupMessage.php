@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Resources\PostResource\Pages;
+namespace App\Filament\Resources\GroupResource\Pages;
 
 use Filament\Forms;
 use Filament\Tables;
@@ -11,18 +11,19 @@ use Filament\Infolists\Infolist;
 use App\Tables\Columns\UserColumn;
 use Illuminate\Support\Facades\Auth;
 use Filament\Tables\Columns\TextColumn;
-use App\Filament\Resources\PostResource;
 use Filament\Tables\Columns\ImageColumn;
+use App\Filament\Resources\GroupResource;
 use Illuminate\Contracts\Support\Htmlable;
 use Filament\Infolists\Components\IconEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\Pages\ManageRelatedRecords;
 
-class ManagePostComments extends ManageRelatedRecords
+class ManageGroupMessage extends ManageRelatedRecords
 {
-    protected static string $resource = PostResource ::class;
+    protected static string $resource = GroupResource ::class;
+    
 
-    protected static string $relationship = 'comments';
+protected static string $relationship = 'messages';
 
     protected static ?string $navigationIcon = 'heroicon-o-chat-bubble-left-ellipsis';
 
@@ -32,17 +33,17 @@ class ManagePostComments extends ManageRelatedRecords
 
         $recordTitle = $recordTitle instanceof Htmlable ? $recordTitle->toHtml() : $recordTitle;
 
-        return "Manage {$recordTitle} Comments";
+        return "Manage {$recordTitle} Messages";
     }
 
     public function getBreadcrumb(): string
     {
-        return 'Comments';
+        return 'Messages';
     }
 
     public static function getNavigationLabel(): string
     {
-        return 'Comments';
+        return 'Messages';
     }
 
     public function form(Form $form): Form
@@ -52,18 +53,19 @@ class ManagePostComments extends ManageRelatedRecords
         return $form
             ->schema([
 
-                Forms\Components\MarkdownEditor::make('content')
+                Forms\Components\TextInput::make('content')
                     ->required()
-                    ->label('Comment'),
+                    ->label('Message'),
                 Forms\Components\Select::make('user_id')
                     ->options(\App\Models\User::all()->pluck('name', 'id'))
                     ->default(Auth::id())
-                    ->label('Commented by')
+                    ->label('message by')
                     ->required(),
                 // ->required(),
-                Forms\Components\Select::make('Post_id')
+                Forms\Components\Select::make('group_id')
                     ->hidden('create')
-                    ->relationship('post', 'content'),
+                    ->default(request('group_id'))
+                    // ->relationship('group', 'content'),
 
                 // ->searchable()
 
@@ -93,12 +95,12 @@ class ManagePostComments extends ManageRelatedRecords
             ->columns([
 
                 Tables\Columns\TextColumn::make('content')
-                    ->label('Comment')
+                    ->label('Message')
                     // ->searchable()
                     ,
 
-                UserColumn::make('user')
-                    ->label('Commented By'),
+                    Tables\Columns\TextColumn::make('user.name')
+                    ->label('Messaged By'),
 
                 Tables\Columns\TextColumn::make('created_at')
                     // ->searchable()

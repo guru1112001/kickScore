@@ -29,9 +29,11 @@ class UserCountryStats extends BarChartWidget
                 [
                     'label' => 'Number of Users',
                     'data' => $data,
-                    'backgroundColor' => '#42a5f5', // Bar color
+                    // 'backgroundColor' => '#42a5f5', // Bar color
+                    'backgroundColor'=>'linear-gradient(to right, #8a2be2, #4169e1)',
                     'borderColor' => '#1e3a8a', // Change this to your desired border color (e.g., navy blue)
                     'borderWidth' => 2, // Border thickness
+                    'barThickness'=>50
                 ],
             ],
             'labels' => $labels, // Country names

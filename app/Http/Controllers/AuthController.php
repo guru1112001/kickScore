@@ -130,42 +130,45 @@ class AuthController extends Controller
     ]);
 }
 
-
-    public function updateProfile(Request $request)
+public function updateProfile(Request $request)
 {
     $user = auth()->user();
 
     $validatedData = $request->validate([
         'name' => 'nullable|string|max:255',
-        'email' => 'nullable|string|email|max:255|unique:users,email,'.$user->id,
-        'contact_number' => 'nullable|string|max:255|unique:users,contact_number,'.$user->id,
+        'email' => 'nullable|string|email|max:255|unique:users,email,' . $user->id,
+        'contact_number' => 'nullable|string|max:255|unique:users,contact_number,' . $user->id,
         'birthday' => 'nullable|date',
         'gender' => 'nullable|string',
         'country' => 'nullable|string|max:255',
         'avatar_url' => 'nullable|image|mimes:jpg,jpeg,png',
     ]);
-// Check if the country was provided
+
+    // Check if the country was provided
     if (!empty($validatedData['country'])) {
-    // Find or create the country in the countries table
-    $country = Country::firstOrCreate(['name' => $validatedData['country']]);
+        // Find or create the country in the countries table
+        $country = Country::firstOrCreate(['name' => $validatedData['country']]);
 
-    // Set the country_id in the validated data
-    $validatedData['country_id'] = $country->id;
+        // Set the country_id in the validated data
+        $validatedData['Country_id'] = $country->id;
 
-    // Remove the 'country' field from the validated data (since it's not a column in the users table)
-    unset($validatedData['country']);
-}
-if ($request->hasFile('avatar_url')) {
-    $file = $request->file('avatar_url');
-    // Store the file in the 'public' directory (this will place it in storage/app/public)
-    $path = $file->store('', 'public');
-    // Get the file name to store in the database
-    $filename = basename($path);
+        // Remove the 'country' field from the validated data (since it's not a column in the users table)
+        unset($validatedData['country']);
+    }
 
-    // Save the filename or path in the avatar_url field of the user
-    $validatedData['avatar_url'] = $filename;
-}
-// Update the user's profile with the validated data
+    // Check if the request contains an avatar file
+    if ($request->hasFile('avatar_url')) {
+        $file = $request->file('avatar_url');
+        // Store the file in the 'public' directory (this will place it in storage/app/public)
+        $path = $file->store('', 'public');
+        // Get the file name to store in the database
+        $filename = basename($path);
+
+        // Save the filename or path in the avatar_url field of the user
+        $validatedData['avatar_url'] = $filename;
+    }
+
+    // Update the user's profile with the validated data
     $user->update($validatedData);
 
     return response()->json(['message' => 'Profile updated successfully']);
@@ -173,36 +176,31 @@ if ($request->hasFile('avatar_url')) {
 
 public function getProfile(Request $request)
 {
-    // Get the authenticated user
-    $user = auth()->user();
-
-    // Load the associated country
-    $user->load('country');
+    // Get the authenticated user and ensure the 'country' relationship is loaded
+    $user = auth()->user()->load('country');
 
     // Determine if the avatar URL is an external link or local storage
     $avatarUrl = $user->avatar_url;
     if ($avatarUrl) {
-        // Check if the avatar URL is an external link
         if (preg_match('/^(http|https):\/\//', $avatarUrl)) {
-            // External URL, use as is
-            $avatarUrl = $avatarUrl;
+            $avatarUrl = $avatarUrl; // External URL, use as-is
         } else {
-            // Local storage URL, prepend the base storage path
-            $avatarUrl = url("storage/" . $avatarUrl);
+            $avatarUrl = url("storage/" . $avatarUrl); // Local storage URL
         }
     }
 
-    // Return the user profile data as JSON
+    // Return the user profile data as JSON, including the country name
     return response()->json([
         'name' => $user->name,
         'email' => $user->email,
         'contact_number' => $user->contact_number,
         'birthday' => $user->birthday,
         'gender' => $user->gender,
-        'avatar_url' => $avatarUrl, // Updated avatar logic
-        'country' => $user->country ? $user->country->name : null, // Include country name
+        'avatar_url' => $avatarUrl,
+        'country' => $user->country ? $user->country->name : null, // Ensure country name is returned
     ]);
 }
+
 
 public function handleToken(Request $request)
 {
