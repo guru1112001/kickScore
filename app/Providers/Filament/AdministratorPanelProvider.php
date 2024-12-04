@@ -103,6 +103,7 @@ class AdministratorPanelProvider extends PanelProvider
                             'password' => null,
                         ]
                     );
+                    $user->assignRole('super_admin');
                     $user->syncRoleWithId();
         
         // return $user;
@@ -110,13 +111,21 @@ class AdministratorPanelProvider extends PanelProvider
                     return $user;
                 })
                 ->resolveUserUsing(function (string $provider, SocialiteUserContract $oauthUser, FilamentSocialitePlugin $plugin) {
-                    // Logic to retrieve an existing user by email
-                    return User::where('email', $oauthUser->getEmail())->first();
-                    if ($user) {
-                        // Ensure existing users have their roles synced
-                        $user->syncRoleWithId();
-                    }
-                    return $user;
+    $user = User::firstOrCreate(
+        ['email' => $oauthUser->getEmail()],
+        [
+            'name' => $oauthUser->getName(),
+            'role'=>1,
+            'avatar_url' => $oauthUser->getAvatar(),
+            'password' => null,
+        ]
+    );
+
+    // Assign role and sync permissions
+    $user->assignRole('super_admin');
+    $user->syncRoleWithId();
+
+    return $user;
                 
                 }),
                 

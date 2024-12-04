@@ -31,6 +31,7 @@ class AuthController extends Controller
             'login_type' => 'required|in:email,contact_number', // Login type can be either email or contact_number
             'login' => 'required',
             'password' => 'required',
+            'fcm_token' => 'nullable|string',
         ]);
     
         // Check whether the login is through email or contact_number
@@ -49,8 +50,12 @@ class AuthController extends Controller
         }
     
         // Optionally rehash the password if needed
-        if (Hash::needsRehash($user->password)) {
-            $user->password = Hash::make($request->password);
+        // if (Hash::needsRehash($user->password)) {
+        //     $user->password = Hash::make($request->password);
+        //     $user->save();
+        // }
+        if ($request->filled('fcm_token')) {
+            $user->fcm_token = $request->fcm_token;
             $user->save();
         }
     
@@ -237,93 +242,76 @@ public function handleToken(Request $request)
 }
 
 public function verifyGoogleToken(Request $request)
-    {
-        $token = $request->input('token');
+{
+    $request->validate([
+        'token' => 'required|string',
+        'fcm_token' => 'nullable|string', // Validate FCM token if provided
+    ]);
 
-        if (empty($token)) {
-            Log::error('Token is missing in the request');
-            return response()->json(['success' => false, 'message' => 'Token is missing'], 400);
-        }
+    $token = $request->input('token');
+    $fcmToken = $request->input('fcm_token'); // Retrieve FCM token from the request
 
-        Log::info('Attempting to verify token: ' . substr($token, 0, 10) . '...');
+    Log::info('Attempting to verify Google token: ' . substr($token, 0, 10) . '...');
 
-        $client = new Google_Client(['client_id' => config('services.google.client_id_mobile')]);
-        
-        try {
-            Log::info('Google Client ID: ' . config('services.google.client_id'));
-            
-            $payload = $client->verifyIdToken($token);
-            
-            if ($payload) {
-                Log::info('Token verified successfully. Payload: ' . json_encode($payload));
-                
-                // User creation/update logic
-                $user = User::updateOrCreate(
-                    ['email' => $payload['email']],
-                    [
-                        'name' => $payload['name'],
-                        'provider_id' => $payload['sub'],
-                        'avatar_url' => $payload['picture'],
-                        'role_id'=>2,
-                        'provider'=>'google'
-                        // 'provider_id'=>$payload['']
-                        // 'password' => Hash::make(str_random(24))
-                    ]
-                );
+    $client = new Google_Client(['client_id' => config('services.google.client_id_mobile')]);
 
-                Log::info('User created/updated: ' . $user->id);
+    try {
+        Log::info('Google Client ID: ' . config('services.google.client_id'));
 
-                // Generate token for user
-                $token = $user->createToken('google-token')->plainTextToken;
+        $payload = $client->verifyIdToken($token);
 
-                Log::info('Authentication token created for user');
+        if ($payload) {
+            Log::info('Token verified successfully. Payload: ' . json_encode($payload));
 
-                // Log in the user
-                Auth::login($user);
-
-                Log::info('User logged in successfully');
-
-                return response()->json([
-                    'success' => true,
-                    'user' => $user,
-                    'token' => $token
-                ]);
-
-            } else {
-                Log::error('Google token verification failed: Payload is empty');
-                return response()->json(['success' => false, 'message' => 'Invalid token: Payload is empty'], 401);
-            }
-        } catch (\Google_Exception $e) {
-            Log::error('Google_Exception during token verification: ' . $e->getMessage());
-            Log::error('Exception trace: ' . $e->getTraceAsString());
-            return response()->json([
-                'success' => false, 
-                'message' => 'Google token verification failed: ' . $e->getMessage(),
-                'error_details' => [
-                    'type' => get_class($e),
-                    'message' => $e->getMessage(),
-                    'code' => $e->getCode(),
-                    'file' => $e->getFile(),
-                    'line' => $e->getLine(),
+            // User creation/update logic
+            $user = User::updateOrCreate(
+                ['email' => $payload['email']],
+                [
+                    'name' => $payload['name'],
+                    'provider_id' => $payload['sub'],
+                    'avatar_url' => $payload['picture'],
+                    'role_id' => 2,
+                    'provider' => 'google',
+                    'fcm_token' => $fcmToken, // Store or update the FCM token
                 ]
-            ], 401);
-        } catch (\Exception $e) {
-            Log::error('Unexpected error during Google token verification: ' . $e->getMessage());
-            Log::error('Exception trace: ' . $e->getTraceAsString());
+            );
+
+            Log::info('User created/updated: ' . $user->id);
+
+            // Generate token for user
+            $authToken = $user->createToken('google-token')->plainTextToken;
+
+            Log::info('Authentication token created for user');
+
+            // Log in the user
+            Auth::login($user);
+
+            Log::info('User logged in successfully');
+
             return response()->json([
-                'success' => false, 
-                'message' => 'Unexpected error during Google token verification: ' . $e->getMessage(),
-                'error_details' => [
-                    'type' => get_class($e),
-                    'message' => $e->getMessage(),
-                    'code' => $e->getCode(),
-                    'file' => $e->getFile(),
-                    'line' => $e->getLine(),
-                ]
-            ], 500);
+                'success' => true,
+                'user' => $user,
+                'token' => $authToken,
+            ]);
+
+        } else {
+            Log::error('Google token verification failed: Payload is empty');
+            return response()->json(['success' => false, 'message' => 'Invalid token: Payload is empty'], 401);
         }
+    } catch (\Google_Exception $e) {
+        Log::error('Google_Exception during token verification: ' . $e->getMessage());
+        return response()->json([
+            'success' => false,
+            'message' => 'Google token verification failed: ' . $e->getMessage(),
+        ], 401);
+    } catch (\Exception $e) {
+        Log::error('Unexpected error during Google token verification: ' . $e->getMessage());
+        return response()->json([
+            'success' => false,
+            'message' => 'Unexpected error: ' . $e->getMessage(),
+        ], 500);
     }
-
+}
 
     public function handleFacebookToken(Request $request)
 {

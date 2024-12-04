@@ -38,28 +38,28 @@ class LeagueResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('id'),
-                Tables\Columns\TextColumn::make('sport_id'),
-                Tables\Columns\TextColumn::make('country_id'),
+                // Tables\Columns\TextColumn::make('sport_id'),
+                // Tables\Columns\TextColumn::make('country_id'),
                 Tables\Columns\TextColumn::make('name'),
+                Tables\Columns\ImageColumn::make('image_path')->label('Image')->width(79)->height(69),
                 Tables\Columns\ToggleColumn::make('active'),
-                Tables\Columns\TextColumn::make('short_code'),
-                Tables\Columns\ImageColumn::make('image_path'),
+                // Tables\Columns\TextColumn::make('short_code'),
                 Tables\Columns\TextColumn::make('type'),
                 Tables\Columns\TextColumn::make('sub_type'),
                 Tables\Columns\TextColumn::make('last_played_at')->dateTime(),
-                Tables\Columns\TextColumn::make('category'),
-                Tables\Columns\TextColumn::make('created_at')->dateTime(),
-                Tables\Columns\TextColumn::make('updated_at')->dateTime(),
+                // Tables\Columns\TextColumn::make('category'),
+                // Tables\Columns\TextColumn::make('created_at')->dateTime(),
+                // Tables\Columns\TextColumn::make('updated_at')->dateTime(),
             ])
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                // Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    // Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -76,7 +76,7 @@ class LeagueResource extends Resource
         return [
             'index' => Pages\ListLeagues::route('/'),
             'create' => Pages\CreateLeague::route('/create'),
-            'edit' => Pages\EditLeague::route('/{record}/edit'),
+            // 'edit' => Pages\EditLeague::route('/{record}/edit'),
         ];
     }
 }

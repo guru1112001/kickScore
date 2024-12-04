@@ -34,6 +34,10 @@ use App\Http\Controllers\TeachingMaterialController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+use Illuminate\Support\Facades\Broadcast;
+
+Broadcast::routes(['middleware' => ['auth:api']]);
+
 
 Route::post('/send-notification', [\App\Http\Controllers\NotificationController::class, 'sendNotification']);
 
@@ -107,7 +111,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/groups', [GroupController::class, 'getAllGroups']);
     Route::post('/groups/{group}/toggle-status', [GroupController::class, 'toggleGroupStatus']);
     Route::get('/groups/search', [GroupController::class, 'searchGroups']);
-    Route::get('/groups/filter-by-country', [GroupController::class, 'filterGroupsByCountry']);
+    Route::post('/groups/filter-by-country', [GroupController::class, 'filterGroupsByCountry']);
 
     Route::post('/groups/{groupId}/join', [MessageController::class, 'joinGroup']);
     Route::post('/groups/{groupId}/leave', [MessageController::class, 'leaveGroup']);

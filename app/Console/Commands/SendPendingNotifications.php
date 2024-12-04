@@ -30,7 +30,7 @@ class SendPendingNotifications extends Command
         $limit = 10; // Limit to 40 notifications per minute
         $pendingNotifications = Notification::whereNull('sended_at')
             ->whereHas('notifiable', function ($query) {
-                $query->where('role_id', 6)->whereNotNull('fcm_token');
+                $query->whereNotNull('fcm_token');
             })
             ->with('notifiable')
             ->take($limit)
@@ -47,31 +47,44 @@ class SendPendingNotifications extends Command
             $title = $notificationData['title'] ?? 'New Notification';
             $body = $notificationData['body'] ?? 'You have a new notification';
 
-            $success = $this->firebaseService->sendNotification(
-                $user->fcm_token,
-                $title,
-                $body
-            );
-    
+            try {
+                $success = $this->firebaseService->sendNotification(
+                    $user->fcm_token,
+                    $title,
+                    $body
+                );
+
                 if ($success) {
                     $notification->sended_at = now();
                     $notification->save();
                     Log::info("Notification sent to user {$user->name}");
                 } else {
-                    Log::error("Failed to send notification to user {$user->id}");
+                    Log::error("Failed to send notification to user {$user->id} ", [
+                        'fcm_token' => $user->fcm_token,
+                        'title' => $title,
+                        'body' => $body,
+                    ]);
                 }
-    
-                Log::info('end', ['date' => date('h:i:s')]);
-    
-                $count++;
-                if ($count >= $limit) {
-                    break;
-                }
-            } else {
-                Log::info("User {$notification->notifiable_id} not found or has no FCM token");
+            } catch (\Exception $e) {
+                Log::error("Exception occurred while sending notification to user {$user->id}", [
+                    'fcm_token' => $user->fcm_token,
+                    'title' => $title,
+                    'body' => $body,
+                    'error' => $e->getMessage(),
+                ]);
             }
+
+            Log::info('end', ['date' => date('h:i:s')]);
+
+            $count++;
+            if ($count >= $limit) {
+                break;
+            }
+        } else {
+            Log::info("User {$notification->notifiable_id} not found or has no FCM token");
         }
-    
-        Log::info("Processed {$count} notifications");
     }
+
+    Log::info("Processed {$count} notifications");
+}
 }

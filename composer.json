@@ -25,6 +25,7 @@
         "laravel/socialite": "^5.16",
         "laravel/tinker": "^2.8",
         "owenvoke/blade-fontawesome": "^2.6",
+        "pusher/pusher-php-server": "^7.2",
         "rappasoft/laravel-authentication-log": "^4.0",
         "saade/filament-fullcalendar": "^3.0",
         "socialiteproviders/apple": "^5.6",

@@ -8,6 +8,7 @@ use App\Models\Country;
 use Illuminate\Http\Request;
 use Filament\Notifications\Notification;
 use Illuminate\Support\Facades\Validator;
+use App\Events\GroupCreated;
 
 class GroupController extends Controller
 {
@@ -29,6 +30,7 @@ class GroupController extends Controller
             'created_by' => $request->user()->id, // Store the creator's ID
             'is_active' => true,
         ]);
+        event(new GroupCreated($group));
 
         return response()->json(['group' => $group], 201);
     }
@@ -63,7 +65,7 @@ class GroupController extends Controller
 
     public function getAllGroups() {
         $groups = Group::scheduled()
-                        ->where('is_active', true)
+                        // ->where('is_active', true)
                         ->with('users:id,name,avatar_url')
                         ->get()
                         ->map(function ($group) {
@@ -84,7 +86,7 @@ class GroupController extends Controller
         ]);
     
         $groups = Group::where('name', 'like', '%' . $request->name . '%')
-                       ->where('is_active',true)
+                    //    ->where('is_active',true)
                        ->with('users:id,name,avatar_url')
                        ->get()
                        ->map(function($group){
@@ -108,7 +110,7 @@ class GroupController extends Controller
         $groups = Group::whereHas('creator', function ($query) use ($request) {
                             $query->whereIn('country_id', $request->country_ids);
                         })
-                        ->where('is_active', true)
+                        // ->where('is_active', true)
                         ->with('users:id,name,avatar_url') // Include users with selected fields
                         ->get()
                         ->map(function ($group) {
@@ -121,7 +123,7 @@ class GroupController extends Controller
                         });
     
         if ($groups->isEmpty()) {
-            return response()->json(['error' => 'Rooms not available'], 404);
+            return response()->json(['message' => 'Rooms not available'], 200);
         }
     
         return response()->json(['groups' => $groups]);

@@ -16,3 +16,9 @@ use Illuminate\Support\Facades\Broadcast;
 Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
 });
+
+use App\Models\Group;
+
+Broadcast::channel('group.{groupId}', function ($user, $groupId) {
+    return Group::find($groupId)->users->contains($user);
+});

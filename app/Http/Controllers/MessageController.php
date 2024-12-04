@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Group;
 use App\Models\Message;
+use App\Events\MessageSent;
 use Illuminate\Http\Request;
 
 class MessageController extends Controller
@@ -25,18 +26,20 @@ class MessageController extends Controller
 
     public function sendMessage(Request $request, $groupId) {
         $user = User::find($request->user_id);
+    
         $message = Message::create([
             'group_id' => $groupId,
             'user_id' => $user->id,
             'content' => $request->content,
         ]);
-
-        // Include formatted avatar URL in the response
+    
         $message->load('user');
-        $message->user->formatted_avatar_url = $message->user->formatted_avatar_url;
-
+    
+        broadcast(new MessageSent($message))->toOthers();
+    
         return response()->json(['message' => $message]);
     }
+    
 
     public function getOldMessages($groupId) {
         $messages = Message::where('group_id', $groupId)

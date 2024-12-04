@@ -3,7 +3,7 @@
 namespace App\Filament\Resources\UserResource\Pages;
 
 use App\Filament\Resources\UserResource;
-use App\Notifications\WelcomeEmail;
+// use App\Notifications\WelcomeEmail;
 use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
 
@@ -18,7 +18,7 @@ class CreateUser extends CreateRecord
 
         //dd($email, $password);
 
-        $notification = new WelcomeEmail(['login_email' => $email['email'], 'login_password' => $password['password']]);
-        \Notification::route('mail', $email['email'])->notify($notification);
+        // $notification = new WelcomeEmail(['login_email' => $email['email'], 'login_password' => $password['password']]);
+        // \Notification::route('mail', $email['email'])->notify($notification);
     }
 }
