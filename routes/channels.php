@@ -20,5 +20,14 @@ Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
 use App\Models\Group;
 
 Broadcast::channel('group.{groupId}', function ($user, $groupId) {
-    return Group::find($groupId)->users->contains($user);
+    $group = Group::find($groupId);
+    if (!$group) {
+        \Log::error("Group not found: $groupId");
+        return false;
+    }
+    if (!$group->users->contains($user)) {
+        \Log::error("User {$user->id} not part of group $groupId");
+        return false;
+    }
+    return true;
 });

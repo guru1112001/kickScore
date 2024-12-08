@@ -36,7 +36,7 @@ use App\Http\Controllers\TeachingMaterialController;
 */
 use Illuminate\Support\Facades\Broadcast;
 
-Broadcast::routes(['middleware' => ['auth:api']]);
+Broadcast::routes(['middleware' => ['auth:sanctum']]);
 
 
 Route::post('/send-notification', [\App\Http\Controllers\NotificationController::class, 'sendNotification']);
