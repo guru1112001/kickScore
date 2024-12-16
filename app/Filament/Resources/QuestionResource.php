@@ -183,7 +183,7 @@ public static function table(Table $table): Table
         ->columns([
             Tables\Columns\Layout\Split::make([
                 Tables\Columns\TextColumn::make('question_text')
-                    ->description(fn(Question $record) => "Question: #" . $record->id, 'above')
+                    // ->description(fn(Question $record) => "Question: #" . $record->id, 'above')
                     ->columnSpan(4)
                     ->html(),
                 // Tables\Columns\TextColumn::make('Points')

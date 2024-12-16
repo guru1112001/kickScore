@@ -57,29 +57,17 @@ class QuestionBankResource extends Resource
     {
         return $table
             ->columns([
-                
-                    Stack::make([
+                Stack::make([
                     Tables\Columns\ImageColumn::make('image')
-                    ->width(211)
-                    ->height(166)
-                    // ->square()
-                    ,
+                        ->width(211)
+                        ->height(211)
+                        ->extraAttributes(['class' => 'mx-auto']),
                     Tables\Columns\TextColumn::make('name')
-                    ->label('Quiz name')
-                    ->extraAttributes(['class'=>'my-quiz'])
-                    // ->description(fn(QuestionBank $record) => "QB ID:" . $record->id)
-                    ->searchable(),
-                ]),
-                // Tables\Columns\TextColumn::make('created_at')
-                //     ->dateTime()
-                //     ->sortable()
-                //     ->toggleable(isToggledHiddenByDefault: true),
-                // Tables\Columns\TextColumn::make('updated_at')
-                //     ->dateTime()
-                //     ->sortable()
-                //     ->toggleable(isToggledHiddenByDefault: true),
-                    
-            ])->contentGrid([
+                        ->label('Quiz name')
+                        ->extraAttributes(['class' => 'my-quiz']),
+                ])->extraAttributes(['class' => 'flex justify-center']),
+            ])
+            ->contentGrid([
                 'md' => 2,
                 'xl' => 2,
             ])
@@ -103,7 +91,7 @@ class QuestionBankResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //QuestionBankResource::getRelations()
+            // Define relations here if needed
         ];
     }
 
@@ -111,11 +99,8 @@ class QuestionBankResource extends Resource
     {
         return [
             'index' => ListQuestionBanks::route('/'),
-            // 'questions' => Pages\ManageQuestions::route('/'),
             'create' => CreateQuestionBank::route('/create'),
             'edit' => EditQuestionBank::route('/{record}/edit'),
-            // 'view' => Pages\ManageQuestions::route('/{record}/questions'),
-            // 'view' => RelationManagers\QuestionsRelationManager::route('/{record}/questions'),
         ];
     }
 }

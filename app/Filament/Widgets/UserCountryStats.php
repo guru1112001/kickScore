@@ -11,10 +11,8 @@ class UserCountryStats extends BarChartWidget
     protected static ?int $sort = 2;
     protected int | string | array $columnSpan = '2';
 
-    // Set a default filter value
     public ?string $filter = 'all';
 
-    // Define the filter options
     protected function getFilters(): ?array
     {
         return [
@@ -24,28 +22,24 @@ class UserCountryStats extends BarChartWidget
         ];
     }
 
-    // Fetch data based on the active filter
     protected function getData(): array
     {
-        $activeFilter = $this->filter; // Get the active filter value
+        $activeFilter = $this->filter;
 
-        // Build the query
         $query = DB::table('users')
             ->select('countries.name as country', DB::raw('COUNT(*) as count'))
             ->join('countries', 'users.country_id', '=', 'countries.id')
+            ->where('users.role_id', '=', 2)
             ->whereNull('users.deleted_at');
 
-        // Apply filter condition
         if ($activeFilter === 'active') {
             $query->where('users.is_active', true);
         } elseif ($activeFilter === 'inactive') {
             $query->where('users.is_active', false);
         }
 
-        // Fetch data
         $countryStats = $query->groupBy('countries.name')->get();
 
-        // Extract labels (country names) and data (user counts)
         $labels = $countryStats->pluck('country')->toArray();
         $data = $countryStats->pluck('count')->toArray();
 
@@ -54,23 +48,55 @@ class UserCountryStats extends BarChartWidget
                 [
                     'label' => $this->getLabelForFilter($activeFilter),
                     'data' => $data,
-                    'backgroundColor' => 'linear-gradient(to right, #8a2be2, #4169e1)', // Gradient color
-                    'borderColor' => '#1e3a8a', // Border color
-                    'borderWidth' => 2, // Border thickness
-                    'barThickness' => 50, // Bar thickness
+                    'backgroundColor' => $this->getBackgroundColorForFilter($activeFilter),
+                    'borderColor' => $this->getBorderColorForFilter($activeFilter),
+                    'borderWidth' => 2,
+                    'barThickness' => 50,
                 ],
             ],
-            'labels' => $labels, // Country names
+            'labels' => $labels,
         ];
     }
 
-    // Helper method to get the chart label based on the filter
+    protected function getOptions(): array
+    {
+        return [
+            'scales' => [
+                'y' => [
+                    'ticks' => [
+                        'stepSize' => 1, // Show only integers
+                        'beginAtZero' => true, // Start from zero
+                        'precision' => 0, // Remove decimal places
+                    ],
+                ],
+            ],
+        ];
+    }
+
     protected function getLabelForFilter(string $filter): string
     {
         return match ($filter) {
             'active' => 'Active Users',
             'inactive' => 'Inactive Users',
             default => 'All Users',
+        };
+    }
+
+    protected function getBackgroundColorForFilter(string $filter): string
+    {
+        return match ($filter) {
+            'active' => 'rgba(34, 197, 94, 0.6)',
+            'inactive' => 'rgba(239, 68, 68, 0.6)',
+            default => 'rgba(59, 130, 246, 0.6)',
+        };
+    }
+
+    protected function getBorderColorForFilter(string $filter): string
+    {
+        return match ($filter) {
+            'active' => 'rgba(34, 197, 94, 1)',
+            'inactive' => 'rgba(239, 68, 68, 1)',
+            default => 'rgba(59, 130, 246, 1)',
         };
     }
 }

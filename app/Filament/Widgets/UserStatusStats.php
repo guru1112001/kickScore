@@ -10,14 +10,14 @@ class UserStatusStats extends BaseWidget
 {
     protected function getStats(): array
     {
-        $activeUsers = User::where('is_active', 1)->count();
-        $nonActiveUsers = User::where('is_active', 0)->count();
-        $allUsers=User::count();
+        $activeUsers = User::where('is_active', 1)->where('role_id',2)->count();
+        $nonActiveUsers = User::where('is_active', 0)->where('role_id',2)->count();
+        $allUsers=User::where('role_id',2)->count();
 
         return [
-            Stat::make('Register Users', $allUsers)
-                ->description('All register Users ')
-                ->color('danger'),
+            Stat::make('All Users', $allUsers)
+                ->description('All Users ')
+                ->color('info'),
             Stat::make('Active Users', $activeUsers)
                 ->description('Users currently active')
                 ->color('success'),
