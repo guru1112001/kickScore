@@ -2,18 +2,17 @@
   <div class="container mx-auto px-4 flex flex-col md:flex-row items-center relative">
     <!-- Text Section -->
     <div class="max-w-2xl w-full md:w-1/2 z-10 relative">
-      <h1 class="font-['Roboto'] font-bold text-gray-200 text-2xl md:text-4xl leading-tight text-center md:text-left">
-        Your Ultimate Football <br>Companion – All the Scores,<br> Stats, and Updates in One Place
+      <h1 class=" font-bold text-gray-200 text-2xl md:text-4xl leading-tight text-center md:text-left">
+       @lang('messages.Hero_section2_phone_heading')
       </h1>
 
       <p class="text-gray-400 mt-4 md:mt-6 text-base text-center md:text-left">
-        Stay connected to the beautiful game like never before. Our app is designed for true football fans who want
-        quick access to the latest scores, personalized match alerts, and detailed stats—right at their fingertips.
+       @lang('messages.Hero_section2_description')
       </p>
 
       <!-- Download Apps Section -->
       <div class="imageLink mt-4 md:mt-6 w-full text-center md:text-left">
-        <div class="downloadApps text-white text-base">Download Apps:</div>
+        <div class="downloadApps text-white text-base">@lang('messages.Hero_section2_downloadbtn'):</div>
         <div class="image flex justify-center md:justify-start gap-4 mt-2">
           <div class="image2 cursor-pointer"></div>
           <div class="image3 cursor-pointer"></div>
@@ -38,17 +37,16 @@
   <div class="container mx-auto px-4 flex flex-col-reverse md:flex-row items-center">
     <!-- Image on Left -->
     <div class="w-full md:w-1/2 mt-6 md:mt-0">
-      <img src="{{ asset('images/game.png') }}" alt="Game/Event Listing" class="w-full md:w-[28rem] h-auto object-cover">
+      <img src="{{ asset('images/Gamelisting.png') }}" alt="Game/Event Listing" class="  ">
     </div>
 
     <!-- Text on Right -->
     <div class="w-full md:w-1/2 md:pl-8 text-center md:text-left">
-      <h2 class="font-['Roboto'] font-bold text-gray-200 text-2xl md:text-3xl leading-tight">
-        Games/Event Listing
+      <h2 class=" font-bold text-gray-200 text-2xl md:text-3xl leading-tight">
+        @lang('messages.Hero_section2_Games/Event')
       </h2>
       <p class="mt-4 text-base font-bold text-white text-center md:text-left">
-        Track all the matches in one place. Get live scores, upcoming fixtures, and results for every major football
-        league, right at your fingertips.
+        @lang('messages.Hero_section2_Games/Event_description')
       </p>
     </div>
   </div>
@@ -59,12 +57,11 @@
   <div class="container mx-auto px-4 flex flex-col md:flex-row items-center">
     <!-- Text on Left -->
     <div class="w-full md:w-1/2 md:pr-8 mb-6 md:mb-0 text-center md:text-left">
-      <h2 class="font-['Roboto'] font-bold text-gray-200 text-2xl md:text-3xl leading-tight">
-        Goal Of The Day
+      <h2 class=" font-bold text-gray-200 text-2xl md:text-3xl leading-tight">
+        @lang('messages.Hero_section2_Goal')
       </h2>
       <p class="text-white mt-4 text-base font-bold text-center md:text-left">
-        Get detailed insights into the most impressive goals, including key stats and player info, to relive the
-        excitement through descriptions and analysis.
+        @lang('messages.Hero_section2_Goal_description')
       </p>
     </div>
 
@@ -84,25 +81,25 @@
 
     <!-- Text on Right -->
     <div class="w-full md:w-1/2 md:pl-8 text-center md:text-left">
-      <h2 class="font-['Roboto'] font-bold text-gray-200 text-2xl md:text-3xl leading-tight">
-        Match Trivia
+      <h2 class=" font-bold text-gray-200 text-2xl md:text-3xl leading-tight">
+        @lang('messages.Hero_section2_Match_Trivia')
       </h2>
       <p class="mt-4 text-base font-bold text-white text-center md:text-left">
-        Challenge yourself with fun football trivia. Learn cool facts about players, teams, and matches while testing your football knowledge.
+        @lang('messages.Hero_section2_Match_Trivia_description')
       </p>
     </div>
   </div>
 </section>
 
-<section class="py-10 md:py-20 my-4 md:my-14">
+<section class="py-10 md:py-20 my-4 md:my-14 font-[]">
   <div class="container mx-auto px-4 flex flex-col md:flex-row items-center">
     <!-- Text on Left -->
     <div class="w-full md:w-1/2 md:pr-8 mb-6 md:mb-0 text-center md:text-left">
-      <h2 class="font-['Roboto'] font-bold text-gray-200 text-2xl md:text-3xl leading-tight">
-        Match Discussions
+      <h2 class=" font-bold text-gray-200 text-2xl md:text-3xl leading-tight">
+        @lang('messages.Hero_section2_Match_Discussions')
       </h2>
       <p class="text-white mt-4 text-base font-bold text-center md:text-left">
-        Share your thoughts and opinions with fans worldwide. Join the debate on matches, tactics, and the latest football action in real-time discussions.
+        @lang('messages.Hero_section2_Match_Discussions_description')
       </p>
     </div>
 

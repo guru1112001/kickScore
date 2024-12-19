@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ app()->getLocale() }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,14 +22,31 @@
             margin: 0;
             padding: 0;
         }
+        
     </style>
 </head>
-<body>
+<body class="font-['Source Sans 3']">
     <div class="bg-curve">
         <x-navbar />
         <x-hero />
     </div>
     <x-hero_2 />
     <x-footer />
+    <script>
+       document.getElementById('languageDropdown').addEventListener('click', function (e) {
+    e.stopPropagation();
+    const dropdownMenu = document.getElementById('dropdownMenu');
+    dropdownMenu.classList.toggle('hidden');
+});
+
+document.addEventListener('click', function () {
+    const dropdownMenu = document.getElementById('dropdownMenu');
+    if (!dropdownMenu.classList.contains('hidden')) {
+        dropdownMenu.classList.add('hidden');
+    }
+});
+
+
+    </script>
 </body>
 </html>

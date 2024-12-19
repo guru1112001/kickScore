@@ -1,12 +1,14 @@
 <section class="py-10 md:py-20">
+    
     <div class="container mx-auto px-4 flex flex-col md:flex-row items-center space-y-6 md:space-y-0">
         <!-- Text Section -->
         <div class="max-w-2xl text-center md:text-left w-full md:w-1/2 pr-0 md:pr-8">
-            <h1 class="font-['Roboto'] font-bold text-gray-200 text-3xl md:text-5xl leading-tight">
-                All the Football Action<br> at Your Fingertips
+            <h1 class="font-['Source Sans'] font-bold text-gray-200 text-3xl md:text-5xl leading-tight">
+                {{-- @lang('messages.Hero_section_heading') --}}
+                {{ __('messages.Hero_section_heading', [], app()->getLocale()) }}
             </h1>
             <p class="text-gray-400 mt-4 md:mt-6 text-base md:text-xl">
-                Whether you're checking live scores, following your favorite teams, or diving deep into match stats, our app brings everything you need to stay updated in the world of football.
+                @lang('messages.Hero_section_description')
             </p>
             <a href="#" class="inline-flex items-center mt-6 md:mt-8 px-4 md:px-6 py-2 md:py-3 rounded-lg bg-gradient-to-r from-[#8a2be2] to-[#4169e1] text-white font-medium text-base md:text-lg hover:opacity-90 transition-opacity justify-center">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 md:h-5 md:w-5 mr-2" viewBox="0 0 48 48">
@@ -27,7 +29,7 @@
                         </g>
                       </svg>
                 
-                Download now
+                @lang('messages.Hero_section_download_now')
             </a>
         </div>
         <!-- Image Section -->
