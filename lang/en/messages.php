@@ -8,13 +8,17 @@ return [
     'Hero_section2_description'=>' Stay connected to the beautiful game like never before. Our app is designed for true football fans who want
         quick access to the latest scores, personalized match alerts, and detailed stats—right at their fingertips.',
     'Hero_section2_downloadbtn'=>'Download Apps',
-    'Hero_section2_Games/Event'=>"Games/Event Listing",
+    'Hero_section2_Games/Event'=>"Games/Event",
+    'Hero_section2_Listing'=>"Listing",
     'Hero_section2_Games/Event_description'=>'Track all the matches in one place. Get live scores, upcoming fixtures, and results for every major football league, right at your fingertips.',
-    'Hero_section2_Goal'=>'Goal Of The Day',
+    'Hero_section2_Goal'=>'Goal',
+    'Hero_section2_of_the_day'=>'Of The Day',
     'Hero_section2_Goal_description'=>'Get detailed insights into the most impressive goals, including key stats and player info, to relive the excitement through descriptions and analysis.',
-    'Hero_section2_Match_Trivia'=>'Match Trivia',
+    'Hero_section2_Match'=>'Match',
+    'Hero_section2_Trivia'=>'Trivia',
     'Hero_section2_Match_Trivia_description'=>'Challenge yourself with fun football trivia. Learn cool facts about players, teams, and matches while testing your football knowledge.',
-    'Hero_section2_Match_Discussions'=>'Match Discussions',
+    'Hero_section2_Match'=>'Match',
+    'Hero_section2_Discussions'=>'Discussions',
     'Hero_section2_Match_Discussions_description'=>'Share your thoughts and opinions with fans worldwide. Join the debate on matches, tactics, and the latest football action in real-time discussions.',
     
 
