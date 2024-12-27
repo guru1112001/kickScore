@@ -31,7 +31,8 @@
         "socialiteproviders/apple": "^5.6",
         "socialiteproviders/instagram": "^5.0",
         "socialiteproviders/microsoft": "^4.5",
-        "spatie/laravel-activitylog": "^4.8"
+        "spatie/laravel-activitylog": "^4.8",
+        "taylanunutmaz/agora-token-builder": "^1.1"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.6",

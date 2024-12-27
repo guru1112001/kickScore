@@ -10,19 +10,19 @@ use Illuminate\Support\Facades\Password;
 use App\Http\Controllers\BatchController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\LeaveController;
+use Illuminate\Support\Facades\Broadcast;
 use App\Http\Controllers\LeagueController;
-use App\Http\Controllers\CountryController;
 //use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\CountryController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\SectionController;
 use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\FanPhotoController;
+use App\Http\Controllers\AgoraTokenController;
 use App\Http\Controllers\CurriculumController;
 use App\Http\Controllers\QuestionBankController;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Controllers\PasswordResetController;
-use App\Http\Controllers\QualificationController;
-use App\Http\Controllers\TeachingMaterialController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,7 +34,8 @@ use App\Http\Controllers\TeachingMaterialController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-use Illuminate\Support\Facades\Broadcast;
+use App\Http\Controllers\QualificationController;
+use App\Http\Controllers\TeachingMaterialController;
 
 Broadcast::routes(['middleware' => ['auth:sanctum']]);
 
@@ -117,6 +118,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/groups/{groupId}/leave', [MessageController::class, 'leaveGroup']);
     Route::post('/groups/{groupId}/messages', [MessageController::class, 'sendMessage']);
     Route::get('/groups/{groupId}/messages', [MessageController::class, 'getOldMessages']);
+
+    Route::post('/agora/token',[AgoraTokenController::class,'generateToken']);
     
     //Api for annoucements
     Route::get('/announcements', [\App\Http\Controllers\AnnouncementController::class, 'index']);

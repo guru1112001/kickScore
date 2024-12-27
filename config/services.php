@@ -72,4 +72,7 @@ return [
 
     'sportmonks_api_token' => env('SPORTMONKS_API_TOKEN', 'default_value_if_any'),
 
+    'agora_app_id'=>env('AGORA_APP_ID'),
+    'agora_app_certificate'=>env('AGORA_APP_CERTIFICATE'),
+
 ];
