@@ -16,7 +16,10 @@ class Kernel extends ConsoleKernel
         // $schedule->command('assignments:send-reminders')->daily();
         // $schedule->command('notifications:send-pending')->everyMinute();
         $schedule->command('fetch:leagues')->everyMinute();
-        $schedule->command('fetch:players')->everyMinute();
+        // $schedule->command('fetch:players')->everyMinute();
+        $schedule->command('fetch:countries')->daily();
+        $schedule->command('fetch:cities')->daily();
+
 
 
         // $schedule->command('inspire')->hourly();

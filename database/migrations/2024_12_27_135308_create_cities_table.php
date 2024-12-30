@@ -12,8 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('cities', function (Blueprint $table) {
-            $table->id();
-			$table->string('name');
+            $table->unsignedBigInteger('id')->primary();
+            $table->unsignedBigInteger('country_id')->nullable();
+            $table->unsignedBigInteger('region')->nullable();
+            $table->string('name')->nullable();
+            $table->string('latitude')->nullable();
+            $table->string('longitude')->nullable();
+            $table->unsignedBigInteger('geonameid')->nullable();
             $table->timestamps();
         });
     }
