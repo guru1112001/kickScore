@@ -17,11 +17,11 @@ class FetchCommentaries extends Command
         $baseUrl = 'https://api.sportmonks.com/v3/football/commentaries';
         $apiToken = config('services.sportmonks_api_token');
         $delay = (int) $this->option('delay');
-        $maxPages = 300; // Limit to 300 pages as per your requirements
+        $maxPages = 800; // Limit to 300 pages as per your requirements
 
         $this->info('Starting to fetch commentary data...');
 
-        $page = 1;
+        $page = 600;
 
         while ($page <= $maxPages) {
             $this->info("Fetching data for page $page...");

@@ -48,7 +48,7 @@ class FetchSeasons extends Command
                 break;
             }
 
-            $chunks = array_chunk($data, 50); // Divide data into chunks of 50 for batch processing.
+            $chunks = array_chunk($data, 500); // Divide data into chunks of 50 for batch processing.
 
             foreach ($chunks as $index => $chunk) {
                 Queue::push(new ProcessSeasonData($chunk));

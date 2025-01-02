@@ -47,7 +47,7 @@ class FetchTeams extends Command
                 break;
             }
          // Divide data into smaller chunks for processing
-         $chunks = array_chunk($data, 50);
+         $chunks = array_chunk($data, 500);
 
          foreach ($chunks as $index => $chunk) {
              Queue::push(new ProcessTeamData($chunk));
