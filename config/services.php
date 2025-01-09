@@ -42,7 +42,7 @@ return [
         'redirect' => env('GOOGLE_REDIRECT_URL'),
     ],
 'microsoft' => [    
-        'client_id' => env('AZURE_CLIENT_ID'),  
+        'client_id' => '79081f9e-cce9-49b4-9200-41f36941e8cd',  
         'client_secret' => env('AZURE_CLIENT_SECRET'),  
         'redirect' => env('AZURE_REDIRECT_URI'),
         'tenant' => env('AZURE_TENANT_ID','common'),
