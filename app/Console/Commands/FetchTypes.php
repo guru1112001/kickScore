@@ -53,7 +53,7 @@ class FetchTypes extends Command
             }
 
             // Divide data into smaller chunks for processing
-            $chunks = array_chunk($data, 50);
+            $chunks = array_chunk($data, 500);
 
             foreach ($chunks as $index => $chunk) {
                 Queue::push(new ProcessTypeData($chunk));

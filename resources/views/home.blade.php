@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ app()->getLocale() }}">
+<html lang="{{ app()->getLocale() }}"dir="{{ App::isLocale('ar') ? 'rtl' : 'ltr' }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,14 +8,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
     <style>
-        .bg-curve {
+        /* .bg-curve {
             background-image: url('{{ asset('images/Path.png') }}');
             background-repeat: no-repeat;
             background-position: top right;
             background-size: contain;
             position: relative;
             overflow: hidden;
-        }
+        } */
         body {
             background-color: #05102E;
             box-sizing: border-box;

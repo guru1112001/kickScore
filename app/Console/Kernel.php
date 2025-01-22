@@ -14,11 +14,13 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('app:send-scheduled-notifications')->everyMinute();
         // $schedule->command('assignments:send-reminders')->daily();
-        // $schedule->command('notifications:send-pending')->everyMinute();
-        $schedule->command('fetch:leagues')->everyMinute();
+        $schedule->command('notifications:send-pending')->everyMinute();
+        // $schedule->command('fetch:leagues')->everyMinute();
         // $schedule->command('fetch:players')->everyMinute();
-        $schedule->command('fetch:countries')->daily();
-        $schedule->command('fetch:cities')->daily();
+        // $schedule->command('fetch:countries')->daily();
+        $schedule->command('fetch:match-data')->everyMinute();
+        $schedule->command('fetch:livefixtures')->dailyAt('6:00');
+        // $schedule->command('fetch:cities')->daily();
 
 
 

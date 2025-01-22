@@ -7,12 +7,13 @@
             </button>
         </div>
         <div class="flex  space-x-8 mt-4 text-gray-600">
-            <a href="#" class="hover:text-black">Home</a>
+            <a href="#" class="hover:text-black {{app()->getlocale()==='ar'? 'ml-8': ''}}">Home</a>
             <a href="#" class="hover:text-black">About</a>
             <a href="#" class="hover:text-black">Contact</a>
             
         </div>
-        <div class="flex justify-end space-x-4 mt-[-1.5rem] text-gray-600">            <a href="#" class="hover:text-black"><i class="fab fa-facebook"></i></a>
+        <div class="flex justify-end space-x-4 mt-[-1.5rem] text-gray-600">           
+            <a href="#" class="hover:text-black {{app()->getlocale()==='ar'?'ml-4':''}}"><i class="fab fa-facebook"></i></a>
             <a href="#" class="hover:text-black"><i class="fab fa-linkedin"></i></a>
             <a href="#" class="hover:text-black"><i class="fab fa-twitter"></i></a>
             <a href="#" class="hover:text-black"><i class="fab fa-youtube"></i></a>

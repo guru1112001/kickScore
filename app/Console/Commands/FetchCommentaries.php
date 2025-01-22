@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Queue;
 use App\Jobs\ProcessCommentaryData;
+use Illuminate\Support\Facades\Log;
 
 class FetchCommentaries extends Command
 {
@@ -17,11 +18,11 @@ class FetchCommentaries extends Command
         $baseUrl = 'https://api.sportmonks.com/v3/football/commentaries';
         $apiToken = config('services.sportmonks_api_token');
         $delay = (int) $this->option('delay');
-        $maxPages = 800; // Limit to 300 pages as per your requirements
+        $maxPages = 692; // Limit to 300 pages as per your requirements
 
         $this->info('Starting to fetch commentary data...');
 
-        $page = 600;
+        $page = 1;
 
         while ($page <= $maxPages) {
             $this->info("Fetching data for page $page...");
@@ -31,6 +32,7 @@ class FetchCommentaries extends Command
             if ($response->failed()) {
                 $this->error("Failed to fetch commentary data for page $page. HTTP Status: {$response->status()}");
                 $this->error("Response: " . $response->body());
+                Log::error('Response: ' . $response->body());
                 return;
             }
 
@@ -45,6 +47,7 @@ class FetchCommentaries extends Command
             foreach ($chunks as $chunk) {
                 Queue::push(new ProcessCommentaryData($chunk));
                 $this->info("Queued a chunk for page $page.");
+                Log::info("Queued a chunk for page $page.");
                 sleep($delay); // Delay to avoid API throttling
             }
 
@@ -52,5 +55,6 @@ class FetchCommentaries extends Command
         }
 
         $this->info("All commentary data has been fetched and queued for processing.");
+        Log::info('All commentary data has been fetched and queued for processing.');
     }
 }

@@ -49,7 +49,7 @@ class AdministratorPanelProvider extends PanelProvider
             ->path('administrator')
             ->login(Login::class)
             ->darkMode(false)
-            ->registration()
+            // ->registration()
             ->passwordReset()
             ->sidebarCollapsibleOnDesktop()
             ->databaseNotifications()
@@ -66,13 +66,13 @@ class AdministratorPanelProvider extends PanelProvider
                         // ->stateless(false),
                         // ->color(Color::primary())
                         // ->scopes(['profile', 'email']),
-                    Provider::make('apple')
-                        ->label('Apple')
-                        ->icon('icon-apple'),
+                    // Provider::make('apple')
+                    //     ->label('Apple')
+                    //     ->icon('icon-apple'),
                         
-                    Provider::make('microsoft')
-                        ->label('Microsoft')
-                        ->icon('icon-microsoft'),
+                    // Provider::make('microsoft')
+                    //     ->label('Microsoft')
+                    //     ->icon('icon-microsoft'),
                         
                     // Provider::make('instagram')
                     //     ->label('Instagram')

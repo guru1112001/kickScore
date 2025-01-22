@@ -21,24 +21,32 @@ class FirebaseService
         }
     }
 
-    public function sendNotification($fcm_token, $title, $body)
-    {
-        if (!$this->messaging) {
-            // Log::error('Firebase Messaging not initialized');
-            return false;
-        }
-
-        try {
-            $notification = Notification::create($title, $body);
-            $message = CloudMessage::withTarget('token', $fcm_token)
-                ->withNotification($notification);
-
-            $response = $this->messaging->send($message);
-            // Log::info('Notification sent successfully', ['response' => $response]);
-            return true;
-        } catch (\Exception $e) {
-            // Log::error('Failed to send notification: ' . $e->getMessage());
-            return false;
-        }
+    public function sendNotification($fcm_token, $title, $body, $data)
+{
+    if (!$this->messaging) {
+        Log::error('Firebase Messaging not initialized');
+        return false;
     }
+
+    try {
+        Log::info('Sending notification', ['fcm_token' => $fcm_token, 'title' => $title, 'body' => $body, 'data' => $data]);
+        // Create a notification (without additional data)
+        $notification = Notification::create($title, $body);
+
+        // Create a cloud message with the notification and additional data
+        $message = CloudMessage::withTarget('token', $fcm_token)
+            ->withNotification($notification)
+            ->withData($data); // Attach additional data
+        Log::info('Sending notification', ['message' => $message]);
+
+        // Send the notification
+        $response = $this->messaging->send($message);
+        Log::info('Notification sent successfully', ['response' => $response]);
+        return true;
+    } catch (\Exception $e) {
+        Log::error('Failed to send notification: ' . $e->getMessage());
+        return false;
+    }
+}
+
 }

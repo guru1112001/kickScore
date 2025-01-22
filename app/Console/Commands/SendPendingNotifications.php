@@ -5,29 +5,24 @@ namespace App\Console\Commands;
 use App\Models\User;
 use App\Models\Notification;
 use Illuminate\Support\Facades\Log;
-
-// use Illuminate\Notifications\Notification;
 use Illuminate\Console\Command;
 use App\Services\FirebaseService;
 
 class SendPendingNotifications extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
     protected $signature = 'notifications:send-pending';
     protected $description = 'Send pending notifications via Firebase';
     protected $firebaseService;
+
     public function __construct(FirebaseService $firebaseService)
     {
         parent::__construct();
-        $this->firebaseService=$firebaseService;
+        $this->firebaseService = $firebaseService;
     }
+
     public function handle()
     {
-        $limit = 10; // Limit to 40 notifications per minute
+        $limit = 10; // Limit to 10 notifications per run
         $pendingNotifications = Notification::whereNull('sended_at')
             ->whereHas('notifiable', function ($query) {
                 $query->whereNotNull('fcm_token');
@@ -35,56 +30,57 @@ class SendPendingNotifications extends Command
             ->with('notifiable')
             ->take($limit)
             ->get();
-    
+
         $count = 0;
+
         foreach ($pendingNotifications as $notification) {
             $user = $notification->notifiable;
-    
+
             if ($user && $user->fcm_token) {
-                Log::info('start', ['date' => date('h:i:s')]);
-    
-            $notificationData = json_decode($notification->data, true);
-            $title = $notificationData['title'] ?? 'New Notification';
-            $body = $notificationData['body'] ?? 'You have a new notification';
+                Log::info('Processing notification', ['user_id' => $user->id]);
 
-            try {
-                $success = $this->firebaseService->sendNotification(
-                    $user->fcm_token,
-                    $title,
-                    $body
-                );
+                $notificationData = json_decode($notification->data, true);
+                $title = $notificationData['title'] ?? 'New Notification';
+                $body = $notificationData['body'] ?? 'You have a new notification';
+                $data = $notificationData['data'] ?? [];
 
-                if ($success) {
-                    $notification->sended_at = now();
-                    $notification->save();
-                    Log::info("Notification sent to user {$user->name}");
-                } else {
-                    Log::error("Failed to send notification to user {$user->id} ", [
-                        'fcm_token' => $user->fcm_token,
-                        'title' => $title,
-                        'body' => $body,
+                try {
+                    $success = $this->firebaseService->sendNotification(
+                        $user->fcm_token,
+                        $title,
+                        $body,
+                        $data
+                    );
+
+                    if ($success) {
+                        $notification->sended_at = now();
+                        $notification->save();
+                        Log::info("Notification sent successfully to user {$user->name}");
+                    } else {
+                        Log::error("Failed to send notification", [
+                            'user_id' => $user->id,
+                            'fcm_token' => $user->fcm_token,
+                            'title' => $title,
+                            'body' => $body,
+                            'data' => $data,
+                        ]);
+                    }
+                } catch (\Exception $e) {
+                    Log::error("Error sending notification", [
+                        'user_id' => $user->id,
+                        'error' => $e->getMessage(),
                     ]);
                 }
-            } catch (\Exception $e) {
-                Log::error("Exception occurred while sending notification to user {$user->id}", [
-                    'fcm_token' => $user->fcm_token,
-                    'title' => $title,
-                    'body' => $body,
-                    'error' => $e->getMessage(),
-                ]);
+            } else {
+                Log::warning("No FCM token for user {$notification->notifiable_id}");
             }
-
-            Log::info('end', ['date' => date('h:i:s')]);
 
             $count++;
             if ($count >= $limit) {
                 break;
             }
-        } else {
-            Log::info("User {$notification->notifiable_id} not found or has no FCM token");
         }
-    }
 
-    Log::info("Processed {$count} notifications");
-}
+        Log::info("Processed {$count} notifications");
+    }
 }

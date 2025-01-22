@@ -20,9 +20,9 @@ use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\FanPhotoController;
 use App\Http\Controllers\AgoraTokenController;
 use App\Http\Controllers\CurriculumController;
+use App\Http\Controllers\LiveFixtureController;
 use App\Http\Controllers\QuestionBankController;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Http\Controllers\PasswordResetController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,6 +34,7 @@ use App\Http\Controllers\PasswordResetController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\QualificationController;
 use App\Http\Controllers\TeachingMaterialController;
 
@@ -83,10 +84,12 @@ Route::post('/forgot-password', function (Request $request) {
 //Route::post('reset-password/{token}', [AuthController::class, 'showResetForm'])->name('password.reset');
 //Route::post('reset-password', [AuthController::class, 'reset'])->name('password.update');
 
+Route::get('/getlivefixtures',[LiveFixtureController::class,'index']);
 Route::group(['middleware' => ['auth:sanctum']], function () {
     // Place protected routes here
     Route::post('logout', [AuthController::class, 'logout']);
-    
+
+    Route::post('/getusersbyid',[AuthController::class,'GetUsersById']);
     //api for profile update
     Route::post('/profile', [AuthController::class, 'updateProfile']);
     Route::get('get/profile', [AuthController::class, 'getProfile']);

@@ -383,5 +383,32 @@ public function verifyGoogleToken(Request $request)
         ], 500);
     }
 }
+public function GetUsersById(Request $request){
+    $validatedData=$request->validate([
+        'user_ids'=>'required|array'
+    ]);
+    $users=User::whereIn('id',$validatedData['user_ids'])
+    ->select('id','name','avatar_url')
+    ->get()
+    ->map(function($user){
+        $avatarUrl = $user->avatar_url;
+        if ($avatarUrl) {
+            if (preg_match('/^(http|https):\/\//', $avatarUrl)) {
+                $user->avatar_url = $avatarUrl; // External URL, use as-is
+            } else {
+                $user->avatar_url = url("storage/" . $avatarUrl); // Local storage URL
+            }
+        }
+        return $user;
+    });
+    
+    return response()->json([
+        // 'message'=>'hi',
+        'users'=>$users,
+        
+        
 
+    ]);
+
+}
 }
