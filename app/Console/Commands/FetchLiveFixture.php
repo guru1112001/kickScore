@@ -15,7 +15,7 @@ class FetchLiveFixture extends Command
     {
         $apiUrl = 'https://api.sportmonks.com/v3/football/fixtures';
         $apiKey = config('services.sportmonks_api_token');
-        $includes = 'sport:name;participants.players.position:name;formations;lineups;weatherReport;venue;timeline;trends;league:name;metadata;comments';
+        $includes = 'sport:name;participants.players.position:name;formations;lineups;weatherReport;venue;timeline;trends;league:name;metadata;comments;events.type:name;events.subtype';
 
         $response = Http::get("$apiUrl?api_token={$apiKey}&filter=todayDate&include=$includes&timezone=Asia/Kolkata");
 
@@ -40,6 +40,7 @@ class FetchLiveFixture extends Command
                             'season_id' => $fixture['season_id'] ?? null,
                             'name' => $fixture['name'] ?? null,
                             'starting_at' => $fixture['starting_at'] ?? null,
+                            'length'=>$fixture['length'] ?? null,
                             'details' => $fixture['details'] ?? null,
                             'participants' => $fixture['participants'] ?? null,
                             'weather_report' => $fixture['weatherreport'] ?? null,
@@ -49,6 +50,8 @@ class FetchLiveFixture extends Command
                             'lineups' => $fixture['lineups'] ?? null,
                             'timeline' => $fixture['timeline'] ?? null,
                             'trends' => $fixture['trends'] ?? null,
+                            'comments' => $fixture['comments'] ?? null,
+                            'events' => $fixture['events'] ?? null,
                         ]
                     );
                 // } catch (\Exception $e) {

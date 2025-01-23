@@ -21,7 +21,7 @@ class FirebaseService
         }
     }
 
-    public function sendNotification($fcm_token, $title, $body, $data)
+    public function sendNotification($fcm_token, $title, $body, $data=[])
 {
     if (!$this->messaging) {
         Log::error('Firebase Messaging not initialized');

@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use App\Models\Group;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Filament\Notifications\Notification;
 use TaylanUnutmaz\AgoraTokenBuilder\RtcTokenBuilder;
-use Illuminate\Support\Facades\DB;
-use App\Models\User;
 use Illuminate\Support\Facades\Notification as FacadesNotification;
 
 class AgoraTokenController extends Controller
@@ -81,6 +82,8 @@ class AgoraTokenController extends Controller
     
         // Retrieve users as model instances
         $users = User::whereIn('id', $userIds)->get();
+        $group=Group::where('id',$groupId)->get();
+        // \Log::info($group);
     
         // Notification data
         $notificationData = [
@@ -88,7 +91,8 @@ class AgoraTokenController extends Controller
             'body' => "A group call has started in the channel '{$channelName}'. Join now!",
             'data'=>['channel_name' => $channelName,
             'group_id' => $groupId,
-            'navigationId' => 'MeetingChat']
+            'navigationId' => 'MeetingChat',
+            'group'=>$group]
         ];
     
         // Send notifications to all users

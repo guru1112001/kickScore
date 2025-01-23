@@ -19,6 +19,7 @@ class LiveFixture extends Model
         'season_id',
         'name',
         'starting_at',
+        'length',
         'details',
         'participants',
         'weather_report',
@@ -27,6 +28,10 @@ class LiveFixture extends Model
         'metadata',
         'lineups',
         'timeline',
+        'trends',
+        'comments',
+        'events'
+        
     ];
 
     protected $casts = [
@@ -38,5 +43,8 @@ class LiveFixture extends Model
         'metadata' => 'array',
         'lineups' => 'array',
         'timeline' => 'array',
+        'trends' => 'array',
+        'comments' => 'array',
+        'events' => 'array',
     ];
 }

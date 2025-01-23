@@ -15,12 +15,15 @@ class FetchMatchData extends Command
 
     public function handle()
     {
-        $targetTime = Carbon::now()->addMinutes(45);
+        $targetTime = Carbon::now();
 
-        // Find matches starting in 45 minutes
+        // Find matches starting 45 minutes from now
         $matches = LiveFixture::whereDate('starting_at', Carbon::today())
-        ->where('starting_at', '=', $targetTime->format('Y-m-d H:i:00'))
-        ->get();
+            ->whereBetween('starting_at', [
+                $targetTime->addMinutes(45)->startOfMinute(),
+                $targetTime->addMinutes(45)->endOfMinute()
+            ])
+            ->get();
 
         if ($matches->isEmpty()) {
             $this->info('No matches found to fetch data for.');
@@ -29,7 +32,7 @@ class FetchMatchData extends Command
 
         $apiUrl = 'https://api.sportmonks.com/v3/football/fixtures';
         $apiKey = config('services.sportmonks_api_token');
-        $includes = 'sport:name;participants.players.position:name;formations;lineups;weatherReport;venue;timeline;trends;league:name;metadata;comments';
+        $includes = 'sport:name;participants.players.position:name;formations;lineups;weatherReport;venue;timeline;trends;league:name;metadata;comments;events.type:name;events.subtype';
 
         foreach ($matches as $match) {
             // Fetch match data from API
@@ -44,7 +47,26 @@ class FetchMatchData extends Command
                 // Process the response as needed
                 $data = $response->json();
                 // Example: Store data or update the match record
-                $match->update(['details' => json_encode($data)]);
+                $match->update([
+                    // 'details' => json_encode($data),
+                   'sport_id' => $data['data']['sport_id'] ?? $match->sport_id,
+                    'league_id' => $data['data']['league_id'] ?? $match->league_id,
+                    'season_id' => $data['data']['season_id'] ?? $match->season_id,
+                    'name' => $data['data']['name'] ?? $match->name,
+                    'starting_at' => $data['data']['starting_at'] ?? $match->starting_at,
+                    'length' => $data['data']['length'] ?? $match->length,
+                    'details' => $data['data']['details'] ?? $match->details,
+                    'participants' => $data['data']['participants'] ?? $match->participants,
+                    'weather_report' => $data['data']['weatherreport'] ?? $match->weather_report,
+                    'venue' => $data['data']['venue'] ?? $match->venue,
+                    'formations' => $data['data']['formations'] ?? $match->formations,
+                    'metadata' => $data['data']['metadata'] ?? $match->metadata,
+                    'lineups' => $data['data']['lineups'] ?? $match->lineups,
+                    'timeline' => $data['data']['timeline'] ?? $match->timeline,
+                    'trends' => $data['data']['trends'] ?? $match->trends,
+                    'events' => $data['data']['events'] ?? $match->events,
+
+            ]);
             } else {
                 $this->error("Failed to fetch data for match: {$match->name}");
             }
