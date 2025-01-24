@@ -23,8 +23,9 @@ return [
     
 
     'explore_more' => 'Explore More',
-    'join_us_today' => 'Join us today and never miss a moment!',
-    'contact_us' => 'Contact Us',
+    'Home' => 'Home',
+    'contact' => 'Contact',
+    'About' => 'About',
     'footer_copyright' => '© 2024 Football App. All rights reserved.',
 
     // Add more translation keys as needed

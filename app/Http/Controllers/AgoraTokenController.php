@@ -83,7 +83,8 @@ class AgoraTokenController extends Controller
         // Retrieve users as model instances
         $users = User::whereIn('id', $userIds)->get();
         $group=Group::where('id',$groupId)->get();
-        // \Log::info($group);
+
+        \Log::info($group);
     
         // Notification data
         $notificationData = [
@@ -92,7 +93,9 @@ class AgoraTokenController extends Controller
             'data'=>['channel_name' => $channelName,
             'group_id' => $groupId,
             'navigationId' => 'MeetingChat',
-            'group'=>$group]
+            // 'group'=>$group->toArray()]
+            // 'group'=>json_encode($group),
+            'created_by'=>$group[0]->created_by]
         ];
     
         // Send notifications to all users

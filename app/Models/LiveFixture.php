@@ -30,7 +30,8 @@ class LiveFixture extends Model
         'timeline',
         'trends',
         'comments',
-        'events'
+        'events',
+        'commentaries',
         
     ];
 
@@ -46,5 +47,6 @@ class LiveFixture extends Model
         'trends' => 'array',
         'comments' => 'array',
         'events' => 'array',
+        'commentaries' => 'array',
     ];
 }

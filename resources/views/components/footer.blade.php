@@ -3,13 +3,13 @@
         <div class="flex justify-between items-center border-b border-gray-300 pb-4">
             <p class="text-gray-600">&copy; {{ date('Y') }} KickScore</p>
             <button class="bg-gradient-to-r from-purple-500 to-blue-500 text-white px-4 py-2 rounded shadow-md">
-                Download now
+                @lang('messages.Hero_section_download_now')
             </button>
         </div>
         <div class="flex  space-x-8 mt-4 text-gray-600">
-            <a href="#" class="hover:text-black {{app()->getlocale()==='ar'? 'ml-8': ''}}">Home</a>
-            <a href="#" class="hover:text-black">About</a>
-            <a href="#" class="hover:text-black">Contact</a>
+            <a href="#" class="hover:text-black {{app()->getlocale()==='ar'? 'ml-8': ''}}">@lang('messages.Home')</a>
+            <a href="#" class="hover:text-black">@lang('messages.About')</a>
+            <a href="#" class="hover:text-black">@lang('messages.contact')</a>
             
         </div>
         <div class="flex justify-end space-x-4 mt-[-1.5rem] text-gray-600">           
