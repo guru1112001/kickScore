@@ -62,11 +62,16 @@ class LiveFixtureController extends Controller
     private function addcomentary($data,$participants)
     {
         $fixtureIds=[];
+        // \Log::info('Participants Type: ' . gettype($participants));
+        // \Log::info($participants);
         foreach($participants as $participant)
         {
             $participantNames = collect($participants)->pluck('name')->toArray();
+            \Log::info($participantNames);
+
              // Find matching fixture IDs from the `fixtures` table
         $fixtureIds = Fixture::whereIn('name', $participantNames)->pluck('id')->toArray();
+        \Log::info("fixtureids",$fixtureIds);
 
         // Fetch commentaries for the retrieved fixture IDs
         $commentaries = Commentary::whereIn('fixture_id', $fixtureIds)->get();

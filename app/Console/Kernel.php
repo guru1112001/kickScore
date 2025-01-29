@@ -19,6 +19,7 @@ class Kernel extends ConsoleKernel
         // $schedule->command('fetch:players')->everyMinute();
         // $schedule->command('fetch:countries')->daily();
         $schedule->command('fetch:match-data')->everyMinute();
+        $schedule->command('fixtures:update-live')->everyMinute();
         $schedule->command('fetch:livefixtures')->dailyAt('6:00');
         // $schedule->command('fetch:cities')->daily();
 

@@ -65,6 +65,7 @@ class FetchMatchData extends Command
                     'timeline' => $data['data']['timeline'] ?? $match->timeline,
                     'trends' => $data['data']['trends'] ?? $match->trends,
                     'events' => $data['data']['events'] ?? $match->events,
+                    'comments' => $data['data']['comments'] ?? $match->comments,
 
             ]);
             } else {
