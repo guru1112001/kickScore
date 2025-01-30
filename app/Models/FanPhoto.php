@@ -6,6 +6,7 @@ use App\Models\Like;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Filament\Notifications\Notification;
 
 class FanPhoto extends Model
 {
@@ -19,7 +20,7 @@ class FanPhoto extends Model
         'acknowledge' => 'boolean',
     ];
     public function clapsCount()
-{
+    {
     return $this->likes()->where('reaction_type', 'clap')->count();
 }
 
@@ -35,5 +36,23 @@ public function heartsCount()
 public function likes()
 {
     return $this->hasMany(Like::class);
+}
+protected static function boot()
+{
+    parent::boot();
+
+    static::updated(function ($photo) {
+        if ($photo->isDirty('status')) { // Check if 'status' field changed
+            $status = ucfirst($photo->status);
+            $message = "Your photo \"{$photo->caption}\" has been {$status}.";
+
+            if ($photo->user) {
+                Notification::make()
+                    ->title("Photo {$status}")
+                    ->body($message)
+                    ->sendToDatabase($photo->user);
+            }
+        }
+    });
 }
 }

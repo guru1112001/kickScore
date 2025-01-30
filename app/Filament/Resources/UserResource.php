@@ -156,6 +156,7 @@ class UserResource extends Resource
                 ->width(50)
                     ->rounded(),
                 Tables\Columns\TextColumn::make('name')
+                    ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
                     ->copyable()

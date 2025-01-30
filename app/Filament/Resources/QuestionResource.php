@@ -49,6 +49,7 @@ public static function form(Form $form): Form
             Forms\Components\Section::make()
                 ->schema([
                     Forms\Components\RichEditor::make('question_text')
+                        ->unique(ignoreRecord: true)
                         ->required(),
                     // Forms\Components\Group::make()
                     //     ->schema([
