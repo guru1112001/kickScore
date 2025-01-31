@@ -13,6 +13,8 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Forms\Components\Section;
+use Filament\Tables\Actions\BulkAction;
+use Illuminate\Database\Eloquent\Collection;
 
 class FanPhotoResource extends Resource
 {
@@ -68,6 +70,26 @@ class FanPhotoResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
+                    BulkAction::make('approve')
+            ->icon('icon-tick')
+            ->action(function (Collection $records) {
+                $records->each->update(['status' => 'approved']);
+                
+            })
+            
+            ->requiresConfirmation()
+            ->color('success')
+            ->label('Approve Selected'),
+        
+        BulkAction::make('reject')
+            ->icon('icon-remove')
+            ->action(function (Collection $records) {
+                $records->each->update(['status' => 'rejected']);
+            })
+            ->requiresConfirmation()
+            ->color('danger')
+            ->label('Reject Selected'),
+                    
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
