@@ -76,7 +76,7 @@ class FanPhotoResource extends Resource
                 $records->each->update(['status' => 'approved']);
                 
             })
-            
+            ->deselectRecordsAfterCompletion() // Add this
             ->requiresConfirmation()
             ->color('success')
             ->label('Approve Selected'),
@@ -86,6 +86,7 @@ class FanPhotoResource extends Resource
             ->action(function (Collection $records) {
                 $records->each->update(['status' => 'rejected']);
             })
+            ->deselectRecordsAfterCompletion() // Add this
             ->requiresConfirmation()
             ->color('danger')
             ->label('Reject Selected'),

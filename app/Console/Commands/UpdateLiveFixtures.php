@@ -2,10 +2,11 @@
 
 namespace App\Console\Commands;
 
+use Carbon\Carbon;
+use App\Models\Prediction;
+use App\Models\LiveFixture;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
-use App\Models\LiveFixture;
-use Carbon\Carbon;
 
 class UpdateLiveFixtures extends Command
 {
@@ -65,10 +66,47 @@ class UpdateLiveFixtures extends Command
                     ]);
 
                     $this->info("Updated fixture: {$fixture->name} at " . now()->format('H:i:s'));
+                    $this->sendToPredictionAPI($fixture);
                 }
             } catch (\Exception $e) {
                 $this->error("Error updating {$fixture->name}: " . $e->getMessage());
             }
+        }
+    }
+    private function sendToPredictionAPI($fixture)
+    {
+        try {
+            $predictionApiUrl = 'https://api.ai-atmosphere.com/Argus/Football-API/football/process_prompt/e93340b59aa145429dec2806524f0af3/';
+            
+            // Convert match record to JSON
+            // Convert match record to string
+            $fixtureData = json_encode($fixture->toArray());
+
+            $response = Http::withHeaders([
+                'Content-Type' => 'application/json'
+            ])->post($predictionApiUrl, [
+                'prompt' => $fixtureData
+            ]);
+            // \Log::info($fixtureData);
+
+            if ($response->failed()) {
+                \Log::error("Prediction API error for fixture {$fixture->id}: " . $response->body());
+                return;
+            }
+
+            $predictionData = $response->json()['data']??[];
+            // \Log::info($predictionData);
+            
+
+            // Store or update prediction
+            Prediction::updateOrCreate(
+                ['fixture_id' => $fixture->id],
+                ['prediction' => json_encode($predictionData)]
+            );
+
+            $this->info("Prediction stored for fixture: {$fixture->name}");
+        } catch (\Exception $e) {
+            \Log::error("Error sending fixture {$fixture->name} to Prediction API: " . $e->getMessage());
         }
     }
 }

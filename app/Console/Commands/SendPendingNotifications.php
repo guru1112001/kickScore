@@ -37,7 +37,7 @@ class SendPendingNotifications extends Command
             $user = $notification->notifiable;
 
             if ($user && $user->fcm_token) {
-                Log::info('Processing notification', ['user_id' => $user->id]);
+                // Log::info('Processing notification', ['user_id' => $user->id]);
 
                 $notificationData = json_decode($notification->data, true);
                 $title = $notificationData['title'] ?? 'New Notification';
@@ -55,24 +55,24 @@ class SendPendingNotifications extends Command
                     if ($success) {
                         $notification->sended_at = now();
                         $notification->save();
-                        Log::info("Notification sent successfully to user {$user->name}");
+                        // Log::info("Notification sent successfully to user {$user->name}");
                     } else {
-                        Log::error("Failed to send notification", [
-                            'user_id' => $user->id,
-                            'fcm_token' => $user->fcm_token,
-                            'title' => $title,
-                            'body' => $body,
-                            'data' => $data,
-                        ]);
+                        // Log::error("Failed to send notification", [
+                        //     'user_id' => $user->id,
+                        //     'fcm_token' => $user->fcm_token,
+                        //     'title' => $title,
+                        //     'body' => $body,
+                        //     'data' => $data,
+                        // ]);
                     }
                 } catch (\Exception $e) {
-                    Log::error("Error sending notification", [
-                        'user_id' => $user->id,
-                        'error' => $e->getMessage(),
-                    ]);
+                    // Log::error("Error sending notification", [
+                    //     'user_id' => $user->id,
+                    //     'error' => $e->getMessage(),
+                    // ]);
                 }
             } else {
-                Log::warning("No FCM token for user {$notification->notifiable_id}");
+                // Log::warning("No FCM token for user {$notification->notifiable_id}");
             }
 
             $count++;
@@ -81,6 +81,6 @@ class SendPendingNotifications extends Command
             }
         }
 
-        Log::info("Processed {$count} notifications");
+        // Log::info("Processed {$count} notifications");
     }
 }
