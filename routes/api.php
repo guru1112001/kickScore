@@ -20,9 +20,9 @@ use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\FanPhotoController;
 use App\Http\Controllers\AgoraTokenController;
 use App\Http\Controllers\CurriculumController;
+use App\Http\Controllers\PredictionController;
 use App\Http\Controllers\LiveFixtureController;
 use App\Http\Controllers\QuestionBankController;
-use Illuminate\Http\Resources\Json\JsonResource;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,6 +34,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\QualificationController;
 use App\Http\Controllers\TeachingMaterialController;
@@ -135,6 +136,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('leagues/fixture-date/{date}', [LeagueController::class, 'getLeaguesByFixtureDate']);
     Route::get('leagues/country/{countryId}', [LeagueController::class, 'getLeaguesByCountryId']);
     Route::get('leagues/search/{name}', [LeagueController::class, 'searchLeaguesByName']);
+
+    //api for prediction
+    Route::get('predictions',[PredictionController::class,'index']);
     
     //api for league selection 
     Route::post('/user/select-leagues', [LeagueController::class, 'selectLeagues']);

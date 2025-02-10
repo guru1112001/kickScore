@@ -94,15 +94,15 @@ class UpdateLiveFixtures extends Command
                 return;
             }
 
-            $predictionData = $response->json()['data']??[];
-            // \Log::info($predictionData);
+            $predictionData = $response->json();
+            \Log::info($predictionData);
             
 
             // Store or update prediction
-            Prediction::updateOrCreate(
-                ['fixture_id' => $fixture->id],
-                ['prediction' => json_encode($predictionData)]
-            );
+           Prediction::create([
+                    'fixture_id' => $fixture->id,
+                    'prediction' => json_encode($predictionData)
+                ]);
 
             $this->info("Prediction stored for fixture: {$fixture->name}");
         } catch (\Exception $e) {
