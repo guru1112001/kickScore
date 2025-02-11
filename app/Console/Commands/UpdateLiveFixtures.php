@@ -100,7 +100,7 @@ class UpdateLiveFixtures extends Command
 
             // Store or update prediction
            Prediction::create([
-                    'fixture_id' => $fixture->id,
+                    'fixture_id' => $fixture->fixture_id,
                     'prediction' => json_encode($predictionData)
                 ]);
 

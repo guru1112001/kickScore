@@ -27,5 +27,10 @@ class Fixture extends Model
         'leg',             // Leg of the fixture
         'details',         // Fixture details
         'length',          // Length of the fixture in minutes
+        'participants',
+    ];
+
+    protected $casts=[
+        'participants'=>'array',
     ];
 }

@@ -41,6 +41,7 @@ class ProcessFixtureData implements ShouldQueue
                     'leg' => $fixture['leg'] ?? null,
                     'details' => $fixture['details'] ?? null,
                     'length' => $fixture['length'] ?? null,
+                    'participants' => $fixture['participants'],
                 ]
             );
         }

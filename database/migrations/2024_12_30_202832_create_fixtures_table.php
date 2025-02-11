@@ -27,7 +27,8 @@ return new class extends Migration
             $table->string('result_info')->nullable(); // Final result info
             $table->string('leg')->nullable(); // Fixture leg
             $table->text('details')->nullable(); // Details about the fixture
-            $table->integer('length')->nullable(); 
+            $table->integer('length')->nullable();
+            $table->json('participants')->nullable(); 
             $table->timestamps();
         });
     }

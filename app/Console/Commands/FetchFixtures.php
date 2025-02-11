@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
@@ -40,10 +39,13 @@ class FetchFixtures extends Command
             $idString = implode(',', $chunk); // Join 50 IDs into a comma-separated string
             $this->info("Fetching data for fixtures: $idString");
 
+            // Construct the correct API URL
+            $apiUrl = "{$baseUrl}{$idString}?api_token={$apiToken}&include=participants";
+
             // Fetch the fixtures from the API
-            $response = Http::get("$baseUrl$idString", [
-                'api_token' => $apiToken,
-            ]);
+            $response = Http::get($apiUrl);
+
+            \Log::info("API Request: $apiUrl");
 
             if ($response->failed()) {
                 $this->error("Failed to fetch fixture data for IDs: $idString. HTTP Status: {$response->status()}");
@@ -52,13 +54,15 @@ class FetchFixtures extends Command
             }
 
             $data = $response->json('data') ?? [];
+            \Log::info($data);
+
             if (empty($data)) {
                 $this->info("No fixture data found for IDs: $idString.");
                 continue;
             }
 
             // Step 3: Queue the data for processing
-            $chunks = array_chunk($data, 50); // Further chunk the response data
+            $chunks = array_chunk($data, 50);
             foreach ($chunks as $chunk) {
                 Queue::push(new ProcessFixtureData($chunk));
                 $this->info("Queued a chunk of fixture data for IDs: $idString.");
