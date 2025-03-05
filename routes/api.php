@@ -51,6 +51,7 @@ Route::post('/auth/social/token', [AuthController::class, 'handleToken']);
 Route::post('/verify-google-token', [AuthController::class, 'verifyGoogleToken']);
 // Route::post('/verify-facebook-token',[AuthController::class,'facebookLogin']);
 Route::post('/verify-facebook-token',[AuthController::class,'handleFacebookToken']);
+Route::post('/verify-facebook-token-ios', [AuthController::class, 'handleFacebookTokenios']);
 
 Route::middleware(['auth:sanctum'
     //, 'verified'

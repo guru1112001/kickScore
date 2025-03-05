@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Google_Client;
 use App\Models\User;
+use Firebase\JWT\JWT;
 use Facebook\Facebook;
 use App\Models\Country;
 use Illuminate\Http\Request;
@@ -383,6 +384,63 @@ public function verifyGoogleToken(Request $request)
         ], 500);
     }
 }
+public function handleFacebookTokenios(Request $request)
+{
+    try {
+        // Get Facebook token from request
+        $token = $request->input('access_token');
+        if (!$token) {
+            return response()->json(['error' => 'No token provided'], 400);
+        }
+
+        // Decode JWT token
+        list($header, $payload, $signature) = explode('.', $token);
+        $userData = json_decode(base64_decode($payload), true);
+
+        if (!$userData) {
+            return response()->json(['error' => 'Invalid token'], 400);
+        }
+
+        // Check if user exists by email
+        $existingUser = User::where('email', $userData['email'] ?? null)->first();
+
+        if ($existingUser) {
+            // Update existing user with Facebook data
+            $existingUser->update([
+                'provider_id' => $userData['sub'], // Facebook ID
+                'provider' => 'facebook',
+                'avatar_url' => $userData['picture'] ?? null,
+            ]);
+            $user = $existingUser;
+        } else {
+            // Create new user
+            $user = User::create([
+                'provider_id' => $userData['sub'],
+                'name' => $userData['name'] ?? 'Unknown',
+                'email' => $userData['email'] ?? null,
+                'avatar_url' => $userData['picture'] ?? null,
+                'role_id' => 2, // Default role
+                'provider' => 'facebook',
+                // 'password' => Hash::make(uniqid()), // Random password
+            ]);
+        }
+
+        // Generate Sanctum token
+        $token = $user->createToken('facebook_token')->plainTextToken;
+
+        return response()->json([
+            'token' => $token,
+            'user' => $user,
+            
+        ], 200);
+
+    } catch (\Exception $e) {
+        return response()->json([
+            'error' => 'Something went wrong: ' . $e->getMessage()
+        ], 500);
+    }
+}
+
 public function GetUsersById(Request $request){
     $validatedData=$request->validate([
         'user_ids'=>'required|array'
