@@ -95,6 +95,18 @@ FilamentUser, HasAvatar
 
     return null; // Default or fallback URL
 }
+public function getAvatarUrlAttribute($value)
+    {
+        if ($value) {
+            if (preg_match('/^(http|https):\/\//', $value)) {
+                return $value; // Return as-is if it’s already a full URL
+            } else {
+                return url("storage/" . $value); // Prepend storage URL
+            }
+        }
+
+        return null; // Return null if no avatar
+    }
 
     public function groups() {
         return $this->belongsToMany(Group::class);
