@@ -155,6 +155,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     //api for fan photos
     Route::post('post/fan-photos', [FanPhotoController::class, 'store']);
     Route::get('get/fan-photos', [FanPhotoController::class, 'index']);
+    Route::get('/fan-photos/leaderboard', [FanPhotoController::class, 'leaderboard']);
 
     Route::post('/photos/{id}/react', [FanPhotoController::class, 'reactToFanPhoto']);
     Route::post('/photos/{id}/unreact', [FanPhotoController::class, 'removeReaction']);

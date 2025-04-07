@@ -37,6 +37,22 @@ public function likes()
 {
     return $this->hasMany(Like::class);
 }
+
+public function likesRelation()  // Changed name to avoid conflict
+    {
+        return $this->likes()->where('reaction_type', 'like');
+    }
+
+// Define specific reaction relationships
+public function claps()
+{
+    return $this->likes()->where('reaction_type', 'clap');
+}
+
+public function hearts()
+    {
+        return $this->likes()->where('reaction_type', 'heart');
+    }
 protected static function boot()
 {
     parent::boot();

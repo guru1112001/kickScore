@@ -110,6 +110,33 @@ public function reactToFanPhoto(Request $request, $id)
         return response()->json(['message' => 'Reaction removed successfully'], 200);
     }
 
+
+    public function leaderboard()
+{
+    $topPhotos = FanPhoto::where('status', 'approved')
+        ->with('user') // Load user relationship
+        ->withCount('likes') // Count the likes for each photo
+        ->orderBy('likes_count', 'desc') // Sort by likes count in descending order
+        ->limit(5) // Get top 5
+        ->get()
+        ->map(function ($photo) {
+            $photo->image = $photo->image ? url('storage/' . $photo->image) : null;
+            $photo->likes_count = $photo->likesCount(); // Get exact count
+            $photo->claps_count = $photo->clapsCount();
+            $photo->hearts_count = $photo->heartsCount();
+            $photo->username = $photo->user->name ?? 'unknown'; // Assuming your User model has a 'name' field
+            
+            // Optionally unset the full user object if you only want the username
+            unset($photo->user);
+            
+            return $photo;
+        });
+
+    return response()->json([
+        'leaderboard' => $topPhotos,
+        'timestamp' => now()
+    ]);
+}
     // public function approve(FanPhoto $fanPhoto)
     // {
     //     $fanPhoto->update(['status' => 'approved']);
