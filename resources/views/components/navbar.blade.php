@@ -1,5 +1,5 @@
 <nav class="flex justify-center items-center pt-11 h-20 ">    
-        <img src="{{ asset('images/Group 163654 (1).png') }}" alt="Image" class=" w-40 h-16">
+        <img src="{{ asset('images/KickscoreLogo.svg') }}" alt="Image" class=" w-40 h-16">
         {{-- <div class="language-switch">
                 <a href="{{ route('locale.switch', 'en') }}" class="text-blue-500">English</a> | 
     <a href="{{ route('locale.switch', 'ar') }}" class="text-blue-500">العربية</a>

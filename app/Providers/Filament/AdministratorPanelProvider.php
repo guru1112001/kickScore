@@ -194,7 +194,7 @@ class AdministratorPanelProvider extends PanelProvider
                 'primary' => Color::Orange,
                 'secondary' => Color::Blue,
             ])
-            ->brandLogo(asset('images/Group 163654 (1).png'))
+            ->brandLogo(asset('images/KickscoreLogo.svg'))
             ->favicon(asset('images/Vector.svg'))
             ->brandLogoHeight('3rem')
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
