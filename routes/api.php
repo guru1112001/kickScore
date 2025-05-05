@@ -49,6 +49,7 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/auth/social/token', [AuthController::class, 'handleToken']);
 Route::post('/verify-google-token', [AuthController::class, 'verifyGoogleToken']);
+Route::post('/verify-microsoft-token',[AuthController::class,'handleMicrosoftToken']);
 // Route::post('/verify-facebook-token',[AuthController::class,'facebookLogin']);
 Route::post('/verify-facebook-token',[AuthController::class,'handleFacebookToken']);
 Route::post('/verify-facebook-token-ios', [AuthController::class, 'handleFacebookTokenios']);

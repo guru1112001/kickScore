@@ -34,6 +34,14 @@ return [
      'firebase' => [
         'credentials' => env('FIREBASE_CREDENTIALS'),
     ],
+    'visoon'=>[
+        'GOOGLE_APPLICATION_CREDENTIALS'=> env('GOOGLE_APPLICATION_CREDENTIALS'),
+    ],
+    'microsoft' => [
+    'client_id' => env('MICROSOFT_CLIENT_ID'),
+    'client_secret' => env('MICROSOFT_CLIENT_SECRET'),
+    'redirect' => env('MICROSOFT_REDIRECT_URI'),
+],
 
     'google' => [
         'client_id' => env('GOOGLE_CLIENT_ID'),

@@ -28,25 +28,37 @@ class ProcessCommentariesJob implements ShouldQueue
     public function handle()
     {
         try {
-            // Find past fixture IDs where any of these participants played
-            $fixtureIds = Fixture::whereJsonContains('participants', fn($query) => 
-                $query->whereIn('id', $this->participantIds)
-            )->pluck('id')->toArray();
-
+            // Limit the number of fixture IDs fetched
+            $fixtureIds = Fixture::where(function ($query) {
+                foreach ($this->participantIds as $participantId) {
+                    $query->orWhereJsonContains('participants', ['id' => $participantId]);
+                }
+            })
+            ->limit(100) // Set a reasonable limit
+            ->pluck('id')
+            ->toArray();
+    
             if (!empty($fixtureIds)) {
-                // Fetch commentaries for the matched fixtures
-                $commentaries = Commentary::whereIn('fixture_id', $fixtureIds)->get()->toArray(); // Fetches all columns
-
-
-                // Store commentaries in the live fixture
+                $commentaries = [];
+    
+                // Fetch commentaries in chunks to avoid memory overload
+                Commentary::whereIn('fixture_id', $fixtureIds)
+                    ->chunk(500, function ($batch) use (&$commentaries) {
+                        foreach ($batch as $commentary) {
+                            $commentaries[] = $commentary->toArray();
+                        }
+                    });
+    
+                // Store only a limited number of commentaries to prevent large JSON size
                 LiveFixture::where('fixture_id', $this->fixtureId)->update([
-                    'commentaries' => json_encode($commentaries),
+                    'commentaries' => json_encode(array_slice($commentaries, 0, 1000), JSON_PRETTY_PRINT),
                 ]);
-
+    
                 Log::info("Updated commentaries for fixture: {$this->fixtureId}");
             }
         } catch (\Exception $e) {
             Log::error("Error updating commentaries for fixture {$this->fixtureId}: " . $e->getMessage());
         }
     }
+    
 }

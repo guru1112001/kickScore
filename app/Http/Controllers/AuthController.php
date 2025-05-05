@@ -469,4 +469,55 @@ public function GetUsersById(Request $request){
     ]);
 
 }
+
+public function handleMicrosoftToken(Request $request)
+{
+    $request->validate([
+        'access_token' => 'required|string',
+        // 'fcm_token' => 'nullable|string',
+    ]);
+
+    try {
+        $accessToken = $request->input('access_token');
+        // $fcmToken = $request->input('fcm_token');
+
+        // Verify the token and get user info
+        $userResponse = Http::withToken($accessToken)->get('https://graph.microsoft.com/v1.0/me');
+
+        if (!$userResponse->successful()) {
+            return response()->json(['error' => 'Invalid Microsoft token'], 401);
+        }
+
+        $userData = $userResponse->json();
+
+        $email = $userData['mail'] ?? $userData['userPrincipalName'] ?? null;
+
+        if (!$email) {
+            return response()->json(['error' => 'No email provided in user data'], 400);
+        }
+
+        $user = User::updateOrCreate(
+            ['email' => $email],
+            [
+                'provider_id' => $userData['id'],
+                'provider' => 'microsoft',
+                'name' => $userData['displayName'] ?? 'Microsoft User',
+                // 'fcm_token' => $fcmToken,
+            ]
+        );
+
+        $token = $user->createToken('microsoft_token')->plainTextToken;
+
+        return response()->json([
+            'user' => $user,
+            'token' => $token,
+            'microsoft_data' => $userData
+        ]);
+
+    } catch (\Exception $e) {
+        return response()->json([
+            'error' => 'Something went wrong: ' . $e->getMessage()
+        ], 500);
+    }
+}
 }

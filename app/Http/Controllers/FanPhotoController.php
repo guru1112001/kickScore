@@ -5,28 +5,40 @@ namespace App\Http\Controllers;
 use App\Models\Like;
 use App\Models\FanPhoto;
 use Illuminate\Http\Request;
+use App\Services\GoogleVisionService;
 
 class FanPhotoController extends Controller
 {
     public function store(Request $request)
     {
         $request->validate([
-            'image' => 'required|image',
-            'caption' => 'required|string',
-            'acknowledge' => 'required',
+            'image' => 'required|image|max:5120', // optional: max 5MB
+            'caption' => 'required|string|max:255',
+            'acknowledge' => 'required|boolean',
         ]);
-
+        // $acknowledge = filter_var($request->acknowledge, FILTER_VALIDATE_BOOLEAN);
+        // Store image in public disk
         $imagePath = $request->file('image')->store('', 'public');
 
+        // Run Google Vision Safe Search
+        $vision = new GoogleVisionService();
+        $isSafe = $vision->isSafe($imagePath);
+
+        // Create the FanPhoto entry
         $fanPhoto = FanPhoto::create([
             'image' => $imagePath,
             'caption' => $request->caption,
             'acknowledge' => $request->acknowledge,
-            'status' => 'draft', // By default, set as 'draft'
+            'status' => $isSafe ? 'approved' : 'rejected',
             'user_id' => auth()->id(),
         ]);
 
-        return response()->json($fanPhoto, 201);
+        return response()->json([
+            'status' => $fanPhoto->status,
+            'message' => $isSafe 
+                ? 'Photo approved automatically.' 
+                : 'Photo rejected due to unsafe content.',
+        ], 201);
     }
 
     public function index()

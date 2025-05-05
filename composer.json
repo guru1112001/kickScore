@@ -16,6 +16,7 @@
         "filament/filament": "^3.2",
         "firebase/php-jwt": "^6.11",
         "google/apiclient": "^2.18",
+        "google/cloud-vision": "^1.10",
         "guzzlehttp/guzzle": "^7.8",
         "hydrat/filament-table-layout-toggle": "^1.2",
         "jeffgreco13/filament-breezy": "^2.3",
@@ -25,6 +26,7 @@
         "laravel/sanctum": "^3.3",
         "laravel/socialite": "^5.16",
         "laravel/tinker": "^2.8",
+        "microsoft/microsoft-graph": "^2.32",
         "owenvoke/blade-fontawesome": "^2.6",
         "pusher/pusher-php-server": "^7.2",
         "rappasoft/laravel-authentication-log": "^4.0",
@@ -84,7 +86,8 @@
         "sort-packages": true,
         "allow-plugins": {
             "pestphp/pest-plugin": true,
-            "php-http/discovery": true
+            "php-http/discovery": true,
+            "tbachert/spi": true
         }
     },
     "minimum-stability": "stable",
